@@ -11,7 +11,7 @@ const string version = "0.0.1";
 int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
 {
     cout << "JiDongMot version" << version << "Starting..." << endl;
-    cout << "make rabo8497 branch" << endl;
+    cout << "test" << endl;
     system("pause");
     return 0;
 }
