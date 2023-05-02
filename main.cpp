@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
-#include "User.h"
+#include "user.h"
 using namespace std;
 
 const string version = "0.0.1";
