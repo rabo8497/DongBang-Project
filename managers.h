@@ -11,29 +11,29 @@ private:
     std::set<Caelum &> Items;
 
 public:
-    virtual void ShowList();
-    void AddItem(Caelum &);
-    void DeleteItem(int);
-    Caelum &GetItem(int);
-    virtual int Search(std::string);
-    void Import();
-    void Export();
+    virtual void showList();
+    void addItem(Caelum &);
+    void deleteItem(int);
+    Caelum &getItem(int);
+    virtual int search(std::string);
+    void import();
+    void export();
 };
 
 class AccountManager : public Manager
 {
 public:
-    void ShowList(bool);
-    void ShowList(std::string, bool);
-    int Search(std::string, std::string);
-    int Search(std::string);
+    void showList(bool);
+    void showList(std::string, bool);
+    int search(std::string, std::string);
+    int search(std::string);
 };
 
 class DeviceManager : public Manager
 {
 public:
-    void ShowList(bool);
-    int Search(std::string);
+    void showList(bool);
+    int search(std::string);
 };
 
 #endif

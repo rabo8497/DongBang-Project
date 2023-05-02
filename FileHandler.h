@@ -4,21 +4,17 @@
 #include <fstream>
 #include <string>
 
-class FileHandler {
+template <typename T>
+class FileHandler
+{
 public:
     FileHandler();
     ~FileHandler();
 
-    template <typename T>
     T load();
-
-    template <typename T>
-    void write(const T&);
-
-    template <typename T>
-    void modifyfile(int, const T&);
-
-    void deletefile(int);
+    void write(const T &);
+    void modifyFile(int, const T &);
+    void deleteFile(int);
 
 private:
     std::fstream file;
@@ -26,5 +22,4 @@ private:
     int interval;
 };
 
-#endif 
-
+#endif
