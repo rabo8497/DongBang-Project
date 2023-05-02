@@ -14,7 +14,7 @@ private:
     std::time_t startTime;
 
 public:
-    Usage(std::string user) : startTime(std::time(0)){};
+    Usage(std::string);
     User *getUser();
     Caelum *getTarget();
     std::time_t getStartTime();
