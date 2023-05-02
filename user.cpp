@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cctype>
-#include "User.h"
+#include "user.h"
 
 User::User(const int uuid, const int studentNumber, std::string nickname, std::string passward, bool isEru, bool isManager) 
                 : uuid(uuid), studentNumber(studentNumber), nickname(nickname), passward(passward), isEru(isEru), isManager(isManager) {};
