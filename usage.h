@@ -3,16 +3,20 @@
 
 #include <string>
 #include <ctime>
+#include "user.h"
+#include "caelum.h"
 
 class Usage
 {
 private:
-    std::string user;
+    User *user;
+    Caelum *target;
     std::time_t startTime;
 
 public:
-    Usage(std::string user) : user(user), startTime(std::time(0)){};
-    std::string getUser();
+    Usage(std::string user) : startTime(std::time(0)){};
+    User *getUser();
+    Caelum *getTarget();
     std::time_t getStartTime();
 };
 

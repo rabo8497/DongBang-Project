@@ -16,29 +16,36 @@ class Caelum
 private:
     std::string name;
     bool isActive;
+    int id;
     Usage usage;
 
 public:
-    Caelum(std::string, bool);
+    Caelum(int, std::string, bool);
     std::string getName();
+    int getId();
     bool Active();
     void Update(State);
     void Update(State, Usage);
 };
 
-Class Device : public Caelum
+class Device : public Caelum
 {
+private:
+    std::string game;
+
 public:
-    Device(std::string, bool;
+    Device(int, std::string, bool);
+    std::string getGame();
+    std::string setGame(std::string);
 };
 
-Class Account : public Caelum
+class Account : public Caelum
 {
 private:
     std::string type;
 
 public:
-    Account(std::string, std::string, bool);
+    Account(int, std::string, std::string, bool);
     std::string getType();
 };
 
