@@ -6,7 +6,7 @@
 
 class FileHandler {
 public:
-    FileHandler(const std::string&);
+    FileHandler();
     ~FileHandler();
 
     template <typename T>
