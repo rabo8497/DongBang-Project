@@ -11,6 +11,7 @@ const string version = "0.0.1";
 
 int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
 {
+
     User user1(1, 12345, "user1", "pass1");
     
     // ID, 학번, 닉네임, isEru, isManager 상태 확인
@@ -31,4 +32,5 @@ int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
     user1.setIsEru(true);
     std::cout << "isEru after change: " << (user1.getIsEru() ? "true" : "false") << std::endl;
     
+
 }
