@@ -5,33 +5,35 @@
 #include <string>
 #include "caelum.h"
 
-class AccountManager
+class Manager
 {
 private:
-    std::set<Account> Accounts;
+    std::set<Caelum &> Items;
 
 public:
-    void ShowList(std::string, bool);
-    void Add();
-    void Delete();
-    int Search(std::string, std::string);
-    int Search(std::string);
+    virtual void ShowList();
+    void AddItem(Caelum &);
+    void DeleteItem(int);
+    Caelum &GetItem(int);
+    virtual int Search(std::string);
     void Import();
     void Export();
 };
 
-class DeviceManager
+class AccountManager : public Manager
 {
-private:
-    std::set<Device> devices;
-
 public:
     void ShowList(bool);
-    void Add();
-    void Delete();
+    void ShowList(std::string, bool);
+    int Search(std::string, std::string);
     int Search(std::string);
-    void Import();
-    void Export();
+};
+
+class DeviceManager : public Manager
+{
+public:
+    void ShowList(bool);
+    int Search(std::string);
 };
 
 #endif
