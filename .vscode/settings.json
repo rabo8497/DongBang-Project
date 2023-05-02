@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.rpy": "renpy",
+        "xstring": "cpp",
+        "iostream": "cpp"
+    }
+}
