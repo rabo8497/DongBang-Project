@@ -23,9 +23,9 @@ public:
     Caelum(int, std::string, bool);
     std::string getName();
     int getId();
-    bool Active();
-    void Update(State);
-    void Update(State, Usage);
+    bool active();
+    void update(State);
+    void update(State, Usage);
 };
 
 class Device : public Caelum
