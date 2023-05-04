@@ -8,7 +8,7 @@
 class Book
 {
 public:
-  Book(const int buid, std::string bookName, std::string bookSeries,std::string bookAuthor, std::string bookPub, const int bookDate, int bookCount);
+  Book(const int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, const int bookDate, int bookCount);
 
 private:
   const int buid;
