@@ -7,7 +7,7 @@
 
 class User {
 public :
-    User(const int uuid, const int studentNumber, std::string nickname, std::string passward, bool isEru=false, bool isManager=false);
+    User(int uuid = -1, int studentNumber = -1, std::string nickname = "none", std::string passward = "none", bool isEru=false, bool isManager=false);
     int getId() const;
     int getStudentNumber() const;
     std::string getNickName() const;
