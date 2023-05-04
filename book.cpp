@@ -78,7 +78,8 @@ void Book::BookInfo()
   std::cout << "Publisher : " << bookPub << std::endl;
   std::cout << "Count : " << bookCount << std::endl;
 }
-void Book::addComm(std::vector<std::string> newComm)
+
+/*void Book::addComm(std::vector<std::string> newComm)
 {
   bookComm.push_back(newComm);
   std::cout << "New comment added (Current Comments : " << bookComm.size() << ")" << std::endl;
@@ -91,4 +92,4 @@ void Book::BookComm()
     std::cout << loop.at(1) << std::endl;
     std::cout << "Posted Date : " << loop.at(2) << std::endl;
   }
-}
+}*/

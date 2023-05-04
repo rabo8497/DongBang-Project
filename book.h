@@ -21,8 +21,9 @@ public:
   void setBCount(int newBCount);
   void setIsCanLend(bool newIsCanLend);
   void BookInfo();
-  void addComm(std::vector<std::string> newComm);
-  void BookComm();
+  
+  //void addComm(std::vector<std::string> newComm);
+  //void BookComm();
 
 private:
   const int buid;
