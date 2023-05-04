@@ -3,7 +3,11 @@
 
 #include <set>
 #include <string>
+#include <iostream>
 #include "caelum.h"
+
+#include "fileHandler.h"
+#include "user.h"
 
 class Manager
 {
