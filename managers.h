@@ -1,26 +1,29 @@
 #ifndef MANAGERS_H
 #define MANAGERS_H
 
+#include <iostream>
 #include <set>
 #include <string>
 #include "caelum.h"
 
+template <typename T>
 class Manager
 {
 private:
-    std::set<Caelum &> Items;
+    std::set<T> *Items;
 
 public:
-    virtual void showList();
-    void addItem(Caelum &);
+    Manager();
+    ~Manager();
+    virtual void showList() = 0;
+    void addItem(T &);
     void deleteItem(int);
-    Caelum &getItem(int);
+    T &getItem(int);
     virtual int search(std::string);
-    void import();
-    void export();
+    // filehandler 추가 바람
 };
 
-class AccountManager : public Manager
+class AccountManager : public Manager<Account>
 {
 public:
     void showList(bool);
@@ -29,7 +32,7 @@ public:
     int search(std::string);
 };
 
-class DeviceManager : public Manager
+class DeviceManager : public Manager<Device>
 {
 public:
     void showList(bool);

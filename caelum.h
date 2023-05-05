@@ -17,15 +17,16 @@ private:
     std::string name;
     bool isActive;
     int id;
-    Usage usage;
+    Usage &usage;
 
 public:
     Caelum(int, std::string, bool);
     std::string getName();
-    int getId();
+    int getId() const;
     bool active();
+    void update(State, Usage &);
     void update(State);
-    void update(State, Usage);
+    bool operator<(const Caelum &right);
 };
 
 class Device : public Caelum
