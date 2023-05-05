@@ -12,8 +12,10 @@ class BookManager : public FileHandler
 public:
   BookManager();
 
-  void booklist();
+  void booklist(int);
   void booksearch(std::string);
+  void booklend(User, std::string);
+  void bookback(User, std::string);
 
   int findIdFromItem(std ::string);
 
@@ -24,6 +26,7 @@ public:
 
 private:
   int latestId;
+  Book nowBook;
 };
 
 #endif

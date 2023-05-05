@@ -1,8 +1,9 @@
 #include <iostream>
-#include <iomanip>
 #include "book.h"
 
-Book::Book(const int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, const int bookDate, int bookCount, bool isCanLend) : buid(buid), bookName(bookName), bookSeries(bookSeries), bookAuthor(bookAuthor), bookPub(bookPub), bookDate(bookDate), bookCount(bookCount), isCanLend(isCanLend) {}
+Book::Book(){}
+
+Book::Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, int bookDate, int bookCount, bool isCanLend) : buid(buid), bookName(bookName), bookSeries(bookSeries), bookAuthor(bookAuthor), bookPub(bookPub), bookDate(bookDate), bookCount(bookCount), isCanLend(isCanLend){}
 
 int Book::getBuid() const
 {

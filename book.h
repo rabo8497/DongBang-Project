@@ -8,7 +8,8 @@
 class Book
 {
 public:
-  Book(const int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, const int bookDate, int bookCount = 1, bool isCanLend = true);
+  Book();
+  Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, int bookDate, int bookCount = 1, bool isCanLend = true){};
   int getBuid() const;
   std::string getBName() const;
   int getBCount() const;
@@ -21,16 +22,16 @@ public:
   void setBCount(int newBCount);
   void setIsCanLend(bool newIsCanLend);
   void BookInfo();
-  
-  //void addComm(std::vector<std::string> newComm);
-  //void BookComm();
+
+  // void addComm(std::vector<std::string> newComm);
+  // void BookComm();
 
 private:
-  const int buid;
+  int buid;
   std::string bookName;
   std::string bookSeries;
   int bookCount;
-  const int bookDate;
+  int bookDate;
   std::string bookAuthor;
   std::string bookPub;
   bool isCanLend;
