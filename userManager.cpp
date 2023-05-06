@@ -14,12 +14,12 @@ bool UserManager::getIsSignIn() const {
     return isSignIn;
 }
 
-User UserManager::getLoginedUser() const {
+User& UserManager::getLoginedUser() {
     if (getIsSignIn()) {
         return nowUser;
     } else {
         std::cout << "not logined. You have to login to use this function" << std::endl;
-        return User(); // 빈 유저 객체 반환
+        return nowUser; // 빈 유저 객체 반환
     }
 }
 
@@ -27,12 +27,14 @@ void UserManager::write(User newUser, std::string password) {
     int studentNumber = newUser.getStudentNumber();
     bool isEru = newUser.getIsEru();
     bool isManager = newUser.getIsManager();
+    int lendBookNum = newUser.getLendBookNum();
     std::string nickname = newUser.getNickName();
     std::string newUUID = std::to_string(latestId+1);
     std::string studentNumberStr = std::to_string(studentNumber);
     std::string isEruStr = isEru ? "true" : "false";
     std::string isManagerStr = isManager ? "true" : "false";
-    std::string saveData = newUUID + "\n" + studentNumberStr + "\n" + nickname + "\n" + password + "\n" + isEruStr + "\n" + isManagerStr + "\n" + "\n" + "\n" + "\n";
+    std::string lendBookNumStr = std::to_string(lendBookNum);
+    std::string saveData = newUUID + "\n" + studentNumberStr + "\n" + nickname + "\n" + password + "\n" + isEruStr + "\n" + isManagerStr + "\n" + lendBookNumStr + "\n" + "\n" + "\n";
     std::ofstream outFile(saveLocation, std::ios::app);
     if (!outFile) {
         std::cerr << "cannot open file" << std::endl;
@@ -104,19 +106,46 @@ void UserManager::load(int findId) {
     std::string val4 = tokens[3];
     bool val5 = (tokens[4] == "true" || tokens[4] == "True") ? true : false;
     bool val6 = (tokens[5] == "true" || tokens[5] == "True") ? true : false;
+    int val7 = std::stoi(tokens[6]);
     inFile.close();
-    nowUser = User(val1, val2, val3, val4, val5, val6);
+    nowUser = User(val1, val2, val3, val4, val5, val6, val7);
     std::cout << "----------load end----------" << std::endl;
 }
 
-void UserManager::modifyFile(int uuid, const std::string data) {
-    // modifyFile 함수 구현 필요
-    // 아직 필요성을 못 느꼈기에 가만히 놔둠
-    // 거의 쓰지 않는 기능으로 예상되기에 프로젝트 막바지에 추가하면 될듯
+void UserManager::modifyFile(User modifiedUser) {
+    std::ifstream inFile(saveLocation);
+    std::ofstream outFile("usertemp.txt");
+    std::string findIdStr = std::to_string(modifiedUser.getId());
+    int findModifiyBookNum = -1;
+    if (!inFile || !outFile) {
+        std::cerr << "cannot open user.txt file" << std::endl;
+        return;
+    }
+
+    std::string line;
+    int lineNumber = 0;
+    while (std::getline(inFile, line)) {
+        lineNumber += 1;
+        if (lineNumber == findModifiyBookNum) {
+            outFile << modifiedUser.getLendBookNum() << std::endl;
+        } else if (lineNumber % interval == 1 && line == findIdStr) {
+            outFile << findIdStr << std::endl;
+            findModifiyBookNum = lineNumber + 6; // book number은 id로부터 6 떨어진 곳에 저장됨
+        } else {
+            outFile << line << std::endl;
+        }
+    }
+    inFile.close();
+    outFile.close();
+
+    std::remove(saveLocation.c_str()); // string 타입의 인자를 받지 못하는 함수임 -> char로 강제 변환
+    std::rename("usertemp.txt", saveLocation.c_str());
 }
 
 void UserManager::deleteFile(int uuid) {
-    // 위와 동일
+    // modifyFile 함수 구현 필요
+    // 아직 필요성을 못 느꼈기에 가만히 놔둠
+    // 거의 쓰지 않는 기능으로 예상되기에 프로젝트 막바지에 추가하면 될듯
 }
 
 void UserManager::signUp(int studentNumber, std::string nickname, std::string password, bool isEru=false, bool isManager=false) {

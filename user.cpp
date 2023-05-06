@@ -3,9 +3,11 @@
 #include "user.h"
 
 User::User() {};
-User::User(const int newuuid, const int newstudentNumber, std::string newnickname, std::string newpassward, bool newisEru, bool newisManager) 
+User::User(const int newuuid, const int newstudentNumber, std::string newnickname, std::string newpassward, bool newisEru, bool newisManager, int lendBookN) 
 : isEru(newisEru), isManager(newisManager) 
 {
+    lendBookNum = lendBookN;
+    lendBookMaxNum = 3;
     setStudentNumber(newstudentNumber);
     setNickName(newnickname);
     setPassward(newpassward);
@@ -22,6 +24,10 @@ int User::getId() const {
 
 int User::getStudentNumber() const {
     return studentNumber;
+}
+
+int User::getLendBookNum() const {
+    return lendBookNum;
 }
 
 std::string User::getNickName() const {
@@ -102,4 +108,24 @@ void User::setIsEru(bool newIsEru) {
 
 bool User::isValidPassword(std::string validPassword) {
     return passward == validPassword;
+}
+
+void User::lendBook() {
+    lendBookNum += 1;
+    if (lendBookNum > lendBookMaxNum) {
+        lendBookNum -= 1;
+        std::cout << "can't lend more than " << lendBookMaxNum << " books." << std::endl;
+        return;
+    }
+    std::cout << "Book is successfully lended" << std::endl;
+}
+
+void User::returnBook() {
+    lendBookNum -= 1;
+    if (lendBookNum < 0) {
+        lendBookNum += 1;
+        std::cout << "You did not lend a book." << std::endl;
+        return;
+    }
+    std::cout << "Book is successfully returned" << std::endl;
 }
