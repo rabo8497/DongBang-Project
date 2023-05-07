@@ -20,9 +20,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iostream>
 #include "caelum.h"
+#include "fileHandler.h"
+#include "user.h"
 
 #define EXPECTED_SIZE 8
+
 
 class Manager
 {
