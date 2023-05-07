@@ -11,7 +11,7 @@ int Caelum::getId() const { return id; }
 
 bool Caelum::active() { return isActive; }
 
-void Caelum::update(State s, Usage &u)
+void Caelum::update(State s, User *u)
 {
     switch (s)
     {
@@ -21,7 +21,7 @@ void Caelum::update(State s, Usage &u)
         break;
     case ACTIVE:
         isActive = true;
-        usage = u;
+        usage = Usage(u, this);
         break;
     default:
         isActive = false;
@@ -31,7 +31,7 @@ void Caelum::update(State s, Usage &u)
 
 void Caelum::update(State s)
 {
-    update(s, noUsage(this));
+    update(s, NULL);
 }
 
 bool Caelum::operator<(const Caelum &right)
