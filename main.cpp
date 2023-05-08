@@ -1,5 +1,3 @@
-#pragma once // include guard
-
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
