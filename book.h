@@ -9,14 +9,14 @@ class Book
 {
 public:
   Book();
-  Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, int bookDate, int bookCount = 1, bool isCanLend = true){};
+  Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount = 1, bool isCanLend = true);
   int getBuid() const;
   std::string getBName() const;
   int getBCount() const;
   std::string getBSeries() const;
   std::string getBAuthor() const;
   std::string getBPub() const;
-  int getBDate() const;
+  std::string getBDate() const;
   bool getIsCanLend() const;
 
   void setBCount(int newBCount);
@@ -31,7 +31,7 @@ private:
   std::string bookName;
   std::string bookSeries;
   int bookCount;
-  int bookDate;
+  std::string bookDate;
   std::string bookAuthor;
   std::string bookPub;
   bool isCanLend;

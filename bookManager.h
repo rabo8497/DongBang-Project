@@ -14,6 +14,7 @@ public:
 
   void booklist(int);
   void booksearch(std::string);
+  void bookadd(std::string, std::string, std::string, std::string, std::string, int, bool);
   void booklend(User, std::string);
   void bookback(User, std::string);
 
@@ -23,6 +24,8 @@ public:
   void write(Book);
   void modifyFile(int, Book);
   void deleteFile(int);
+
+  Book &getBook();
 
 private:
   int latestId;
