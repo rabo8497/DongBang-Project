@@ -1,6 +1,6 @@
 #include "itemManager.h"
 
-ItemManager::ItemManager()
+ItemManager::ItemManager() : FileHandler("items.txt", FILE_INTERVAL)
 {
     Items.reserve(EXPECTED_LIST_SIZE);
 }
@@ -61,6 +61,8 @@ Item *ItemManager::getItem(int id)
         if (i->getId() == id)
             return i;
     }
+    std::cerr << "no item found." << std::endl;
+    return 0;
 }
 Item *ItemManager::getItem(std::string name)
 {
@@ -69,4 +71,6 @@ Item *ItemManager::getItem(std::string name)
         if (i->getName() == name)
             return i;
     }
+    std::cerr << "no item found." << std::endl;
+    return 0;
 }
