@@ -6,6 +6,7 @@
 #include "FileHandler.h"
 #include "user.h"
 #include "book.h"
+#include "lendManager.h"
 
 class BookManager : public FileHandler
 {
@@ -15,8 +16,8 @@ public:
   void booklist(int);
   void booksearch(std::string);
   void bookadd(std::string, std::string, std::string, std::string, std::string, int, bool);
-  void booklend(User, std::string);
-  void bookback(User, std::string);
+  void booklend(User, int);
+  void bookback(User, int);
 
   int findIdFromItem(std ::string);
 

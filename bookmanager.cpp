@@ -6,6 +6,7 @@
 
 #include "bookManager.h"
 #include "book.h"
+#include "lendManager.h"
 BookManager::BookManager() : FileHandler("book.txt", 15)
 {
   latestId = getLatestId();
@@ -89,10 +90,18 @@ void BookManager::booksearch(std::string findBook)
   nowBook.BookInfo();
   std::cout << std::endl;
 }
-void BookManager::booklend(User lendUser, std::string bookName)
+void BookManager::booklend(User lendUser, int buid)
 {
+  lendUser.lendBook();
+  load(buid);
+  nowBook.setBCount(nowBook.getBCount() - 1);
 }
-void BookManager::bookback(User backUser, std::string bookName) {}
+void BookManager::bookback(User backUser, int buid)
+{
+  backUser.returnBook();
+  load(buid);
+  nowBook.setBCount(nowBook.getBCount() + 1);
+}
 
 int BookManager::findIdFromItem(std::string findBook)
 {
