@@ -3,22 +3,19 @@
 
 #include <ctime>
 #include "item.h"
-#include "../user.h"
 
 class Account : public Item
 {
 private:
     std::string accountType;
-    // User &user;
     std::time_t startTime;
 
 public:
-    Account(std::string = "unknown", std::string = "unknown account", int = -1 /*, User & = User()*/);
+    Account(std::string = "unknown", std::string = "unknown account", int = -1);
     void printInfo() override;
     std::string getAccountType();
-    // User &getUser();
     std::time_t getStartTime();
-    void setState(State /*, User & = User()*/);
+    void setState(State);
 };
 
 #endif
