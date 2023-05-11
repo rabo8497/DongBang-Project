@@ -1,6 +1,6 @@
 #include "account.h"
 
-Account::Account(std::string accountType, std::string name, int id) : Item(name, id, ACCOUNT), accountType(accountType)
+Account::Account(std::string accountType, std::string name, int id, User &user) : Item(name, id, ACCOUNT), accountType(accountType), user(user)
 {
     startTime = 0;
 }
@@ -20,9 +20,10 @@ void Account::printInfo()
 
 std::string Account::getAccountType() { return accountType; }
 std::time_t Account::getStartTime() { return startTime; }
-void Account::setState(State state)
+void Account::setState(State state, User &user)
 {
     Item::setState(state);
+    this->user = user;
     if (state)
         startTime = std::time(0);
     else
