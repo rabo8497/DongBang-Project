@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item(std::string name, int id, Type type) : name(name), id(id), type(type)
+Item::Item(std::string name, int id, bool isActive, Type type) : name(name), id(id), isActive(isActive), type(type)
 {
     isActive = false;
 }

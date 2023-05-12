@@ -1,6 +1,6 @@
 #include "account.h"
 
-Account::Account(std::string accountType, std::string name, int id, User *user) : Item(name, id, ACCOUNT), accountType(accountType), user(user)
+Account::Account(std::string accountType, std::string name, int id, bool isActive, int controllerId, time_t startTime) : Item(name, id, isActive, ACCOUNT), accountType(accountType), controllerId(controllerId), startTime(startTime)
 {
     startTime = 0;
 }
@@ -24,15 +24,9 @@ std::string Account::getAccountType() { return accountType; }
 
 std::time_t Account::getStartTime() { return startTime; }
 
-User &Account::getUser()
-{
-    return *user;
-}
+int Account::getcontrollerId() { return controllerId; }
 
-void Account::setUser(User &user)
-{
-    this->user = &user;
-}
+void Account::setcontrollerId(int uuid) { this->controllerId = uuid; }
 
 void Account::setState(State state)
 {

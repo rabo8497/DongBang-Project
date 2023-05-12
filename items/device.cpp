@@ -1,6 +1,6 @@
 #include "device.h"
 
-Device::Device(std::string name, int id) : Item(name, id, DEVICE) {}
+Device::Device(std::string name, int id, bool isActive) : Item(name, id, isActive, DEVICE) {}
 void Device::printInfo()
 {
     std::cout << getName();

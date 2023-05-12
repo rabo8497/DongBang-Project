@@ -15,10 +15,9 @@ int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
     cout << "JiDongMot version" << version << "Starting..." << endl;
 
     system("pause");
-    /*ItemManager im;
-    Account testAccount = Account(string("laftel"), string("mikan"), 13);
-    im.addItem(&testAccount);
-    im.showList();*/
-
+    ItemManager im;
+    Account *testAccount = new Account(string("laftel"), string("mikan"), 13);
+    im.addItem(testAccount);
+    im.showList();
     return 0;
 }

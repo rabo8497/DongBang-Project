@@ -6,8 +6,8 @@
 class Device : public Item
 {
 public:
-    Device(std::string = "unknown device", int = -1); // 순서대로 이름, id.
-    void printInfo() override;                        // 자신의 정보를 출력하는 함수.
+    Device(std::string = "unknown device", int = -1, bool = false); // 순서대로 이름, id.
+    void printInfo() override;                                      // 자신의 정보를 출력하는 함수.
 };
 
 #endif
