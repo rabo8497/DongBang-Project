@@ -1,6 +1,6 @@
 #include "itemManager.h"
 
-ItemManager::ItemManager() : FileHandler("items.txt", FILE_INTERVAL)
+ItemManager::ItemManager() : FileHandler("items.txt")
 {
     Items.reserve(EXPECTED_LIST_SIZE); // loading 최척화를 위해 공간 예약
 }
@@ -16,7 +16,7 @@ ItemManager::~ItemManager()
 
 inline void printSingleItem(int index, Item *i) // 각 항목의 출력 함수
 {
-    std::cout << index << ". "; // vector의 index와 무관
+    std::cout << "| " << index << ". "; // vector의 index와 무관
     i->printInfo();
     std::cout << std::endl;
 }
@@ -28,18 +28,18 @@ void ItemManager::showList(bool showActive)
     {
         if (!showActive && i->active())
             continue;
-        printSingleItem(idx, i);
+        printSingleItem(idx++, i);
     }
 }
 
 void ItemManager::showList(Type typeFilter, bool showActive)
 {
-    int idx = 1;
+    // int idx = 1;
     for (auto i : Items)
     {
         if ((!showActive && i->active()) || i->getType() != typeFilter) // typefilter가 요구하는 type이 아니면 skip
             continue;
-        printSingleItem(idx, i);
+        printSingleItem(i->getId(), i);
     }
 }
 
@@ -84,6 +84,17 @@ Item *ItemManager::getItem(std::string name)
     return 0;
 }
 
+int ItemManager::getLatestId()
+{
+    int maxId = 0;
+    for (auto i : Items)
+    {
+        if (i->getId() > maxId)
+            maxId = i->getId();
+    }
+    return maxId + 1;
+}
+
 void ItemManager::load()
 {
     file.open(saveLocation, std::ios::in); // 파일 열기, 읽기 모드
@@ -94,7 +105,6 @@ void ItemManager::load()
         buffer.push_back((std::string)temp); // buffer에 각 줄의 data 올리기
         file.clear();                        // 각 줄을 읽을 때마다 flag 초기화
     }
-
     for (auto text : buffer)
     {
         std::stringstream ss(text);       // parser
@@ -113,7 +123,6 @@ void ItemManager::load()
             {
                 ss >> uuid >> startTime; //'사용시작시간' 까지 읽음
                 Account *a = new Account(accountType, name, id, true, uuid, startTime);
-
                 addItem(a);
             }
             else if (isActive == "INACTIVE")
@@ -156,7 +165,7 @@ void ItemManager::write()
             file << "ACCOUNT " << ii->getAccountType() << " " << ii->getName() << " " << ii->getId();
             if (ii->active())
             {
-                file << " ACTIVE" << ii->getcontrollerId() << " " << ii->getStartTime() << std::endl;
+                file << " ACTIVE " << ii->getcontrollerId() << " " << ii->getStartTime() << std::endl;
             }
             else
             {

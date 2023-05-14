@@ -6,10 +6,10 @@ void Device::printInfo()
     std::cout << getName();
     if (active())
     {
-        std::cout << " ( 사용 가능 ) ";
+        std::cout << " ( ON ) ";
     }
     else
     {
-        std::cout << " ( 사용 중 ) ";
+        std::cout << " ( OFF ) ";
     }
 }
