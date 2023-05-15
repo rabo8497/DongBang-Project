@@ -6,6 +6,7 @@
 
 #include "items/itemManager.h"
 #include "items/account.h"
+#include "schedule.h"
 
 using namespace std;
 
@@ -55,6 +56,23 @@ int deviceSelect(ItemManager &im)
     return input;
 }
 
+void initSchedule()
+{
+    fillSchedule(0, 1, 6, 3);
+    fillSchedule(1, 5, 8, 7);
+    fillSchedule(5, 10, 12, 26);
+}
+
+int devOperSelect()
+{
+    cout << "1. Make Reservation" << endl
+         << "2. Cancel Existing Reservation" << endl
+         << " ( back : 0 ) > ";
+    int input;
+    cin >> input;
+    return input;
+}
+
 int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
 {
     cout << "JiDongMot version " << version << " Starting..." << endl;
@@ -66,6 +84,7 @@ int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
     // im.showList();
 
     const int userid = 13; // 임의로 정한 값.
+    initSchedule();
 
     while (true)
     {
@@ -98,6 +117,72 @@ int main(int argc, char *argv[]) // argc=인자 갯수, argv=인자들
                 int dchoice = deviceSelect(im);
                 if (dchoice == 0)
                     break;
+                while (true)
+                {
+                    printSchedule(userid);
+                    int opChoice = devOperSelect();
+                    if (opChoice == 0)
+                        break;
+                    else if (opChoice == 1)
+                    {
+                        std::string day;
+                        int start, end;
+                        cout << " enter time range (exit : type 'exit') > ";
+                        cin >> day;
+                        if (day == "exit")
+                            continue;
+                        else
+                        {
+                            cin >> start >> end;
+                            int iday = -1;
+                            if (day == "Mo")
+                                iday = 0;
+                            if (day == "Tu")
+                                iday = 1;
+                            if (day == "We")
+                                iday = 2;
+                            if (day == "Th")
+                                iday = 3;
+                            if (day == "Fr")
+                                iday = 4;
+                            if (day == "Sa")
+                                iday = 5;
+                            if (day == "Su")
+                                iday = 6;
+                            fillSchedule(iday, start, end, userid);
+                        }
+                    }
+                    else if (opChoice == 2)
+                    {
+                        std::string day;
+                        int start, end;
+                        cout << " enter time range (exit : type 'exit') > ";
+                        cin >> day;
+                        if (day == "exit")
+                            continue;
+
+                        else
+                        {
+                            cin >> start >> end;
+                            int iday = -1;
+                            if (day == "Mo")
+                                iday = 0;
+                            if (day == "Tu")
+                                iday = 1;
+                            if (day == "We")
+                                iday = 2;
+                            if (day == "Th")
+                                iday = 3;
+                            if (day == "Fr")
+                                iday = 4;
+                            if (day == "Sa")
+                                iday = 5;
+                            if (day == "Su")
+                                iday = 6;
+                            cancelSchedule(iday, start, end, userid);
+                        }
+                    }
+                }
             }
         }
         else if (choice == 4)
