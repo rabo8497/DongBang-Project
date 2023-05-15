@@ -1,0 +1,90 @@
+0
+Physics 1
+Physics
+Author A
+Publisher A
+20220101
+1
+True
+
+
+
+
+
+
+
+1
+Physics 2
+Physics
+Author A
+Publisher A
+20220101
+1
+True
+
+
+
+
+
+
+
+2
+Physics 3
+Physics
+Author A
+Publisher A
+20220101
+1
+True
+
+
+
+
+
+
+
+3
+Comics 1
+Comics
+Author B
+Publisher B
+20230101
+1
+True
+
+
+
+
+
+
+
+4
+Comics 2
+Comics
+Author B
+Publisher B
+20230101
+1
+True
+
+
+
+
+
+
+
+5
+Comics 3
+Comics
+Author B
+Publisher B
+20230101
+1
+True
+
+
+
+
+
+
+

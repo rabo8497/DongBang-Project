@@ -9,7 +9,7 @@
 class FileHandler
 {
 public:
-    FileHandler(std::string newSaveLocation = "none", int newInterval = 0) 
+    FileHandler(std::string newSaveLocation = "none", int newInterval = 0)
     {
         saveLocation = newSaveLocation;
         interval = newInterval;
@@ -17,6 +17,7 @@ public:
 
     // 아래는 manager class에서 오버로딩 하여 사용할 것
     int findIdFromItem();
+
     void load(); // txt 파일에 있는 데이터를 불러오는 기능
     void write(); //txt 파일에 데이터를 저장하는 기능
     void modifyFile(); // txt 파일에 있는 데이터를 수정하는 기능
