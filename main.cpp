@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     User u1(1, 20225167, "rabo8497", "123456");
     User u2(2, 20225168, "rabo84972", "12325");
     c.load();
-    c.resetAll();
+    c.resetUUIDInCalendar(u1);
     c.write();
 
     return 0;
