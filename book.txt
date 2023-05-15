@@ -1,9 +1,24 @@
+0
+Physics 1
+Physics
+Author A
+Publisher A
+20220101
 1
-Re zero 1
-Re zero
-Nagatsuki
-A Publisher
-123
+True
+
+
+
+
+
+
+
+1
+Physics 2
+Physics
+Author A
+Publisher A
+20220101
 1
 True
 
@@ -14,11 +29,11 @@ True
 
 
 2
-Re zero 2
-Re zero
-Nagatsuki
-A Publisher
-123
+Physics 3
+Physics
+Author A
+Publisher A
+20220101
 1
 True
 
@@ -29,11 +44,11 @@ True
 
 
 3
-Re zero 3
-Re zero
-Nagatsuki
-A Publisher
-123
+Comics 1
+Comics
+Author B
+Publisher B
+20230101
 1
 True
 
@@ -44,11 +59,11 @@ True
 
 
 4
-Onii chan wa Oshimai 1
-Onii chan wa Oshimai
-NekoTofu
-B Publisher
-456
+Comics 2
+Comics
+Author B
+Publisher B
+20230101
 1
 True
 
@@ -59,116 +74,11 @@ True
 
 
 5
-Onii chan wa Oshimai 2
-Onii chan wa Oshimai
-NekoTofu
-B Publisher
-456
-1
-True
-
-
-
-
-
-
-
-6
-Onii chan wa Oshimai 3
-Onii chan wa Oshimai
-NekoTofu
-B Publisher
-456
-1
-True
-
-
-
-
-
-
-
-7
-ONE PUNCH MAN 1
-ONE PUNCH MAN
-ONE
-C Publisher
-789
-1
-True
-
-
-
-
-
-
-
-8
-ONE PUNCH MAN 2
-ONE PUNCH MAN
-ONE
-C Publisher
-789
-1
-True
-
-
-
-
-
-
-
-9
-ONE PUNCH MAN 3
-ONE PUNCH MAN
-ONE
-C Publisher
-789
-1
-True
-
-
-
-
-
-
-
-10
-CHAINSAW MAN 1
-CHAINSAW MAN
-Tatsuki
-D Publisher
-000
-1
-True
-
-
-
-
-
-
-
-11
-CHAINSAW MAN 2
-CHAINSAW MAN
-Tatsuki
-D Publisher
-000
-1
-True
-
-
-
-
-
-
-
-12
-CHAINSAW MAN 3
-CHAINSAW MAN
-Tatsuki
-D Publisher
-000
+Comics 3
+Comics
+Author B
+Publisher B
+20230101
 1
 True
 
