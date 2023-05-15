@@ -14,7 +14,7 @@ private:
     std::string title;
     std::vector<std::vector<int>> week;
 public:
-    Calendar(std::string title) {}
+    Calendar(std::string title);
     void write();
     void load();
     void modifyFile();
