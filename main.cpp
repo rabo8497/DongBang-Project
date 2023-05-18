@@ -15,13 +15,12 @@ const string version = "0.0.1";
 
 int main(int argc, char *argv[])
 {
+    User u1(3, 20225167, "aaaaa", "aaaaa");
     Calendar c("title1");
-    User u1(1, 20225167, "rabo8497", "123456");
-    User u2(2, 20225168, "rabo84972", "12325");
     c.load();
-    c.resetUUIDInCalendar(u1);
-    c.markPeriodWithUUID(u1, 0, 22, 1, 2);
+    //c.markPeriodWithUUID(u1, 3, 7, 3, 9);
     c.write();
+    c.print_calendar(u1);
 
     return 0;
 }

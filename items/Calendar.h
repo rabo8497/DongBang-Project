@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include "../FileHandler.h"
 #include "../users/User.h"
 #define Default_val -1
@@ -23,8 +24,7 @@ public:
     void markPeriodWithUUID(User nowUser, int startDay, int startHour, int endDay, int endHour);
     void resetUUIDInCalendar(User nowUser);
     void resetAll();
-    void print_calendar();
-    
+    void print_calendar(User nowUser);
 };
 
 #endif

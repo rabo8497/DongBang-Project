@@ -146,15 +146,33 @@ void Calendar::resetAll() {
     }
 }
 
-void Calendar::print_calendar() {
-    std::cout << title << "\n";
-    for (const auto &day : week) {
-        for (const auto &hour : day) {
-            std::cout << hour << " ";
+void Calendar::print_calendar(User nowUser) {
+    const int totalWidth = 78;
+    const int firstD = 4;
+    const int secondD = 2;
+    const int thirdD = 3;
+    std::vector<std::string> days = { "mo", "tu", "we", "th", "fr", "se", "su" };
+    std::cout << std::left << std::setfill('-') << std::setw(totalWidth) << "" << std::endl;
+    std::cout << std::setfill(' ');
+    std::cout << "|" << std::left << std::setw(firstD) << " ";
+    for (int i = 0; i < 24; i++) {
+        std::cout << std::setw(secondD) << i << " ";
+    }
+    std::cout << "|" << std::endl;
+    int i = 0;
+    for (const std::string& day : days) {
+        std::cout << "|" << std::left << std::setw(firstD) << day  ;
+        for (const int value : week[i]) {
+            if (value == -1)
+                std::cout << std::left << std::setw(thirdD) << " ";
+            else if (value == nowUser.getId())
+                std::cout << std::left << std::setw(thirdD) << '*';
+            else 
+                std::cout << std::left << std::setw(thirdD) << 'v';
         }
-        std::cout << "\n";
+        std::cout << "|"  << std::endl;
+        i += 1;
     }
-    for (int i = 0; i < interval-8; i++) {
-        std::cout << "\n";
-    }
+    std::cout << std::left << std::setfill('-') << std::setw(totalWidth) << "" << std::endl;
+    std::cout << std::setfill(' ');
 }
