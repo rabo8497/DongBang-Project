@@ -7,7 +7,7 @@
 #include "BookManager.h"
 #include "Book.h"
 #include "LendManager.h"
-BookManager::BookManager() : FileHandler("../dataBase/book.txt", 15)
+BookManager::BookManager() : FileHandler(".\\dataBase\\book.txt", 15)
 {
   latestId = getLatestId();
 }
