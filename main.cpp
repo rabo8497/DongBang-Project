@@ -2,15 +2,17 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <iomanip>
 
+#include "items/itemManager.h"
+#include "items/account.h"
 #include "Calendar.h"
-#include "User.h"
 
 using namespace std;
 
 const string version = "0.0.1";
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
     Calendar c("title1");
     User u1(1, 20225167, "rabo8497", "123456");
@@ -21,4 +23,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-

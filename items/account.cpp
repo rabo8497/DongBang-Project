@@ -1,25 +1,33 @@
 #include "account.h"
 
-Account::Account(std::string accountType, std::string name, int id) : Item(name, id, ACCOUNT), accountType(accountType)
+Account::Account(std::string accountType, std::string name, int id, bool isActive, int controllerId, time_t startTime) : Item(name, id, isActive, ACCOUNT), accountType(accountType), controllerId(controllerId), startTime(startTime)
 {
     startTime = 0;
 }
+
+Account::~Account() {}
 
 void Account::printInfo()
 {
     std::cout << accountType << " - " << getName();
     if (active())
     {
-        std::cout << " ( 사용 가능 )";
+        std::cout << " ( ON )";
     }
     else
     {
-        std::cout << " ( 사용 중 )";
+        std::cout << " ( OFF )";
     }
 }
 
 std::string Account::getAccountType() { return accountType; }
+
 std::time_t Account::getStartTime() { return startTime; }
+
+int Account::getcontrollerId() { return controllerId; }
+
+void Account::setcontrollerId(int uuid) { this->controllerId = uuid; }
+
 void Account::setState(State state)
 {
     Item::setState(state);
