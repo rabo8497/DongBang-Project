@@ -4,10 +4,10 @@
 #include <sstream>
 #include <regex>
 
-#include "bookManager.h"
-#include "book.h"
-#include "lendManager.h"
-BookManager::BookManager() : FileHandler("book.txt", 15)
+#include "BookManager.h"
+#include "Book.h"
+#include "LendManager.h"
+BookManager::BookManager() : FileHandler("../dataBase/book.txt", 15)
 {
   latestId = getLatestId();
 }

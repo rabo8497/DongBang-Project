@@ -5,8 +5,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "FileHandler.h"
-#include "User.h"
+#include "../FileHandler.h"
+#include "../users/User.h"
 #define Default_val -1
 
 class Calendar : public FileHandler {

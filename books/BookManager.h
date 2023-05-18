@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <string>
-#include "FileHandler.h"
-#include "user.h"
-#include "book.h"
-#include "lendManager.h"
+#include "../FileHandler.h"
+#include "../users/User.h"
+#include "Book.h"
+#include "LendManager.h"
 
 class BookManager : public FileHandler
 {

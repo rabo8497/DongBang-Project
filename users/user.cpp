@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cctype>
-#include "user.h"
+#include "User.h"
 
 User::User() {};
 User::User(const int newuuid, const int newstudentNumber, std::string newnickname, std::string newpassward, bool newisEru, bool newisManager, int lendBookN) 

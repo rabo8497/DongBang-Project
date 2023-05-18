@@ -5,13 +5,12 @@
 #include <regex>
 #include <ctime>
 
-#include "lendManager.h"
-#include "book.h"
-#include "bookManager.h"
-#include "user.h"
-#include "userManager.h"
+#include "LendManager.h"
+#include "Book.h"
+#include "../users/User.h"
 
-LendManager::LendManager() : FileHandler("lend.txt", 10)
+
+LendManager::LendManager() : FileHandler("../dataBase/lend.txt", 10)
 {
   latestId = getLatestId();
 }

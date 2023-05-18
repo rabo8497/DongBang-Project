@@ -1,6 +1,6 @@
-#include "itemManager.h"
+#include "ItemManager.h"
 
-ItemManager::ItemManager() : FileHandler("items.txt")
+ItemManager::ItemManager() : FileHandler("../dataBase/items.txt")
 {
     Items.reserve(EXPECTED_LIST_SIZE); // loading 최척화를 위해 공간 예약
 }

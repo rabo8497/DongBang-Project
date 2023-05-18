@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <iostream>
-#include "User.h"
 
 class FileHandler
 {

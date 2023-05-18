@@ -1,11 +1,11 @@
-#include "userManager.h"
-#include "user.h"
+#include "UserManager.h"
+#include "User.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
-UserManager::UserManager() : FileHandler("user.txt", 10) {
+UserManager::UserManager() : FileHandler("../dataBase/user.txt", 10) {
     isSignIn = false;
     latestId = getLatestId();
 }
@@ -114,7 +114,7 @@ void UserManager::load(int findId) {
 
 void UserManager::modifyFile(User modifiedUser) {
     std::ifstream inFile(saveLocation);
-    std::ofstream outFile("usertemp.txt");
+    std::ofstream outFile("../dataBase/usertemp.txt");
     std::string findIdStr = std::to_string(modifiedUser.getId());
     int findModifiyBookNum = -1;
     if (!inFile || !outFile) {
@@ -139,7 +139,7 @@ void UserManager::modifyFile(User modifiedUser) {
     outFile.close();
 
     std::remove(saveLocation.c_str()); // string 타입의 인자를 받지 못하는 함수임 -> char로 강제 변환
-    std::rename("usertemp.txt", saveLocation.c_str());
+    std::rename("../dataBase/usertemp.txt", saveLocation.c_str());
 }
 
 void UserManager::deleteFile(int uuid) {
