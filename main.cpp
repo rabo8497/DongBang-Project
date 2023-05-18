@@ -6,7 +6,8 @@
 
 #include "items/ItemManager.h"
 #include "items/Account.h"
-#include "Calendar.h"
+#include "items/Calendar.h"
+#include "users/User.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     User u2(2, 20225168, "rabo84972", "12325");
     c.load();
     c.resetUUIDInCalendar(u1);
+    c.markPeriodWithUUID(u1, 0, 22, 1, 2);
     c.write();
 
     return 0;

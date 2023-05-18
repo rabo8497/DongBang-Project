@@ -10,7 +10,7 @@
 #include "../users/User.h"
 
 
-LendManager::LendManager() : FileHandler("../dataBase/lend.txt", 10)
+LendManager::LendManager() : FileHandler(".\\dataBase\\lend.txt", 10)
 {
   latestId = getLatestId();
 }

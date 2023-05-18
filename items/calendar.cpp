@@ -2,7 +2,7 @@
 
 Calendar::Calendar(std::string title) : week(7, std::vector<int>(24, Default_val)), title(title) {
     interval = 10;
-    saveLocation = "../dataBase/calendar.txt";
+    saveLocation = ".\\dataBase\\calendar.txt";
 }
 
 void Calendar::write() { 
@@ -57,7 +57,7 @@ void Calendar::load() {
 
 void Calendar::modifyFile() {
     std::ifstream inFile(saveLocation);
-    std::ofstream tempFile("../dataBase/temp.txt");
+    std::ofstream tempFile(".\\dataBase\\temp.txt");
     if (inFile.is_open() && tempFile.is_open()) {
         std::string line;
         while (std::getline(inFile, line)) {
@@ -79,7 +79,7 @@ void Calendar::modifyFile() {
         inFile.close();
         tempFile.close();
         std::remove(saveLocation.c_str());
-        std::rename("../dataBase/temp.txt", saveLocation.c_str());
+        std::rename(".\\dataBase\\temp.txt", saveLocation.c_str());
     } else {
         std::cerr << "Unable to open file.\n";
     }
