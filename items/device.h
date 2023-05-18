@@ -1,7 +1,7 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include "item.h"
+#include "Item.h"
 
 class Device : public Item
 {

@@ -3,8 +3,8 @@
 
 #include <string>
 #include <iostream>
-#include "fileHandler.h"
-#include "user.h"
+#include "../fileHandler.h"
+#include "User.h"
 
 class UserManager : public FileHandler {
 public :

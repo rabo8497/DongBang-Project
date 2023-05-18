@@ -4,9 +4,8 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "FileHandler.h"
-#include "bookManager.h"
-#include "book.h"
+#include "../FileHandler.h"
+#include "Book.h"
 
 class LendManager : public FileHandler
 {

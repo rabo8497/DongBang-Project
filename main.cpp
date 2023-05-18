@@ -4,8 +4,8 @@
 #include <string>
 #include <iomanip>
 
-#include "items/itemManager.h"
-#include "items/account.h"
+#include "items/ItemManager.h"
+#include "items/Account.h"
 #include "Calendar.h"
 
 using namespace std;

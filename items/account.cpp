@@ -1,4 +1,4 @@
-#include "account.h"
+#include "Account.h"
 
 Account::Account(std::string accountType, std::string name, int id, bool isActive, int controllerId, time_t startTime) : Item(name, id, isActive, ACCOUNT), accountType(accountType), controllerId(controllerId), startTime(startTime)
 {

@@ -1,4 +1,4 @@
-#include "device.h"
+#include "Device.h"
 
 Device::Device(std::string name, int id, bool isActive) : Item(name, id, isActive, DEVICE) {}
 void Device::printInfo()

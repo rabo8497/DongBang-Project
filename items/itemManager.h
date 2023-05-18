@@ -9,8 +9,8 @@
 #include <cstring>
 #include "item.h"
 #include "../FileHandler.h"
-#include "account.h"
-#include "device.h"
+#include "Account.h"
+#include "Device.h"
 
 #define EXPECTED_LIST_SIZE 16
 #define FILE_INTERVAL 7
