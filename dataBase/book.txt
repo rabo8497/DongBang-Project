@@ -33,7 +33,7 @@ Physics 3
 Physics
 Author A
 Publisher A
-20220101
+20230101
 1
 True
 
@@ -79,6 +79,51 @@ Comics
 Author B
 Publisher B
 20230101
+1
+True
+
+
+
+
+
+
+
+6
+English 1
+English
+Author E
+Publisher E
+20230520
+1
+True
+
+
+
+
+
+
+
+7
+English 2
+English
+Author E
+Publisher E
+20230520
+1
+True
+
+
+
+
+
+
+
+8
+English 3
+English
+Author E
+Publisher E
+20230520
 1
 True
 
