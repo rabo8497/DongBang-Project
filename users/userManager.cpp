@@ -4,6 +4,13 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <windows.h>
+
+#define RESET   "\033[0m"
+#define YELLOW  "\033[33m"
+#define GREEN   "\033[32m"
+#define RED     "\033[31m"
+#define YELLOW  "\033[33m"
 
 UserManager::UserManager() : FileHandler(".\\dataBase\\user.txt", 10) {
     isSignIn = false;
@@ -18,7 +25,7 @@ User& UserManager::getLoginedUser() {
     if (getIsSignIn()) {
         return nowUser;
     } else {
-        std::cout << "not logined. You have to login to use this function" << std::endl;
+        std::cout << RED << "not logined. You have to login to use this function" << RESET << std::endl;
         return nowUser; // 빈 유저 객체 반환
     }
 }
@@ -37,7 +44,7 @@ void UserManager::write(User newUser, std::string password) {
     std::string saveData = newUUID + "\n" + studentNumberStr + "\n" + nickname + "\n" + password + "\n" + isEruStr + "\n" + isManagerStr + "\n" + lendBookNumStr + "\n" + "\n" + "\n";
     std::ofstream outFile(saveLocation, std::ios::app);
     if (!outFile) {
-        std::cerr << "cannot open file" << std::endl;
+        std::cerr << RED << "cannot open file" << RESET << std::endl;
         return;
     }
     outFile << saveData << std::endl;
@@ -49,7 +56,7 @@ int UserManager::findIdFromItem(std::string findNickName) {
     int nowId = -1;
     std::ifstream inFile(saveLocation);
     if (!inFile) {
-        std::cerr << "cannot open user.txt file" << std::endl;
+        std::cerr << RED << "cannot open user.txt file" << RESET << std::endl;
         return -1;
     }
     std::string line;
@@ -68,12 +75,13 @@ int UserManager::findIdFromItem(std::string findNickName) {
 }
 
 void UserManager::load(int findId) {
-    std::cout << "----------load start----------" << std::endl;
+    std::cout << YELLOW << "----------load start----------" << std::endl;
     bool isFind = false;
     std::string findData = "";
     std::ifstream inFile(saveLocation);
     if (!inFile) {
-        std::cerr << "cannot open user.txt file" << std::endl;
+        std::cerr << RED << "cannot open user.txt file" << RESET << std::endl;
+        std::cout << YELLOW << "----------load end----------" << RESET << std::endl;
         return;
     }
     std::string line;
@@ -109,7 +117,7 @@ void UserManager::load(int findId) {
     int val7 = std::stoi(tokens[6]);
     inFile.close();
     nowUser = User(val1, val2, val3, val4, val5, val6, val7);
-    std::cout << "----------load end----------" << std::endl;
+    std::cout << YELLOW << "----------load end----------" << RESET << std::endl;
 }
 
 void UserManager::modifyFile(User modifiedUser) {
@@ -118,7 +126,7 @@ void UserManager::modifyFile(User modifiedUser) {
     std::string findIdStr = std::to_string(modifiedUser.getId());
     int findModifiyBookNum = -1;
     if (!inFile || !outFile) {
-        std::cerr << "cannot open user.txt file" << std::endl;
+        std::cerr << RED << "cannot open user.txt file" << RESET << std::endl;
         return;
     }
 
@@ -151,40 +159,41 @@ void UserManager::deleteFile(int uuid) {
 void UserManager::signUp(int studentNumber, std::string nickname, std::string password, bool isEru=false, bool isManager=false) {
     int getId = findIdFromItem(nickname);
     if (getId != -1) {
-        std::cout << "this nickname is aleady exist.\nUse other nickname." << std::endl << std::endl;
+        std::cerr << RED << "this nickname is aleady exist.\nUse other nickname." << RESET << std::endl << std::endl;
         return;
     }
     latestId = getLatestId();
-    std::cout << "----------save start----------" << std::endl;
+    std::cout << YELLOW << "----------save start----------" << std::endl;
     User newUser(latestId+1, studentNumber, nickname, password, isEru, isManager);
-    std::cout << "----------save end----------" << std::endl;
+    std::cout << YELLOW << "----------save end----------" << RESET << std::endl;
     if (newUser.getId() == -2) {
-        std::cout << std::endl << "[signup fail]" << std::endl << "get wrong value, rewrite your information" << std::endl << std::endl;
+        std::cout << std::endl << RED << "[signup fail]" << std::endl << "get wrong value, rewrite your information" << RESET << std::endl << std::endl;
     }
     else {
         write(newUser, password);
         latestId += 1;
-        std::cout << std::endl << "[signup success!]" << std::endl << "You can login" << std::endl << std::endl;
+        std::cout << std::endl << GREEN << "[signup success!]" << std::endl << "You can login" << RESET << std::endl << std::endl;
     }
 }
 
 void UserManager::signIn(std::string inputNickName, std::string inputPassword) {
     int getId = findIdFromItem(inputNickName);
     if (getId == -1) {
-        std::cout << std::endl << "[login fail!]" << std::endl << "wrong id" << std::endl << std::endl;
+        std::cerr << std::endl << RED << "[login fail!]" << std::endl << "wrong id" << RESET << std::endl << std::endl;
+        return;
     }
     load(getId);
     if (nowUser.isValidPassword(inputPassword)) {
-        std::cout << std::endl << "[login success!]" << std::endl << std::endl;
+        std::cout << std::endl << GREEN << "[login success!]" << RESET << std::endl << std::endl;
         isSignIn = true;
     } else {
         nowUser = User();
-        std::cout << std::endl << "[login fail!]" << std::endl << "wrong password" << std::endl << std::endl;
+        std::cout << std::endl << RED << "[login fail!]" << std::endl << "wrong password" << RESET << std::endl << std::endl;
     }
 }
 
 void UserManager::signOut() {
     nowUser = User();
     isSignIn = false;
-    std::cout << std::endl << "[logout success!]" << std::endl << std::endl;
+    std::cout << std::endl << GREEN << "[logout success!]" << RESET << std::endl << std::endl;
 }
