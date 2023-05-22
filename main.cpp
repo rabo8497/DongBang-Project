@@ -68,11 +68,27 @@ int secondPage() {
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "1) Book-related function" << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "2) public account-related function" << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "3) Reservation of Items" << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "4) back" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "0) exit" << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
     cout << "You : ";
     cin >> answer;
+    cout << endl;
+    return answer;
+}
+int bookRelatedPage() {
+    int answer;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "1) book info" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "2) book return" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "3) book management" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "0) back" << "|" << endl;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    cout << "You : ";
+    cin >> answer;
+    cout << endl;
     return answer;
 }
 
@@ -80,6 +96,7 @@ int main(int argc, char *argv[])
 {
     UserManager UM;
     int choice;
+    int nowPage = 0;
     bool isProgramEnd = false;
     while (!isProgramEnd) {
         if (!UM.getIsSignIn()) {
@@ -92,8 +109,35 @@ int main(int argc, char *argv[])
                 case 2 :
                     signUpPage(UM);
                     break;
-                case 3 :
+                case 0 :
                     isProgramEnd = true;
+                    break;
+                default :
+                    cout << RED << "wrong value. choose other number." << RESET << endl;
+            }
+        } else if (nowPage == 0) {
+            choice = secondPage();
+            switch (choice) {
+                case 1 :
+                    nowPage = 10;
+                    break;
+                case 2 :
+                    nowPage = 20;
+                    break;
+                case 3 :
+                    nowPage = 30;
+                    break;
+                case 0 :
+                    isProgramEnd = true;
+                    break;
+                default :
+                    cout << RED << "wrong value. choose other number." << RESET << endl;
+            }
+        } else if (nowPage == 10) {
+            choice = bookRelatedPage();
+            switch (choice) {
+                case 0 :
+                    nowPage = 0;
                     break;
                 default :
                     cout << RED << "wrong value. choose other number." << RESET << endl;
