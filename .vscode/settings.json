@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.rpy": "renpy",
-        "iostream": "cpp",
-        "iomanip": "cpp"
-    }
-}
