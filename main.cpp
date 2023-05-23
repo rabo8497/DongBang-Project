@@ -76,13 +76,30 @@ int secondPage() {
     cout << endl;
     return answer;
 }
-int bookRelatedPage() {
+int bookRelatedPage(UserManager& um_reference) {
     int answer;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "1) book info" << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "2) book return" << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "3) book management" << "|" << endl;
+    if (um_reference.getLoginedUser().getIsManager()) 
+        cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "3) book management" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "0) back" << "|" << endl;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    cout << "You : ";
+    cin >> answer;
+    cout << endl;
+    return answer;
+}
+int bookInfoPage() {
+    int answer;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "1) search by keyword" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "2) book borrow" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "3) next page" << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "4) previous page" << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth-choiceInterval-1) << left << "0) back" << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
@@ -119,13 +136,13 @@ int main(int argc, char *argv[])
             choice = secondPage();
             switch (choice) {
                 case 1 :
-                    nowPage = 10;
+                    nowPage = 1;
                     break;
                 case 2 :
-                    nowPage = 20;
+                    nowPage = 2;
                     break;
                 case 3 :
-                    nowPage = 30;
+                    nowPage = 3;
                     break;
                 case 0 :
                     isProgramEnd = true;
@@ -133,11 +150,23 @@ int main(int argc, char *argv[])
                 default :
                     cout << RED << "wrong value. choose other number." << RESET << endl;
             }
-        } else if (nowPage == 10) {
-            choice = bookRelatedPage();
+        } else if (nowPage == 1) {
+            choice = bookRelatedPage(UM);
             switch (choice) {
                 case 0 :
                     nowPage = 0;
+                    break;
+                case 1 :
+                    nowPage = 11;
+                    break;
+                default :
+                    cout << RED << "wrong value. choose other number." << RESET << endl;
+            }
+        } else if (nowPage == 11) {
+            choice = bookInfoPage();
+            switch (choice) {
+                case 0 :
+                    nowPage = 1;
                     break;
                 default :
                     cout << RED << "wrong value. choose other number." << RESET << endl;
