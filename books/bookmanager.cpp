@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <regex>
+#include <iomanip>
 
 #include "BookManager.h"
 #include "Book.h"
@@ -67,31 +68,76 @@ void BookManager::bookadd(std::string bookName, std::string bookSeries, std::str
   latestId = getLatestId();
 }
 
-void BookManager::booklist(int listpage)
+void BookManager::booklist(int listpage, std::vector<std::vector<std::string>> searchResult)
 {
+  const int totalWidth = 78;
+  const int interval = 4;
+  std::string printline;
+  std::cout << std::left << std::setfill('-') << std::setw((totalWidth - 16) / 2) << "";
+  std::cout << "<Search Result>";
+  std::cout << std::right << std::setfill('-') << std::setw((totalWidth - 16) / 2) << "" << std::endl;
+  std::cout << std::setfill(' ');
+
+  for (int i = (listpage - 1) * bookNumForPage; i <= listpage * bookNumForPage - 1; i++)
+  {
+    printline = searchResult[i][0] + ". " + searchResult[i][2];
+    std::cout << "|" << std::left << std::setw(interval) << " ";
+    std::cout << std::setw(totalWidth - 7) << std::left << printline;
+    std::cout << "|" << std::endl;
+
+    if (i + 1 >= searchResult.size())
+    {
+      break;
+    }
+  }
+  std::cout << std::left << std::setfill('-') << std::setw((totalWidth - 5) / 2) << "";
+  std::cout << "<" << listpage << "/" << searchResult.size() / 5 + 1 << ">";
+  std::cout << std::right << std::setfill('-') << std::setw((totalWidth - 5) / 2) << "" << std::endl;
+  std::cout << std::setfill(' ');
+
+  /*int resultNum;
+  std::cout << std::endl;
+  std::cout << "Enter the number of book that you wanna know the information." << std::endl;
+  std::cin >> resultNum;
+  load(std::stoi(searchResult[resultNum - 1][1]));
+  nowBook.BookInfo();
+  std::cout << std::endl;*/
+}
+
+std::vector<std::vector<std::string>> BookManager::booksearch()
+{
+  std::string lineStr;
+  std::vector<std::vector<std::string>> searchResult;
+  int nowId = -1;
+  int index = 0;
   std::ifstream inFile(saveLocation);
   if (!inFile)
   {
     std::cerr << "cannot open book.txt file!!" << std::endl;
-    return;
+    return searchResult;
   }
   std::string line;
   int lineNum = 0;
   while (std::getline(inFile, line))
   {
     lineNum += 1;
-  }
-  for (int bookId = (listpage - 1) * 5 + 1; bookId <= listpage * 5; bookId++)
-  {
-    if (bookId <= lineNum / 5)
+    if (lineNum % interval == 2)
     {
-      load(bookId);
-      nowBook.BookInfo();
-      std::cout << std::endl;
+      nowId += 1;
+
+      searchResult.resize(index + 1);
+      searchResult[index].push_back(std::to_string(index + 1));
+      searchResult[index].push_back(std::to_string(nowId));
+      searchResult[index].push_back(line);
+      index += 1;
     }
-  }
+  };
+  inFile.close();
+  return searchResult;
 }
-void BookManager::booksearch(std::string findBook)
+
+std::vector<std::vector<std::string>>
+BookManager::booksearch(std::string findBook)
 {
   std::string lineStr;
   std::string bookStr = regex_replace(findBook, std::regex("[^a-zA-Z-_.]+"), "");
@@ -103,7 +149,7 @@ void BookManager::booksearch(std::string findBook)
   if (!inFile)
   {
     std::cerr << "cannot open book.txt file!!" << std::endl;
-    return;
+    return searchResult;
   }
   std::string line;
   int lineNum = 0;
@@ -126,18 +172,7 @@ void BookManager::booksearch(std::string findBook)
     }
   };
   inFile.close();
-
-  std::cout << "Search Result" << std::endl;
-  for (auto i : searchResult)
-  {
-    std::cout << i[0] << ". " << i[2] << std::endl;
-  }
-  int resultNum;
-  std::cout << "Enter the number of book that you wanna know the information." << std::endl;
-  std::cin >> resultNum;
-  load(std::stoi(searchResult[resultNum - 1][1]) + 1);
-  nowBook.BookInfo();
-  std::cout << std::endl;
+  return searchResult;
 }
 
 void BookManager::booklend(User &lendUser, int buid)
@@ -188,7 +223,6 @@ int BookManager::findIdFromItem(std::string findBook)
 
 void BookManager::load(int bookId)
 {
-  std::cout << "Loading Book......." << std::endl;
   bool isFind = false;
   std::string findData = "";
   std::ifstream inFile(saveLocation);
@@ -236,7 +270,6 @@ void BookManager::load(int bookId)
   bool val_Blend = tokens[7] == "True" ? true : false;
   inFile.close();
   nowBook = Book(val_Buid, val_Bname, val_Bseries, val_Bauthor, val_Bpub, val_Bdate, val_Bcount, val_Blend);
-  std::cout << "Loading Complete!" << std::endl;
 }
 
 void BookManager::write(Book newBook)

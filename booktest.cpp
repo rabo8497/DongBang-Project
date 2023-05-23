@@ -3,6 +3,7 @@
 #include <ctime>
 #include <string>
 #include <iomanip>
+#include <vector>
 
 #include "books/Book.h"
 #include "books/BookManager.h"
@@ -17,20 +18,11 @@ int main(int argc, char *argv[])
 {
   BookManager bookmanager;
 
-  User u1(3, 20225167, "aaaaa", "aaaaa");
+  vector<vector<string>> search;
 
-  bookmanager.booklend(u1, 2);
-  cout << endl;
-  cout << u1.getLendBookNum() << endl;
-  bookmanager.load(2);
-  cout << bookmanager.getBook().getBCount() << endl;
+  search = bookmanager.booksearch();
 
-  cout << endl;
-  bookmanager.bookreturn(u1, 2);
-  cout << endl;
-  cout << u1.getLendBookNum() << endl;
-  bookmanager.load(2);
-  cout << bookmanager.getBook().getBCount() << endl;
+  bookmanager.booklist(1, search);
 
   return 0;
 }

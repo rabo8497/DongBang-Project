@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <iomanip>
 #include "../FileHandler.h"
 #include "../users/User.h"
 #include "Book.h"
@@ -15,8 +17,9 @@ public:
   int getLatestId_lend();
   void lendwrite(int, int, std::string);
 
-  void booklist(int);
-  void booksearch(std::string);
+  void booklist(int, std::vector<std::vector<std::string>>);
+  std::vector<std::vector<std::string>> booksearch();
+  std::vector<std::vector<std::string>> booksearch(std::string);
   void bookadd(std::string, std::string, std::string, std::string, std::string, int, bool);
   void booklend(User &, int);
   void bookreturn(User &, int);
@@ -39,6 +42,7 @@ protected:
   time_t timer;
   struct tm *t;
   std::string timeDate;
+  int bookNumForPage = 5;
 };
 
 #endif
