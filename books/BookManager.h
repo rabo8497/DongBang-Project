@@ -16,6 +16,8 @@ public:
 
   int getLatestId_lend();
   void lendwrite(int, int, std::string);
+  void lenddelete(int);
+  std::vector<std::vector<std::string>> lendlist(User &);
 
   void booklist(int, std::vector<std::vector<std::string>>);
   std::vector<std::vector<std::string>> booksearch();
