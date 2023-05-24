@@ -15,14 +15,16 @@ public:
   BookManager();
 
   int getLatestId_lend();
-  void lendwrite(int, int, std::string);
+  void lendwrite(int, int);
+  void lenddelete(int);
+  std::vector<std::vector<std::string>> lendlist(User &);
 
   void booklist(int, std::vector<std::vector<std::string>>);
   std::vector<std::vector<std::string>> booksearch();
   std::vector<std::vector<std::string>> booksearch(std::string);
   void bookadd(std::string, std::string, std::string, std::string, std::string, int, bool);
   void booklend(User &, int);
-  void bookreturn(User &, int);
+  void bookreturn(User &, int, int);
 
   int findIdFromItem(std ::string);
 
