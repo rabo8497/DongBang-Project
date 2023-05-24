@@ -147,6 +147,39 @@ int bookInfoPage(BookManager &bm_reference, vector<vector<string>> search, int l
     cout << endl;
     return answer;
 }
+int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
+{
+    int booknumber;
+    vector<vector<string>> lendlist;
+    if (um_reference.getLoginedUser().getLendBookNum() == 0)
+    {
+        cout << RED << "wrong value. choose other number." << RESET << endl;
+        return -1;
+    }
+    lendlist = bm_reference.lendlist(um_reference.getLoginedUser());
+    bm_reference.booklist(1, lendlist);
+    cout << "enter the book number( back : 0 ) : ";
+    cin >> booknumber;
+    return booknumber;
+}
+
+void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, int booknumber)
+{
+    vector<vector<string>> lendlist;
+    if (um_reference.getLoginedUser().getLendBookNum() == 0)
+    {
+        cout << RED << "wrong value. choose other number." << RESET << endl;
+        return;
+    }
+    lendlist = bm_reference.lendlist(um_reference.getLoginedUser());
+    if (booknumber > lendlist.size())
+    {
+        cout << RED << "wrong value. choose other number." << RESET << endl;
+        return;
+    }
+    bm_reference.bookreturn(um_reference.getLoginedUser(), stoi(lendlist[booknumber - 1][4]), stoi(lendlist[booknumber - 1][1]));
+    um_reference.modifyFile();
+}
 
 int main(int argc, char *argv[])
 {
@@ -201,7 +234,6 @@ int main(int argc, char *argv[])
         }
         else if (nowPage == 1)
         {
-            vector<vector<string>> lendlist;
             choice = bookRelatedPage(UM);
             switch (choice)
             {
@@ -212,12 +244,7 @@ int main(int argc, char *argv[])
                 nowPage = 11;
                 break;
             case 2:
-                lendlist = BM.lendlist(UM.getLoginedUser());
-                BM.booklist(1, lendlist);
-                cout << "enter the book number : ";
-                cin >> booknumber;
-                BM.bookreturn(UM.getLoginedUser(), stoi(lendlist[booknumber - 1][4]), stoi(lendlist[booknumber - 1][1]));
-                UM.modifyFile();
+                nowPage = 12;
                 break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
@@ -265,6 +292,21 @@ int main(int argc, char *argv[])
                 break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
+            }
+        }
+        else if (nowPage = 12)
+        {
+            choice = bookLendPage(UM, BM);
+            switch (choice)
+            {
+            case 0:
+                nowPage = 1;
+                search = BM.booksearch();
+                break;
+            case -1:
+                nowPage = 12;
+            default:
+                bookLendPageFunction(UM, BM, choice);
             }
         }
     }
