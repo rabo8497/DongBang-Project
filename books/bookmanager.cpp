@@ -132,6 +132,7 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
     {
       lendValNum = 2;
       lendlist.resize(index + 1);
+      lendlist[index].push_back(std::to_string(index + 1));
       lendlist[index].push_back(nowLuid);
       lendlist[index].push_back(line);
     }
@@ -148,9 +149,8 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
   inFile.close();
   for (auto &item : lendlist)
   {
-    load(std::stoi(item[2]));
-    std::string a = nowBook.getBName();
-    item.insert(item.begin() + 2, a);
+    load(std::stoi(item[3]));
+    item.insert(item.begin() + 2, nowBook.getBName());
   }
   return lendlist;
 }

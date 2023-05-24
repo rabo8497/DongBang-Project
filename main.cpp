@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
                 BM.booklist(1, lendlist);
                 cout << "enter the book number : ";
                 cin >> booknumber;
-                BM.bookreturn(UM.getLoginedUser(), stoi(lendlist[booknumber][3]), stoi(lendlist[booknumber][0]));
+                BM.bookreturn(UM.getLoginedUser(), stoi(lendlist[booknumber - 1][4]), stoi(lendlist[booknumber - 1][1]));
                 UM.modifyFile();
                 break;
             default:
