@@ -153,7 +153,7 @@ int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
     vector<vector<string>> lendlist;
     if (um_reference.getLoginedUser().getLendBookNum() == 0)
     {
-        cout << RED << "wrong value. choose other number." << RESET << endl;
+        cout << "You lended no book" << endl;
         return -1;
     }
     lendlist = bm_reference.lendlist(um_reference.getLoginedUser());
@@ -163,12 +163,12 @@ int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
     return booknumber;
 }
 
-void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, int booknumber)
+void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, int booknumber, int &page)
 {
     vector<vector<string>> lendlist;
     if (um_reference.getLoginedUser().getLendBookNum() == 0)
     {
-        cout << RED << "wrong value. choose other number." << RESET << endl;
+        page = 1;
         return;
     }
     lendlist = bm_reference.lendlist(um_reference.getLoginedUser());
@@ -304,9 +304,9 @@ int main(int argc, char *argv[])
                 search = BM.booksearch();
                 break;
             case -1:
-                nowPage = 12;
+                nowPage = 1;
             default:
-                bookLendPageFunction(UM, BM, choice);
+                bookLendPageFunction(UM, BM, choice, nowPage);
             }
         }
     }

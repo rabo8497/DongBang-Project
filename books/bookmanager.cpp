@@ -5,6 +5,9 @@
 #include <regex>
 #include <iomanip>
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+
 #include "BookManager.h"
 #include "Book.h"
 
@@ -269,12 +272,21 @@ BookManager::booksearch(std::string findBook)
 
 void BookManager::booklend(User &lendUser, int buid)
 {
-  load(buid);
-  if (!nowBook.getIsCanLend())
+
+  if (lendUser.getLendBookNum() >= lendUser.getLendBookMaxNum())
   {
-    std::cerr << "This book is out of stock!!" << std::endl;
+    std::cerr << RED << "can't lend more than " << lendUser.getLendBookMaxNum() << " books." << RESET << std::endl;
     return;
   }
+
+  load(buid);
+
+  if (!nowBook.getIsCanLend())
+  {
+    std::cerr << RED << "This book is out of stock!!" << RESET << std::endl;
+    return;
+  }
+
   lendUser.lendBook();
 
   nowBook.setBCount(nowBook.getBCount() - 1);
