@@ -154,6 +154,7 @@ int main(int argc, char *argv[])
     BookManager BM;
     vector<vector<string>> search = BM.booksearch();
     int listpage = 1;
+    int booknumber;
     int choice;
     int nowPage = 0;
     bool isProgramEnd = false;
@@ -200,6 +201,7 @@ int main(int argc, char *argv[])
         }
         else if (nowPage == 1)
         {
+            vector<vector<string>> lendlist;
             choice = bookRelatedPage(UM);
             switch (choice)
             {
@@ -210,7 +212,13 @@ int main(int argc, char *argv[])
                 nowPage = 11;
                 break;
             case 2:
-                
+                lendlist = BM.lendlist(UM.getLoginedUser());
+                BM.booklist(1, lendlist);
+                cout << "enter the book number : ";
+                cin >> booknumber;
+                BM.bookreturn(UM.getLoginedUser(), stoi(lendlist[booknumber][3]), stoi(lendlist[booknumber][0]));
+                UM.modifyFile();
+                break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
@@ -218,7 +226,6 @@ int main(int argc, char *argv[])
         else if (nowPage == 11)
         {
             string keyword = "";
-            int booknumber;
             choice = bookInfoPage(BM, search, listpage);
 
             switch (choice)

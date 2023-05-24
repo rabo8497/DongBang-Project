@@ -40,7 +40,7 @@ int BookManager::getLatestId_lend()
   return latestluid;
 }
 
-void BookManager::lendwrite(int uuid, int buid, std::string lb)
+void BookManager::lendwrite(int uuid, int buid)
 {
   timer = time(NULL);
   t = localtime(&timer);
@@ -49,7 +49,7 @@ void BookManager::lendwrite(int uuid, int buid, std::string lb)
   std::string uuidStr = std::to_string(uuid);
   std::string buidStr = std::to_string(buid);
   std::string newluid = std::to_string(getLatestId_lend() + 1);
-  std::string saveData = newluid + "\n" + uuidStr + "\n" + buidStr + "\n" + lb + "\n" + timeDate + "\n" + "\n" + "\n" + "\n" + "\n";
+  std::string saveData = newluid + "\n" + uuidStr + "\n" + buidStr + "\n" + timeDate + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
 
   std::ofstream outFile(saveLocation_lend, std::ios::app);
   if (!outFile)
@@ -104,38 +104,55 @@ void BookManager::lenddelete(int luid)
   std::remove(saveLocation_lend.c_str());
   std::rename(".\\dataBase\\lendtemp.txt", saveLocation_lend.c_str());
 }
+
 std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
 {
+  std::string uidStr = std::to_string(lenduser.getId());
+  std::string bookStr = "";
   std::vector<std::vector<std::string>> lendlist;
-  int nowId = -1;
   int index = 0;
-  std::ifstream inFile(saveLocation);
+  std::ifstream inFile(saveLocation_lend);
   if (!inFile)
   {
-    std::cerr << "cannot open book.txt file!!" << std::endl;
-    return searchResult;
+    std::cerr << "cannot open lend.txt file!!" << std::endl;
+    return lendlist;
   }
   std::string line;
   int lineNum = 0;
+  std::string nowLuid;
+  int lendValNum = 0;
   while (std::getline(inFile, line))
   {
     lineNum += 1;
-    if (lineNum % interval == 2)
+    if (lineNum % interval_lend == 1)
     {
-      nowId += 1;
-      lineStr = regex_replace(line, std::regex("[^a-zA-Z-_.]+"), "");
-      std::transform(lineStr.begin(), lineStr.end(), lineStr.begin(), ::tolower);
-      if (lineStr.find(bookStr) != std::string::npos)
+      nowLuid = line;
+    }
+    if (lineNum % interval_lend == 2)
+    {
+      lendValNum = 2;
+      lendlist.resize(index + 1);
+      lendlist[index].push_back(nowLuid);
+      lendlist[index].push_back(line);
+    }
+    else if (lendValNum != 0)
+    {
+      lendValNum -= 1;
+      lendlist[index].push_back(line);
+      if (lendValNum == 0)
       {
-        searchResult.resize(index + 1);
-        searchResult[index].push_back(std::to_string(index + 1));
-        searchResult[index].push_back(std::to_string(nowId));
-        searchResult[index].push_back(line);
         index += 1;
       }
     }
   };
   inFile.close();
+  for (auto &item : lendlist)
+  {
+    load(std::stoi(item[2]));
+    std::string a = nowBook.getBName();
+    item.insert(item.begin() + 2, a);
+  }
+  return lendlist;
 }
 
 void BookManager::bookadd(std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount, bool isCanLend)
@@ -261,16 +278,16 @@ void BookManager::booklend(User &lendUser, int buid)
   lendUser.lendBook();
 
   nowBook.setBCount(nowBook.getBCount() - 1);
-  lendwrite(lendUser.getId(), nowBook.getBuid(), "lend");
+  lendwrite(lendUser.getId(), nowBook.getBuid());
   modifyFile(nowBook);
 }
 
-void BookManager::bookreturn(User &backUser, int buid)
+void BookManager::bookreturn(User &backUser, int buid, int luid)
 {
   backUser.returnBook();
   load(buid);
   nowBook.setBCount(nowBook.getBCount() + 1);
-  lendwrite(backUser.getId(), nowBook.getBuid(), "return");
+  lenddelete(luid);
   modifyFile(nowBook);
 }
 
