@@ -5,6 +5,9 @@
 #include <regex>
 #include <iomanip>
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+
 #include "BookManager.h"
 #include "Book.h"
 
@@ -40,7 +43,7 @@ int BookManager::getLatestId_lend()
   return latestluid;
 }
 
-void BookManager::lendwrite(int uuid, int buid, std::string lb)
+void BookManager::lendwrite(int uuid, int buid)
 {
   timer = time(NULL);
   t = localtime(&timer);
@@ -49,7 +52,7 @@ void BookManager::lendwrite(int uuid, int buid, std::string lb)
   std::string uuidStr = std::to_string(uuid);
   std::string buidStr = std::to_string(buid);
   std::string newluid = std::to_string(getLatestId_lend() + 1);
-  std::string saveData = newluid + "\n" + uuidStr + "\n" + buidStr + "\n" + lb + "\n" + timeDate + "\n" + "\n" + "\n" + "\n" + "\n";
+  std::string saveData = newluid + "\n" + uuidStr + "\n" + buidStr + "\n" + timeDate + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
 
   std::ofstream outFile(saveLocation_lend, std::ios::app);
   if (!outFile)
@@ -59,6 +62,100 @@ void BookManager::lendwrite(int uuid, int buid, std::string lb)
   }
   outFile << saveData << std::endl;
   outFile.close();
+}
+
+void BookManager::lenddelete(int luid)
+{
+  std::ifstream inFile(saveLocation_lend);
+  std::ofstream outFile(".\\dataBase\\lendtemp.txt");
+  if (!inFile || !outFile)
+  {
+    std::cerr << "cannot open lend.txt file" << std::endl;
+    return;
+  }
+
+  std::string line;
+  int lineNumber = 0;
+  int deleteNum = 0;
+  while (std::getline(inFile, line))
+  {
+    lineNumber += 1;
+    if (deleteNum > 0)
+    {
+      deleteNum -= 1;
+      continue;
+    }
+    else if (lineNumber % interval_lend == 1)
+    {
+      if (luid == std::stoi(line))
+      {
+        deleteNum = interval_lend - 1;
+      }
+      else
+      {
+        outFile << line << std::endl;
+      }
+    }
+    else
+    {
+      outFile << line << std::endl;
+    }
+  }
+  inFile.close();
+  outFile.close();
+
+  std::remove(saveLocation_lend.c_str());
+  std::rename(".\\dataBase\\lendtemp.txt", saveLocation_lend.c_str());
+}
+
+std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
+{
+  std::string uidStr = std::to_string(lenduser.getId());
+  std::string bookStr = "";
+  std::vector<std::vector<std::string>> lendlist;
+  int index = 0;
+  std::ifstream inFile(saveLocation_lend);
+  if (!inFile)
+  {
+    std::cerr << "cannot open lend.txt file!!" << std::endl;
+    return lendlist;
+  }
+  std::string line;
+  int lineNum = 0;
+  std::string nowLuid;
+  int lendValNum = 0;
+  while (std::getline(inFile, line))
+  {
+    lineNum += 1;
+    if (lineNum % interval_lend == 1)
+    {
+      nowLuid = line;
+    }
+    if (lineNum % interval_lend == 2)
+    {
+      lendValNum = 2;
+      lendlist.resize(index + 1);
+      lendlist[index].push_back(std::to_string(index + 1));
+      lendlist[index].push_back(nowLuid);
+      lendlist[index].push_back(line);
+    }
+    else if (lendValNum != 0)
+    {
+      lendValNum -= 1;
+      lendlist[index].push_back(line);
+      if (lendValNum == 0)
+      {
+        index += 1;
+      }
+    }
+  };
+  inFile.close();
+  for (auto &item : lendlist)
+  {
+    load(std::stoi(item[3]));
+    item.insert(item.begin() + 2, nowBook.getBName());
+  }
+  return lendlist;
 }
 
 void BookManager::bookadd(std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount, bool isCanLend)
@@ -71,20 +168,18 @@ void BookManager::bookadd(std::string bookName, std::string bookSeries, std::str
 void BookManager::booklist(int listpage, std::vector<std::vector<std::string>> searchResult)
 {
   const int totalWidth = 78;
-  const int interval = 4;
+  const int interval = 2;
   std::string printline;
-  std::cout << std::left << std::setfill('-') << std::setw((totalWidth - 16) / 2) << "";
-  std::cout << "<Search Result>";
-  std::cout << std::right << std::setfill('-') << std::setw((totalWidth - 16) / 2) << "" << std::endl;
+  std::cout << std::left << std::setfill('-') << std::setw((totalWidth - 8) / 2) << "";
+  std::cout << "<Result>";
+  std::cout << std::right << std::setfill('-') << std::setw((totalWidth - 8) / 2) << "" << std::endl;
   std::cout << std::setfill(' ');
 
   for (int i = (listpage - 1) * bookNumForPage; i <= listpage * bookNumForPage - 1; i++)
   {
     printline = searchResult[i][0] + ". " + searchResult[i][2];
-    std::cout << "|" << std::left << std::setw(interval) << " ";
-    std::cout << std::setw(totalWidth - 7) << std::left << printline;
-    std::cout << "|" << std::endl;
-
+    std::cout << std::setw(interval) << std::left << "|" << std::setw(totalWidth - interval - 2) << std::left << printline
+              << "|" << std::endl;
     if (i + 1 >= searchResult.size())
     {
       break;
@@ -177,19 +272,34 @@ BookManager::booksearch(std::string findBook)
 
 void BookManager::booklend(User &lendUser, int buid)
 {
-  lendUser.lendBook();
+
+  if (lendUser.getLendBookNum() >= lendUser.getLendBookMaxNum())
+  {
+    std::cerr << RED << "can't lend more than " << lendUser.getLendBookMaxNum() << " books." << RESET << std::endl;
+    return;
+  }
+
   load(buid);
+
+  if (!nowBook.getIsCanLend())
+  {
+    std::cerr << RED << "This book is out of stock!!" << RESET << std::endl;
+    return;
+  }
+
+  lendUser.lendBook();
+
   nowBook.setBCount(nowBook.getBCount() - 1);
-  lendwrite(lendUser.getId(), nowBook.getBuid(), "lend");
+  lendwrite(lendUser.getId(), nowBook.getBuid());
   modifyFile(nowBook);
 }
 
-void BookManager::bookreturn(User &backUser, int buid)
+void BookManager::bookreturn(User &backUser, int buid, int luid)
 {
   backUser.returnBook();
   load(buid);
   nowBook.setBCount(nowBook.getBCount() + 1);
-  lendwrite(backUser.getId(), nowBook.getBuid(), "return");
+  lenddelete(luid);
   modifyFile(nowBook);
 }
 

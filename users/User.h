@@ -16,6 +16,7 @@ public:
     bool getIsEru() const;
     bool getIsManager() const;
     int getLendBookNum() const;
+    int getLendBookMaxNum() const;
 
     // 아래의 set 함수들은 valid 과정을 겪음
     // 예를 들어 setNickName을 하면 영어, 숫자로만 되어있는지, 5자 넘는지, 기존에 있던 아이디인지 등을 체크

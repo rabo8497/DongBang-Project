@@ -40,11 +40,12 @@ std::string Book::getBDate() const
   return bookDate;
 }
 
-bool Book::getIsCanLend() const
+bool Book::getIsCanLend()
 {
   if (bookCount == 0)
   {
-    return false;
+    isCanLend = false;
+    return isCanLend;
   }
   else
   {

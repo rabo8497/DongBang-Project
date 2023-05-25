@@ -4,6 +4,8 @@
 #include <string>
 #include <iomanip>
 #include <string>
+#include "books/Book.h"
+#include "books/BookManager.h"
 #include "items/ItemManager.h"
 #include "items/Account.h"
 #include "items/Calendar.h"
@@ -51,12 +53,23 @@ void signUpPage(UserManager &um_reference)
     cout << endl
          << "what is your student number? : ";
     cin >> studentnumber;
+    for (char ch : studentnumber)
+    {
+        if (!std::isdigit(ch))
+        {
+            cerr << RED << endl
+                 << "student number must be integer" << RESET << endl
+                 << endl;
+            return;
+        }
+    }
     cout << "what is your user nickname? : ";
     cin >> nickname;
     cout << "what is your user password? : ";
     cin >> password;
     cout << endl;
-    um_reference.signUp(studentnumber, nickname, password, false, false);
+    int studentnumberInteger = stoi(studentnumber);
+    um_reference.signUp(studentnumberInteger, nickname, password, false, false);
 }
 void logInPage(UserManager &um_reference)
 {
@@ -114,7 +127,8 @@ int bookRelatedPage(UserManager &um_reference)
 int bookInfoPage()
 {
     int answer;
-    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    const int totalWidth = 78;
+    bm_reference.booklist(listpage, search);
     cout << setfill(' ');
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) search by keyword"
          << "|" << endl;
@@ -133,10 +147,47 @@ int bookInfoPage()
     cout << endl;
     return answer;
 }
+int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
+{
+    int booknumber;
+    vector<vector<string>> lendlist;
+    if (um_reference.getLoginedUser().getLendBookNum() == 0)
+    {
+        cout << "You lended no book" << endl;
+        return -1;
+    }
+    lendlist = bm_reference.lendlist(um_reference.getLoginedUser());
+    bm_reference.booklist(1, lendlist);
+    cout << "enter the book number( back : 0 ) : ";
+    cin >> booknumber;
+    return booknumber;
+}
+
+void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, int booknumber, int &page)
+{
+    vector<vector<string>> lendlist;
+    if (um_reference.getLoginedUser().getLendBookNum() == 0)
+    {
+        page = 1;
+        return;
+    }
+    lendlist = bm_reference.lendlist(um_reference.getLoginedUser());
+    if (booknumber > lendlist.size())
+    {
+        cout << RED << "wrong value. choose other number." << RESET << endl;
+        return;
+    }
+    bm_reference.bookreturn(um_reference.getLoginedUser(), stoi(lendlist[booknumber - 1][4]), stoi(lendlist[booknumber - 1][1]));
+    um_reference.modifyFile();
+}
 
 int main(int argc, char *argv[])
 {
     UserManager UM;
+    BookManager BM;
+    vector<vector<string>> search = BM.booksearch();
+    int listpage = 1;
+    int booknumber;
     int choice;
     int nowPage = 0;
     bool isProgramEnd = false;
@@ -206,6 +257,21 @@ int main(int argc, char *argv[])
                 break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
+            }
+        }
+        else if (nowPage = 12)
+        {
+            choice = bookLendPage(UM, BM);
+            switch (choice)
+            {
+            case 0:
+                nowPage = 1;
+                search = BM.booksearch();
+                break;
+            case -1:
+                nowPage = 1;
+            default:
+                bookLendPageFunction(UM, BM, choice, nowPage);
             }
         }
     }

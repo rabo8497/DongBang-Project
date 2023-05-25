@@ -17,7 +17,7 @@ public:
   std::string getBAuthor() const;
   std::string getBPub() const;
   std::string getBDate() const;
-  bool getIsCanLend() const;
+  bool getIsCanLend();
 
   void setBCount(int newBCount);
   void setIsCanLend(bool newIsCanLend);
