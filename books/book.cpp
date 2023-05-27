@@ -1,6 +1,15 @@
 #include <iostream>
 #include "Book.h"
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
+
 Book::Book() {}
 
 Book::Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount, bool isCanLend) : buid(buid), bookName(bookName), bookSeries(bookSeries), bookAuthor(bookAuthor), bookPub(bookPub), bookDate(bookDate), bookCount(bookCount), isCanLend(isCanLend) {}
@@ -57,17 +66,15 @@ void Book::setBCount(int newBCount)
 {
   if (newBCount < 0)
   {
-    std::cout << "Book count can't be negative number!!" << std::endl;
+    std::cout << RED << "Book count can't be negative number!!" << RESET << std::endl;
     return;
   }
   bookCount = newBCount;
-  std::cout << "Book count newly set : " << bookCount << std::endl;
 }
 
 void Book::setIsCanLend(bool newIsCanLend)
 {
   isCanLend = newIsCanLend;
-  std::cout << "isCanLend newly set : " << isCanLend << std::endl;
 }
 
 void Book::BookInfo()
