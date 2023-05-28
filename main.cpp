@@ -53,7 +53,7 @@ void signUpPage(UserManager &um_reference)
     cout << endl
          << "what is your student number? : ";
     cin >> studentnumber;
-    for (char ch : studentnumber)
+    for (char ch : to_string(studentnumber))
     {
         if (!std::isdigit(ch))
         {
@@ -68,7 +68,7 @@ void signUpPage(UserManager &um_reference)
     cout << "what is your user password? : ";
     cin >> password;
     cout << endl;
-    int studentnumberInteger = stoi(studentnumber);
+    int studentnumberInteger = studentnumber;
     um_reference.signUp(studentnumberInteger, nickname, password, false, false);
 }
 void logInPage(UserManager &um_reference)
@@ -179,6 +179,10 @@ void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, 
     }
     bm_reference.bookreturn(um_reference.getLoginedUser(), stoi(lendlist[booknumber - 1][4]), stoi(lendlist[booknumber - 1][1]));
     um_reference.modifyFile();
+}
+
+void ItemPage()
+{
 }
 
 int main(int argc, char *argv[])

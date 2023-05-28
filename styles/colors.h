@@ -56,6 +56,14 @@ inline std::string gotoxy(int x, int y)
     return ss.str();
 }
 
+inline std::string gotorelativexy(int x, int y)
+{
+    ss.str("");
+    ss.clear();
+    ss << "\033[" << x << CURSOR_DOWN << y << CURSOR_RIGHT;
+    return ss.str();
+}
+
 inline std::string moveto(int distance, CursorMoveDir dir)
 {
     ss.str("");
