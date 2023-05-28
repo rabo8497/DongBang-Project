@@ -87,6 +87,42 @@ int UserManager::findIdFromItem(std::string findNickName)
     return findId;
 }
 
+std::string UserManager::findNickFromId(int findId) 
+{
+    bool isFind = false;
+    std::ifstream inFile(saveLocation);
+    if (!inFile)
+    {
+        std::cerr << RED << "cannot open user.txt file" << RESET << std::endl;
+        return "";
+    }
+    std::string line;
+    int lineNum = 0;
+    int count = 2;
+    while (std::getline(inFile, line))
+    {
+        lineNum += 1;
+        if (count == 0) {
+            return line;
+        }
+        else if (isFind) {
+            count -= 1;
+        }
+        if (lineNum % interval == 1)
+        {
+            if (std::stoi(line) == findId)
+            {
+                isFind = true;
+            }
+            else
+            {
+                isFind = false;
+            }
+        }
+    }
+    return "";
+}
+
 void UserManager::load(int findId)
 {
     std::cout << YELLOW << "----------load start----------" << std::endl;
