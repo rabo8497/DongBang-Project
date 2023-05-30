@@ -94,6 +94,8 @@ int secondPage()
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) Reservation of Items"
          << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) logout"
+         << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) exit"
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
@@ -224,6 +226,9 @@ int main(int argc, char *argv[])
                 break;
             case 3:
                 nowPage = 3;
+                break;
+            case 4 :
+                UM.signOut();
                 break;
             case 0:
                 isProgramEnd = true;
