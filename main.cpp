@@ -4,6 +4,7 @@
 #include <string>
 #include <iomanip>
 #include <string>
+#include <conio.h>
 #include "books/Book.h"
 #include "books/BookManager.h"
 #include "items/ItemManager.h"
@@ -26,6 +27,7 @@ using namespace std;
 const string version = "0.0.1";
 const int totalWidth = 40;
 const int choiceInterval = 2;
+const bool ISSCREEN = false;
 
 int firstPage()
 {
@@ -45,11 +47,11 @@ int firstPage()
     cin >> answer;
     return answer;
 }
-void signUpPage(UserManager &um_reference)
+void signUpPage(UserManager &um_reference, bool isScreen = ISSCREEN)
 {
     string studentnumber;
     string nickname;
-    string password;
+    //string password;
     cout << endl
          << "what is your student number? : ";
     cin >> studentnumber;
@@ -66,20 +68,46 @@ void signUpPage(UserManager &um_reference)
     cout << "what is your user nickname? : ";
     cin >> nickname;
     cout << "what is your user password? : ";
-    cin >> password;
+
+    string password;
+    if (isScreen) {
+        char ch;
+        while (true) {
+            ch = getch();
+            if (ch == '\r') {
+                break;
+            }
+            password += ch;
+            cout << "*";
+        }
+    } else {
+        cin >> password;
+    }
     cout << endl;
     int studentnumberInteger = stoi(studentnumber);
     um_reference.signUp(studentnumberInteger, nickname, password, false, false);
 }
-void logInPage(UserManager &um_reference)
+void logInPage(UserManager &um_reference, bool isScreen = ISSCREEN)
 {
     string nickname;
-    string password;
     cout << endl
          << "enter your nickname : ";
     cin >> nickname;
     cout << "enter your password : ";
-    cin >> password;
+    string password;
+    if (isScreen) {
+        char ch;
+        while (true) {
+            ch = getch();
+            if (ch == '\r') {
+                break;
+            }
+            password += ch;
+            cout << "*";
+        }
+    } else {
+        cin >> password;
+    }
     cout << endl;
     um_reference.signIn(nickname, password);
 }
@@ -164,7 +192,6 @@ int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
     cin >> booknumber;
     return booknumber;
 }
-
 void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, int booknumber, int &page)
 {
     vector<vector<string>> lendlist;
