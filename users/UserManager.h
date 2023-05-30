@@ -14,6 +14,7 @@ public:
     User &getLoginedUser();   // 로그인 되어있을 경우 그 User를 반환하는 함수, 다른 곳에서 필요하다면 가져다 쓰면 되 (ex. 댓글 쓴사람이 누군지)
 
     int findIdFromItem(std::string);                        // nickname이 주어졌을 때, 해당 uuid를 반환하는 함수
+    std::string findNickFromId(int);
     void signUp(int, std::string, std::string, bool, bool); // 회원가입, txt에 정보 추가
     void signIn(std::string, std::string);                  // 로그인
     void signOut();                                         // 로그아웃

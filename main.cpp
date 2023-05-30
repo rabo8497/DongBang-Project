@@ -36,7 +36,7 @@ int firstPage()
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) signup"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) exit"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) exit"
          << ""
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
@@ -47,7 +47,7 @@ int firstPage()
 }
 void signUpPage(UserManager &um_reference)
 {
-    int studentnumber;
+    string studentnumber;
     string nickname;
     string password;
     cout << endl
@@ -94,6 +94,8 @@ int secondPage()
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) Reservation of Items"
          << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) logout"
+         << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) exit"
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
@@ -124,23 +126,23 @@ int bookRelatedPage(UserManager &um_reference)
     cout << endl;
     return answer;
 }
-int bookInfoPage()
+int bookInfoPage(BookManager &bm_reference, vector<vector<string>> search, int listpage)
 {
     int answer;
     const int totalWidth = 78;
     bm_reference.booklist(listpage, search);
     cout << setfill(' ');
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) search by keyword"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "1) search by keyword"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) book borrow"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "2) book borrow"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) next page"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "3) next page"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) previous page"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "4) previous page"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) back"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "0) back"
          << "|" << endl;
-    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << left << setfill('-') << setw(totalWidth - 1) << "" << endl;
     cout << setfill(' ');
     cout << "You : ";
     cin >> answer;
@@ -229,6 +231,9 @@ int main(int argc, char *argv[])
             case 3:
                 nowPage = 3;
                 break;
+            case 4 :
+                UM.signOut();
+                break;
             case 0:
                 isProgramEnd = true;
                 break;
@@ -247,17 +252,52 @@ int main(int argc, char *argv[])
             case 1:
                 nowPage = 11;
                 break;
+            case 2:
+                nowPage = 12;
+                break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
         }
         else if (nowPage == 11)
         {
-            choice = bookInfoPage();
+            string keyword = "";
+            choice = bookInfoPage(BM, search, listpage);
+
             switch (choice)
             {
             case 0:
                 nowPage = 1;
+                listpage = 1;
+                search = BM.booksearch();
+                break;
+            case 1:
+                cout << "enter the keyword :";
+                cin >> keyword;
+                search = BM.booksearch(keyword);
+                listpage = 1;
+                break;
+            case 2:
+                cout << "enter the book number : ";
+                cin >> booknumber;
+                BM.booklend(UM.getLoginedUser(), stoi(search[booknumber - 1][1]));
+                UM.modifyFile();
+                break;
+            case 3:
+                if (listpage >= search.size() / 5 + 1)
+                {
+                    cout << RED << "you are watching last page." << RESET << endl;
+                    break;
+                }
+                listpage++;
+                break;
+            case 4:
+                if (listpage == 1)
+                {
+                    cout << RED << "you are watching 1st page." << RESET << endl;
+                    break;
+                }
+                listpage--;
                 break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;

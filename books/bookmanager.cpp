@@ -7,6 +7,12 @@
 
 #define RESET "\033[0m"
 #define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
 
 #include "BookManager.h"
 #include "Book.h"
@@ -26,7 +32,7 @@ int BookManager::getLatestId_lend()
 
   if (!inFile)
   {
-    std::cerr << "cannot open lend.txt file" << std::endl;
+    std::cerr << RED << "cannot open lend.txt file" << RESET << std::endl;
     return -2;
   }
 
@@ -57,7 +63,7 @@ void BookManager::lendwrite(int uuid, int buid)
   std::ofstream outFile(saveLocation_lend, std::ios::app);
   if (!outFile)
   {
-    std::cerr << "cannot open file!!" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return;
   }
   outFile << saveData << std::endl;
@@ -70,7 +76,7 @@ void BookManager::lenddelete(int luid)
   std::ofstream outFile(".\\dataBase\\lendtemp.txt");
   if (!inFile || !outFile)
   {
-    std::cerr << "cannot open lend.txt file" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return;
   }
 
@@ -113,11 +119,12 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
   std::string uidStr = std::to_string(lenduser.getId());
   std::string bookStr = "";
   std::vector<std::vector<std::string>> lendlist;
+  std::vector<std::string> temp;
   int index = 0;
   std::ifstream inFile(saveLocation_lend);
   if (!inFile)
   {
-    std::cerr << "cannot open lend.txt file!!" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return lendlist;
   }
   std::string line;
@@ -134,17 +141,20 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
     if (lineNum % interval_lend == 2)
     {
       lendValNum = 2;
-      lendlist.resize(index + 1);
+      temp = {std::to_string(index + 1), nowLuid, line};
+      /*lendlist.resize(index + 1);
       lendlist[index].push_back(std::to_string(index + 1));
       lendlist[index].push_back(nowLuid);
-      lendlist[index].push_back(line);
+      lendlist[index].push_back(line);*/
     }
     else if (lendValNum != 0)
     {
       lendValNum -= 1;
-      lendlist[index].push_back(line);
+      // lendlist[index].push_back(line);
+      temp.push_back(line);
       if (lendValNum == 0)
       {
+        lendlist.push_back(temp);
         index += 1;
       }
     }
@@ -203,12 +213,13 @@ std::vector<std::vector<std::string>> BookManager::booksearch()
 {
   std::string lineStr;
   std::vector<std::vector<std::string>> searchResult;
+  std::vector<std::string> temp;
   int nowId = -1;
   int index = 0;
   std::ifstream inFile(saveLocation);
   if (!inFile)
   {
-    std::cerr << "cannot open book.txt file!!" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return searchResult;
   }
   std::string line;
@@ -219,11 +230,8 @@ std::vector<std::vector<std::string>> BookManager::booksearch()
     if (lineNum % interval == 2)
     {
       nowId += 1;
-
-      searchResult.resize(index + 1);
-      searchResult[index].push_back(std::to_string(index + 1));
-      searchResult[index].push_back(std::to_string(nowId));
-      searchResult[index].push_back(line);
+      temp = {std::to_string(index + 1), std::to_string(nowId), line};
+      searchResult.push_back(temp);
       index += 1;
     }
   };
@@ -238,12 +246,13 @@ BookManager::booksearch(std::string findBook)
   std::string bookStr = regex_replace(findBook, std::regex("[^a-zA-Z-_.]+"), "");
   std::transform(bookStr.begin(), bookStr.end(), bookStr.begin(), ::tolower);
   std::vector<std::vector<std::string>> searchResult;
+  std::vector<std::string> temp;
   int nowId = -1;
   int index = 0;
   std::ifstream inFile(saveLocation);
   if (!inFile)
   {
-    std::cerr << "cannot open book.txt file!!" << std::endl;
+    std::cerr << RED << "cannot open book.txt file!!" << RESET << std::endl;
     return searchResult;
   }
   std::string line;
@@ -258,10 +267,8 @@ BookManager::booksearch(std::string findBook)
       std::transform(lineStr.begin(), lineStr.end(), lineStr.begin(), ::tolower);
       if (lineStr.find(bookStr) != std::string::npos)
       {
-        searchResult.resize(index + 1);
-        searchResult[index].push_back(std::to_string(index + 1));
-        searchResult[index].push_back(std::to_string(nowId));
-        searchResult[index].push_back(line);
+        temp = {std::to_string(index + 1), std::to_string(nowId), line};
+        searchResult.push_back(temp);
         index += 1;
       }
     }
@@ -310,7 +317,7 @@ int BookManager::findIdFromItem(std::string findBook)
   std::ifstream inFile(saveLocation);
   if (!inFile)
   {
-    std::cerr << "cannot open book.txt file!!" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return -1;
   }
   std::string line;
@@ -338,7 +345,7 @@ void BookManager::load(int bookId)
   std::ifstream inFile(saveLocation);
   if (!inFile)
   {
-    std::cerr << "cannot open book.txt file!!" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return;
   }
   std::string line;
@@ -400,7 +407,7 @@ void BookManager::write(Book newBook)
   std::ofstream outFile(saveLocation, std::ios::app);
   if (!outFile)
   {
-    std::cerr << "cannot open file!!" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return;
   }
 
@@ -420,7 +427,7 @@ void BookManager::modifyFile(Book editBook)
   int findModifiyBookCount = -1;
   if (!inFile || !outFile)
   {
-    std::cerr << "cannot open book.txt file" << std::endl;
+    std::cerr << RED << "cannot open file!!" << RESET << std::endl;
     return;
   }
 
@@ -432,6 +439,17 @@ void BookManager::modifyFile(Book editBook)
     if (lineNumber == findModifiyBookCount)
     {
       outFile << editBook.getBCount() << std::endl;
+    }
+    else if (lineNumber == findModifiyBookCount + 1)
+    {
+      if (editBook.getIsCanLend())
+      {
+        outFile << "True" << std::endl;
+      }
+      else
+      {
+        outFile << "False" << std::endl;
+      }
     }
     else if (lineNumber % interval == 1 && line == findIdStr)
     {
