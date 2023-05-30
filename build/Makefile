@@ -17,4 +17,5 @@ userManager.o: ../FileHandler.h ../users/User.h ../users/userManager.h ../users/
 	g++	-c	-o	userManager.o	../users/userManager.cpp
 
 clean:
-	rm -rf *.o *.exe
+	rm -rf *.o 
+	rm -rf ../*.exe
