@@ -14,7 +14,7 @@ private:
 public:
     Device(std::string = "unknown device", int = -1, bool = false); // 순서대로 이름, id.
     ~Device();
-    void printInfo() override; // 자신의 정보를 출력하는 함수.
+    void printInfo(User &) override; // 자신의 정보를 출력하는 함수.
     void prompt(const User &);
     Calendar &getCalendar();
 };

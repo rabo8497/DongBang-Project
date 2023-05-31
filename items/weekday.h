@@ -3,49 +3,53 @@
 
 #include <string>
 #include <iostream>
+using std::cin;
 using std::istream;
 using std::ostream;
 using std::string;
 
 class Weekday
 {
-    friend istream &operator>>(istream &is, Weekday wd);
     friend ostream &operator<<(ostream &os, Weekday wd);
 
 private:
     string dayString;
     int day;
     int time;
-    const char *weekdays[7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+    const char weekdays[7][4] = {"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
 
 public:
     Weekday(string = "nil", int = -1);
     ~Weekday() = default;
     int getDay() { return day; }
     int getTime() { return time; }
+    void input();
 };
 
-istream &operator>>(istream &is, Weekday wd)
+void Weekday::input()
 {
-    is >> wd.dayString >> wd.time;
+    cin >> dayString >> time;
+
     for (int i = 0; i < 7; i++)
     {
-        bool isSame = true;
-        for (int j = 0; j < wd.dayString.length(); j++)
+        bool isValid = true;
+        for (int j = 0; j < dayString.length(); j++)
         {
-            if (wd.dayString[j] != wd.weekdays[i][j])
+            char c = dayString[j];
+            if (c >= 'A' && c <= 'Z')
+                c -= 'A' - 'a';
+            if (c != weekdays[i][j])
             {
-                isSame = false;
+                isValid = false;
                 break;
             }
         }
-        if (isSame)
+        if (isValid)
         {
-            wd.day = i;
+            day = i;
             break;
         }
     }
-    return is;
 }
 
 ostream &operator<<(ostream &os, Weekday wd)
@@ -53,6 +57,9 @@ ostream &operator<<(ostream &os, Weekday wd)
     return os << wd.dayString << ", " << wd.time;
 }
 
-Weekday::Weekday(std::string day, int time) : dayString(day), time(time) {}
+Weekday::Weekday(std::string day, int time) : dayString(day), time(time)
+{
+    this->day = -1;
+}
 
 #endif

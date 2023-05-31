@@ -22,22 +22,20 @@
 #define REVERSE "\033[7m"
 #define STRIKE "\033[28m"
 
-std::stringstream ss;
-
-inline const std::string setcolor(short r, short g, short b)
+inline const std::string setcolor(std::stringstream &parser, short r, short g, short b)
 {
-    ss.str("");
-    ss.clear();
-    ss << "\033[38;2;" << r << ";" << g << ";" << b << "m";
-    return ss.str();
+    parser.str("");
+    parser.clear();
+    parser << "\033[38;2;" << r << ";" << g << ";" << b << "m";
+    return parser.str();
 }
 
-inline const std::string setbackgroundcolor(short r, short g, short b)
+inline const std::string setbackgroundcolor(std::stringstream &parser, short r, short g, short b)
 {
-    ss.str("");
-    ss.clear();
-    ss << "\033[48;2;" << r << ";" << g << ";" << b << "m";
-    return ss.str();
+    parser.str("");
+    parser.clear();
+    parser << "\033[48;2;" << r << ";" << g << ";" << b << "m";
+    return parser.str();
 }
 
 enum CursorMoveDir
@@ -48,46 +46,28 @@ enum CursorMoveDir
     CURSOR_LEFT = 'D',
 };
 
-inline std::string gotoxy(int x, int y)
+inline std::string gotoxy(std::stringstream &parser, int x, int y)
 {
-    ss.str("");
-    ss.clear();
-    ss << "\033[" << x << ";" << y << "H";
-    return ss.str();
+    parser.str("");
+    parser.clear();
+    parser << "\033[" << x << ";" << y << "H";
+    return parser.str();
 }
 
-inline std::string gotorelativexy(int x, int y)
+inline std::string gotorelativexy(std::stringstream &parser, int x, int y)
 {
-    ss.str("");
-    ss.clear();
-    ss << "\033[" << x << CURSOR_DOWN << y << CURSOR_RIGHT;
-    return ss.str();
+    parser.str("");
+    parser.clear();
+    parser << "\033[" << x << CURSOR_DOWN << y << CURSOR_RIGHT;
+    return parser.str();
 }
 
-inline std::string moveto(int distance, CursorMoveDir dir)
+inline std::string moveto(std::stringstream &parser, int distance, CursorMoveDir dir)
 {
-    ss.str("");
-    ss.clear();
-    ss << "\033[" << distance << (char)dir;
-    return ss.str();
-}
-
-inline std::string clrscr()
-{
-    return "\033[3J";
-}
-
-inline void pause()
-{
-#if __linux__
-    std::system("read -p \"press any key to continue...\"");
-#elif _WIN32
-    std::system("pause");
-#else
-    std::cout << "Press any key to continue... ";
-    int tmp;
-    std::cin >> tmp;
-#endif
+    parser.str("");
+    parser.clear();
+    parser << "\033[" << distance << (char)dir;
+    return parser.str();
 }
 
 #endif
