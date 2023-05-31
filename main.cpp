@@ -51,7 +51,7 @@ void signUpPage(UserManager &um_reference, bool isScreen = ISSCREEN)
 {
     string studentnumber;
     string nickname;
-    //string password;
+    // string password;
     cout << endl
          << "what is your student number? : ";
     cin >> studentnumber;
@@ -70,17 +70,22 @@ void signUpPage(UserManager &um_reference, bool isScreen = ISSCREEN)
     cout << "what is your user password? : ";
 
     string password;
-    if (isScreen) {
+    if (isScreen)
+    {
         char ch;
-        while (true) {
+        while (true)
+        {
             ch = getch();
-            if (ch == '\r') {
+            if (ch == '\r')
+            {
                 break;
             }
             password += ch;
             cout << "*";
         }
-    } else {
+    }
+    else
+    {
         cin >> password;
     }
     cout << endl;
@@ -95,17 +100,22 @@ void logInPage(UserManager &um_reference, bool isScreen = ISSCREEN)
     cin >> nickname;
     cout << "enter your password : ";
     string password;
-    if (isScreen) {
+    if (isScreen)
+    {
         char ch;
-        while (true) {
+        while (true)
+        {
             ch = getch();
-            if (ch == '\r') {
+            if (ch == '\r')
+            {
                 break;
             }
             password += ch;
             cout << "*";
         }
-    } else {
+    }
+    else
+    {
         cin >> password;
     }
     cout << endl;
@@ -254,7 +264,7 @@ int main(int argc, char *argv[])
             case 3:
                 nowPage = 3;
                 break;
-            case 4 :
+            case 4:
                 UM.signOut();
                 break;
             case 0:
@@ -298,6 +308,12 @@ int main(int argc, char *argv[])
                 cout << "enter the keyword :";
                 cin >> keyword;
                 search = BM.booksearch(keyword);
+                if (search.size() == 0)
+                {
+                    cout << RED << "There is no search result. Try other keyword." << RESET << endl;
+                    search = BM.booksearch();
+                    break;
+                }
                 listpage = 1;
                 break;
             case 2:
@@ -326,7 +342,7 @@ int main(int argc, char *argv[])
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
         }
-        else if (nowPage = 12)
+        else if (nowPage == 12)
         {
             choice = bookLendPage(UM, BM);
             switch (choice)

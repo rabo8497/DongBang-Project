@@ -4,7 +4,7 @@
 #include "Item.h"
 #include "Calendar.h"
 
-const char *weekday[] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+//const char *weekday[] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
 class Device : public Item
 {
