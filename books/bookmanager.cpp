@@ -130,6 +130,7 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
   std::string line;
   int lineNum = 0;
   std::string nowLuid;
+  std::string nowUuid;
   int lendValNum = 0;
   while (std::getline(inFile, line))
   {
@@ -141,7 +142,13 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
     if (lineNum % interval_lend == 2)
     {
       lendValNum = 2;
+      nowUuid = line;
+      if (nowUuid != uidStr)
+      {
+        break;
+      }
       temp = {std::to_string(index + 1), nowLuid, line};
+
       /*lendlist.resize(index + 1);
       lendlist[index].push_back(std::to_string(index + 1));
       lendlist[index].push_back(nowLuid);
@@ -151,6 +158,10 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
     {
       lendValNum -= 1;
       // lendlist[index].push_back(line);
+      if (nowUuid != uidStr)
+      {
+        break;
+      }
       temp.push_back(line);
       if (lendValNum == 0)
       {
@@ -290,7 +301,7 @@ void BookManager::booklend(User &lendUser, int buid)
 
   if (!nowBook.getIsCanLend())
   {
-    std::cerr << RED << "This book is out of stock!!" << RESET << std::endl;
+    std::cerr << RED << "This book is now unavailable!!" << RESET << std::endl;
     return;
   }
 
@@ -306,6 +317,10 @@ void BookManager::bookreturn(User &backUser, int buid, int luid)
   backUser.returnBook();
   load(buid);
   nowBook.setBCount(nowBook.getBCount() + 1);
+  if (nowBook.getBCount() > 0)
+  {
+    nowBook.setIsCanLend(true);
+  }
   lenddelete(luid);
   modifyFile(nowBook);
 }
