@@ -12,15 +12,7 @@
 #include "items/Calendar.h"
 #include "users/User.h"
 #include "users/UserManager.h"
-
-#define RESET "\033[0m"
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33m"
-#define BLUE "\033[34m"
-#define MAGENTA "\033[35m"
-#define CYAN "\033[36m"
-#define WHITE "\033[37m"
+#include "styles/colors.h"
 
 using namespace std;
 
@@ -220,10 +212,34 @@ void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, 
     um_reference.modifyFile();
 }
 
+int accountOnOffPage(UserManager &um_reference, ItemManager &im_reference)
+{
+    int answer;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    im_reference.showList(um_reference.getLoginedUser(), ACCOUNT, true);
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    cout << "You : ";
+    cin >> answer;
+    return answer;
+}
+int devicePage(UserManager &um_refernce, ItemManager &im_reference)
+{
+    cout << setw(totalWidth) << setfill('-') << "" << setfill(' ') << endl;
+    im_reference.showList(um_refernce.getLoginedUser(), DEVICE, true);
+    cout << setw(totalWidth) << setfill('-') << "" << setfill(' ') << endl;
+    cout << " select device (back : 0) > ";
+    int input;
+    cin >> input;
+    return input;
+}
+
 int main(int argc, char *argv[])
 {
     UserManager UM;
     BookManager BM;
+    ItemManager IM;
     vector<vector<string>> search = BM.booksearch();
     int listpage = 1;
     int booknumber;
@@ -308,12 +324,6 @@ int main(int argc, char *argv[])
                 cout << "enter the keyword :";
                 cin >> keyword;
                 search = BM.booksearch(keyword);
-                if (search.size() == 0)
-                {
-                    cout << RED << "There is no search result. Try other keyword." << RESET << endl;
-                    search = BM.booksearch();
-                    break;
-                }
                 listpage = 1;
                 break;
             case 2:
@@ -355,6 +365,48 @@ int main(int argc, char *argv[])
                 nowPage = 1;
             default:
                 bookLendPageFunction(UM, BM, choice, nowPage);
+            }
+        }
+        else if (nowPage == 2)
+        {
+            choice = accountOnOffPage(UM, IM);
+            if (choice == 0)
+            {
+                nowPage = 0;
+                continue;
+            }
+            else
+            {
+                Item *it = IM.getItem(choice);
+                if (it == 0 || it->getType() != ACCOUNT)
+                    continue;
+                else
+                {
+                    Account *ac = dynamic_cast<Account *>(it);
+                    if (ac->active() && ac->getcontrollerId() != UM.getLoginedUser().getId())
+                    {
+                        cerr << " ERROR : permission denied. " << endl;
+                        continue;
+                    }
+                    ac->toggle(UM.getLoginedUser().getId());
+                    IM.write();
+                }
+            }
+        }
+        else if (nowPage == 3)
+        {
+            int choice = devicePage(UM, IM);
+            if (choice == 0)
+                nowPage = 0;
+            else
+            {
+                Device *de = dynamic_cast<Device *>(IM.getItem(choice));
+                if (de == 0 || choice < 200)
+                {
+                    cerr << " I said," << RED << " NO ITEM FOUND! " << RESET << endl;
+                    continue;
+                }
+                de->prompt(UM.getLoginedUser());
             }
         }
     }

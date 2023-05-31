@@ -15,32 +15,32 @@ ItemManager::~ItemManager()
         */
 }
 
-inline void printSingleItem(int index, Item *i) // 각 항목의 출력 함수
+inline void printSingleItem(User &user, int index, Item *i) // 각 항목의 출력 함수
 {
     std::cout << "| " << index << ". "; // vector의 index와 무관
-    i->printInfo();
+    i->printInfo(user);
     std::cout << std::endl;
 }
 
-void ItemManager::showList(bool showActive)
+void ItemManager::showList(User &user, bool showActive)
 {
     int idx = 1;
     for (auto i : Items)
     {
         if (!showActive && i->active())
             continue;
-        printSingleItem(idx++, i);
+        printSingleItem(user, idx++, i);
     }
 }
 
-void ItemManager::showList(Type typeFilter, bool showActive)
+void ItemManager::showList(User &user, Type typeFilter, bool showActive)
 {
     // int idx = 1;
     for (auto i : Items)
     {
         if ((!showActive && i->active()) || i->getType() != typeFilter) // typefilter가 요구하는 type이 아니면 skip
             continue;
-        printSingleItem(i->getId(), i);
+        printSingleItem(user, i->getId(), i);
     }
 }
 

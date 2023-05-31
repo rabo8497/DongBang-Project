@@ -1,32 +1,33 @@
 #include "Account.h"
+#include "../styles/colors.h"
+#include <sstream>
 
-Account::Account(std::string accountType, std::string name, int id, bool isActive, int controllerId, time_t startTime) : Item(name, id, isActive, ACCOUNT), accountType(accountType), controllerId(controllerId), startTime(startTime)
+Account::Account(std::string accountType, std::string name, int id, bool isActive, int controllerId, time_t startTime) : Item(name, id, isActive, ACCOUNT, controllerId), accountType(accountType), startTime(startTime)
 {
     startTime = 0;
 }
 
 Account::~Account() {}
 
-void Account::printInfo()
+void Account::printInfo(User &user)
 {
+    std::stringstream ss;
     std::cout << accountType << " - " << getName();
     if (active())
     {
-        std::cout << " ( ON )";
+        std::cout << YELLOW << " ( " << setcolor(ss, 240, 134, 80) << "ON" << YELLOW << " ) " << RESET;
+        if (this->getcontrollerId() == user.getId())
+            std::cout << GREEN << " *" << RESET;
     }
     else
     {
-        std::cout << " ( OFF )";
+        std::cout << YELLOW << " ( " << setcolor(ss, 126, 132, 247) << "OFF" << YELLOW << " ) " << RESET;
     }
 }
 
 std::string Account::getAccountType() { return accountType; }
 
 std::time_t Account::getStartTime() { return startTime; }
-
-int Account::getcontrollerId() { return controllerId; }
-
-void Account::setcontrollerId(int uuid) { this->controllerId = uuid; }
 
 void Account::setState(State state)
 {
@@ -35,4 +36,17 @@ void Account::setState(State state)
         startTime = std::time(0);
     else
         startTime = 0;
+}
+
+void Account::toggle(int userId)
+{
+    if (!this->active())
+    {
+        setState(ACTIVE);
+    }
+    else
+    {
+        setState(INACTIVE);
+    }
+    setcontrollerId(userId);
 }

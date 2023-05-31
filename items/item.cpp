@@ -1,6 +1,6 @@
 #include "Item.h"
 
-Item::Item(std::string name, int id, bool isActive, Type type) : name(name), id(id), isActive(isActive), type(type)
+Item::Item(std::string name, int id, bool isActive, Type type, int controllerId) : name(name), id(id), isActive(isActive), type(type), controllerId(controllerId)
 {
     isActive = false;
 }
@@ -18,6 +18,10 @@ void Item::toggleState()
 {
     isActive = !isActive;
 }
+
+int Item::getcontrollerId() { return controllerId; }
+
+void Item::setcontrollerId(int uuid) { this->controllerId = uuid; }
 
 bool operator<(const Item &l, const Item &r)
 {
