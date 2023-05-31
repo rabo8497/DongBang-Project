@@ -36,3 +36,9 @@ void Account::setState(State state)
     else
         startTime = 0;
 }
+
+void Account::toggleState(int userId)
+{
+    controllerId = userId;
+    Item::toggleState();
+}

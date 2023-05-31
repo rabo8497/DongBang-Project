@@ -37,6 +37,7 @@ public:
     bool active();                                                      // 사용 가능한지를 출력하는 함수.
     void setState(State);                                               // 사용 상태를 변경할 수 있는 함수. INACTIVE/ACTIVE 중 하나를 입력하자.
     void toggleState();                                                 // 사용 상태를 반전하는 함수.
+    virtual void toggleState(int);                                      // Account용.
 };
 
 #endif

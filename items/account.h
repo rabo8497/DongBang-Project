@@ -21,6 +21,7 @@ public:
     int getcontrollerId();                                                                                           // 사용 중인 User의 uuid를 제공하는 함수.
     void setcontrollerId(int);
     void setState(State); // 사용 상태를 변경하는 함수.
+    void toggleState(int) override;
 };
 
 #endif
