@@ -35,7 +35,7 @@ int firstPage()
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
-    cout << "You : ";
+    cout << " > ";
     cin >> answer;
     return answer;
 }
@@ -130,7 +130,7 @@ int secondPage()
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
-    cout << "You : ";
+    cout << " > ";
     cin >> answer;
     cout << endl;
     return answer;
@@ -151,7 +151,7 @@ int bookRelatedPage(UserManager &um_reference)
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
-    cout << "You : ";
+    cout << " > ";
     cin >> answer;
     cout << endl;
     return answer;
@@ -174,7 +174,7 @@ int bookInfoPage(BookManager &bm_reference, vector<vector<string>> search, int l
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth - 1) << "" << endl;
     cout << setfill(' ');
-    cout << "You : ";
+    cout << " > ";
     cin >> answer;
     cout << endl;
     return answer;
@@ -220,7 +220,7 @@ int accountOnOffPage(UserManager &um_reference, ItemManager &im_reference)
     im_reference.showList(um_reference.getLoginedUser(), ACCOUNT, true);
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
-    cout << "You : ";
+    cout << " select account (back : 0) > ";
     cin >> answer;
     return answer;
 }
