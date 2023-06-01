@@ -1,6 +1,8 @@
 #include "Account.h"
 #include "../styles/colors.h"
+#include <iomanip>
 #include <sstream>
+using std::setw;
 
 Account::Account(std::string accountType, std::string name, int id, bool isActive, int controllerId, time_t startTime) : Item(name, id, isActive, ACCOUNT, controllerId), accountType(accountType), startTime(startTime)
 {
@@ -11,8 +13,10 @@ Account::~Account() {}
 
 void Account::printInfo(User &user)
 {
+    const int typeWidth = 8, nameWidth = 12;
+
     std::stringstream ss;
-    std::cout << accountType << " - " << getName();
+    std::cout << setw(typeWidth) << accountType << " - " << setw(nameWidth) << getName();
     if (active())
     {
         std::cout << YELLOW << " ( " << setcolor(ss, 240, 134, 80) << "ON" << YELLOW << " ) " << RESET;

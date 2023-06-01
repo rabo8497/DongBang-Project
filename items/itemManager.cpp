@@ -19,6 +19,8 @@ inline void printSingleItem(User &user, int index, Item *i) // 각 항목의 출
 {
     std::cout << "| " << index << ". "; // vector의 index와 무관
     i->printInfo(user);
+    if (i->getType() == DEVICE)
+        std::cout << "|";
     std::cout << std::endl;
 }
 

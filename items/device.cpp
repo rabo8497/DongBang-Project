@@ -4,6 +4,7 @@
 #include "weekday.h"
 #include "../styles/colors.h"
 using namespace std;
+using std::setw;
 
 Device::Device(std::string name, int id, bool isActive)
     : Item(name, id, isActive, DEVICE), calendar(Calendar(name))
@@ -18,8 +19,10 @@ Device::~Device()
 
 void Device::printInfo(User &user)
 {
+    const int nameWidth = 8;
+
     std::stringstream ss;
-    std::cout << getName();
+    std::cout << std::setw(nameWidth) << getName();
 
     // cheky reservo
     bool act = false;
@@ -33,11 +36,13 @@ void Device::printInfo(User &user)
 
     if (act)
     {
-        std::cout << YELLOW << " ( " << setcolor(ss, 240, 134, 80) << "RESERVED" << YELLOW << " ) " << RESET;
+        std::cout << YELLOW << " ( " << setcolor(ss, 240, 134, 80) << "RESERVED" << YELLOW << " ) " << RESET
+                  << setw(10) << "";
     }
     else
     {
-        std::cout << YELLOW << " ( " << setcolor(ss, 126, 132, 247) << "NOT RESERVED" << YELLOW << " ) " << RESET;
+        std::cout << YELLOW << " ( " << setcolor(ss, 126, 132, 247) << "NOT RESERVED" << YELLOW << " ) " << RESET
+                  << setw(6) << "";
     }
 }
 
