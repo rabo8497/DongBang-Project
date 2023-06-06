@@ -79,17 +79,15 @@ public:
         }
     }
 
-    void DeviceReserve(const User &loginUser, Device *device)
+    void DeviceReserve(const User &loginUser, std::string deviceName)
     {
         std::string username = loginUser.getNickName();
-        std::string deviceName = device->getName();
         write("User : " + username + " reserved the device : " + deviceName + ".\n");
     }
 
-    void DeviceCancelReserve(const User &loginUser, Device *device)
+    void DeviceCancelReserve(const User &loginUser, std::string deviceName)
     {
         std::string username = loginUser.getNickName();
-        std::string deviceName = device->getName();
         write("User : " + username + " cancel a reservation of the device : " + deviceName + ".\n");
     }
 };

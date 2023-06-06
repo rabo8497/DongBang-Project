@@ -99,7 +99,9 @@ void Device::prompt(LogManager &lm, const User &user)
             }
             if (isValid)
             {
-                calendar.markPeriodWithUUID(user, start.getDay(), start.getTime(), end.getDay(), end.getTime());
+                if (calendar.markPeriodWithUUID(user, start.getDay(), start.getTime(), end.getDay(), end.getTime())) {
+                    lm.DeviceReserve(user, getName());
+                }
             }
             else
             {
@@ -114,6 +116,7 @@ void Device::prompt(LogManager &lm, const User &user)
             cin >> c;
             if (c[0] == 'y' || c[0] == 'Y')
                 calendar.resetUUIDInCalendar(user);
+                lm.DeviceCancelReserve(user, getName());
         }
         else
             break;
