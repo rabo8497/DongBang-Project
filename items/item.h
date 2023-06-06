@@ -32,8 +32,6 @@ private:
 
 public:
     Item(std::string = "none", int = -1, bool = false, Type = UNKNOWN, int = -1); // 순서대로 이름, id, 유형.
-    bool getIsActive() const {return isActive;}
-    std::string getName() const {return name;}
     int getId();                                                                  // id를 반환하는 함수.
     Type getType();                                                               // 유형을 반환하는 함수.
     std::string getName();                                                        // 이름을 반환하는 함수.
