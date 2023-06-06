@@ -3,6 +3,8 @@
 #include <vector>
 #include <sstream>
 #include <regex>
+#include <cmath>
+#include <ctime>
 #include <iomanip>
 
 #define RESET "\033[0m"
@@ -181,6 +183,15 @@ std::vector<std::vector<std::string>> BookManager::lendlist(User &lenduser)
 
 void BookManager::bookadd(std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount, bool isCanLend)
 {
+  std::vector<std::vector<std::string>> temp = booksearch();
+  for (auto i : temp)
+  {
+    if (i[2] == bookName)
+    {
+      std::cerr << RED << "cannot add the duplicate book!!" << RESET << std::endl;
+      return;
+    }
+  }
   Book newBook(getLatestId() + 1, bookName, bookSeries, bookAuthor, bookPub, bookDate, bookCount, isCanLend);
   write(newBook);
   latestId = getLatestId();
@@ -314,6 +325,70 @@ void BookManager::booklend(User &lendUser, int buid)
 
 void BookManager::bookreturn(User &backUser, int buid, int luid)
 {
+  timer = time(NULL);
+  t = localtime(&timer);
+  timeDate = std::to_string(t->tm_year + 1900) + (t->tm_mon < 9 ? "0" + std::to_string(t->tm_mon + 1) : std::to_string(t->tm_mon + 1)) + (t->tm_mday < 10 ? "0" + std::to_string(t->tm_mday) : std::to_string(t->tm_mday));
+
+  std::ifstream inFile(saveLocation_lend);
+
+  if (!inFile)
+  {
+    std::cerr << RED << "cannot open lend.txt file" << RESET << std::endl;
+    return;
+  }
+
+  std::string line;
+  std::string lendDate;
+  int lineNum = 0;
+  int checklineNum;
+  while (std::getline(inFile, line))
+  {
+    lineNum += 1;
+    if (lineNum % interval_lend == 1)
+    {
+      if (line == std::to_string(luid))
+      {
+        checklineNum = lineNum + 3;
+      }
+    }
+    if (lineNum == checklineNum)
+    {
+      lendDate = line;
+      break;
+    }
+  }
+  inFile.close();
+
+  int year1 = std::stoi(timeDate.substr(0, 4));
+  int month1 = std::stoi(timeDate.substr(4, 2));
+  int day1 = std::stoi(timeDate.substr(6, 2));
+
+  int year2 = std::stoi(lendDate.substr(0, 4));
+  int month2 = std::stoi(lendDate.substr(4, 2));
+  int day2 = std::stoi(lendDate.substr(6, 2));
+
+  std::tm time1 = {0};
+  time1.tm_year = year1 - 1900;
+  time1.tm_mon = month1 - 1;
+  time1.tm_mday = day1;
+
+  std::tm time2 = {0};
+  time2.tm_year = year2 - 1900;
+  time2.tm_mon = month2 - 1;
+  time2.tm_mday = day2;
+
+  std::time_t timestamp1 = std::mktime(&time1);
+  std::time_t timestamp2 = std::mktime(&time2);
+
+  std::time_t diffSeconds = std::difftime(timestamp1, timestamp2);
+
+  int diffDays = std::round(diffSeconds / (24 * 60 * 60));
+
+  if (diffDays > maxLendDay)
+  {
+    std::cout << MAGENTA << "The return of the book is overdue." << RESET << std::endl;
+  }
+
   backUser.returnBook();
   load(buid);
   nowBook.setBCount(nowBook.getBCount() + 1);

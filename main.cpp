@@ -6,6 +6,7 @@
 #include <string>
 #include <conio.h>
 #include "logManager.h"
+#include "books/Comment.h"
 #include "books/Book.h"
 #include "books/BookManager.h"
 #include "items/ItemManager.h"
@@ -239,9 +240,11 @@ int devicePage(UserManager &um_refernce, ItemManager &im_reference)
 
 int main(int argc, char *argv[])
 {
+
     LogManager LM;
     UserManager UM;
     BookManager BM;
+
     ItemManager IM;
     vector<vector<string>> search = BM.booksearch();
     int listpage = 1;
@@ -349,6 +352,7 @@ int main(int argc, char *argv[])
                 BM.booklend(UM.getLoginedUser(), stoi(search[booknumber - 1][1]));
                 UM.modifyFile();
                 break;
+            
             case 3:
                 if (listpage >= search.size() / 5 + 1)
                 {

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Book.h"
-
+#include "Comment.h"
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -88,17 +88,9 @@ void Book::BookInfo()
   std::cout << "Count : " << bookCount << std::endl;
 }
 
-/*void Book::addComm(std::vector<std::string> newComm)
+Comment Book::getComment()
 {
-  bookComm.push_back(newComm);
-  std::cout << "New comment added (Current Comments : " << bookComm.size() << ")" << std::endl;
+  Comment cm(buid);
+  cm.load();
+  return cm;
 }
-void Book::BookComm()
-{
-  for (auto loop : bookComm)
-  {
-    std::cout << "ID : " << loop.at(0) << std::endl;
-    std::cout << loop.at(1) << std::endl;
-    std::cout << "Posted Date : " << loop.at(2) << std::endl;
-  }
-}*/

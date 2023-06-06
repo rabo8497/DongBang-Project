@@ -45,6 +45,7 @@ protected:
   struct tm *t;
   std::string timeDate;
   int bookNumForPage = 5;
+  int maxLendDay = 7;
 };
 
 #endif
