@@ -1,6 +1,7 @@
 #include "Device.h"
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include "weekday.h"
 #include "../styles/colors.h"
 using namespace std;
@@ -50,7 +51,7 @@ Calendar &Device::getCalendar() { return calendar; }
 
 const int linewidth = 40;
 
-void Device::prompt(const User &user)
+void Device::prompt(LogManager &lm, const User &user)
 {
     int choice;
     while (true)
@@ -108,10 +109,10 @@ void Device::prompt(const User &user)
         else if (choice == 2)
         {
             // shutting down... shutting down...
-            char c;
+            std::string c;
             cout << " are you sure? [y/n] : ";
             cin >> c;
-            if (c == 'y' || c == 'Y')
+            if (c[0] == 'y' || c[0] == 'Y')
                 calendar.resetUUIDInCalendar(user);
         }
         else

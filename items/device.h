@@ -3,6 +3,7 @@
 
 #include "Item.h"
 #include "Calendar.h"
+class LogManager;
 #include <string>
 #include <vector>
 
@@ -15,7 +16,7 @@ public:
     Device(std::string = "unknown device", int = -1, bool = false); // 순서대로 이름, id.
     ~Device();
     void printInfo(User &) override; // 자신의 정보를 출력하는 함수.
-    void prompt(const User &);
+    void prompt(LogManager &, const User &);
     Calendar &getCalendar();
 };
 
