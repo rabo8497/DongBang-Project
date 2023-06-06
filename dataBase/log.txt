@@ -1,0 +1,8 @@
+[2023-06-06 14:02:15] User : rabo8497 logged in.
+[2023-06-06 14:02:21] User : rabo8497 borrowed the book : Comics 3.
+[2023-06-06 14:02:25] User : rabo8497 borrowed the book : English 1.
+[2023-06-06 14:02:36] User : rabo8497 activated the laftel account : Momo
+[2023-06-06 14:02:42] User : rabo8497 deactivated the laftel account : Momo
+[2023-06-06 14:02:50] User : rabo8497 returned the book : English 1.
+[2023-06-06 14:02:51] User : rabo8497 returned the book : Comics 3.
+[2023-06-06 14:02:54] User : rabo8497 logged out.

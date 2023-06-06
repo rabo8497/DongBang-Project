@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <string>
 #include <conio.h>
+#include "LogManager.h"
 #include "books/Book.h"
 #include "books/BookManager.h"
 #include "items/ItemManager.h"
@@ -194,7 +195,7 @@ int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
     cin >> booknumber;
     return booknumber;
 }
-void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, int booknumber, int &page)
+void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, LogManager &lm_reference, int booknumber, int &page)
 {
     vector<vector<string>> lendlist;
     if (um_reference.getLoginedUser().getLendBookNum() == 0)
@@ -208,10 +209,11 @@ void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, 
         cout << RED << "wrong value. choose other number." << RESET << endl;
         return;
     }
+    bm_reference.load(stoi(lendlist[booknumber - 1][4]));
+    lm_reference.BookReturn(um_reference.getLoginedUser(), bm_reference.getBook());
     bm_reference.bookreturn(um_reference.getLoginedUser(), stoi(lendlist[booknumber - 1][4]), stoi(lendlist[booknumber - 1][1]));
     um_reference.modifyFile();
 }
-
 int accountOnOffPage(UserManager &um_reference, ItemManager &im_reference)
 {
     int answer;
@@ -237,6 +239,7 @@ int devicePage(UserManager &um_refernce, ItemManager &im_reference)
 
 int main(int argc, char *argv[])
 {
+    LogManager LM;
     UserManager UM;
     BookManager BM;
     ItemManager IM;
@@ -255,6 +258,7 @@ int main(int argc, char *argv[])
             {
             case 1:
                 logInPage(UM);
+                if (UM.getIsSignIn()) { LM.UserLogin(UM.getLoginedUser()); }
                 break;
             case 2:
                 signUpPage(UM);
@@ -281,9 +285,12 @@ int main(int argc, char *argv[])
                 nowPage = 3;
                 break;
             case 4:
+                LM.UserLogout(UM.getLoginedUser());
                 UM.signOut();
                 break;
             case 0:
+                LM.UserLogout(UM.getLoginedUser());
+                UM.signOut();
                 isProgramEnd = true;
                 break;
             default:
@@ -329,6 +336,12 @@ int main(int argc, char *argv[])
             case 2:
                 cout << "enter the book number : ";
                 cin >> booknumber;
+
+                BM.load(stoi(search[booknumber - 1][1]));
+                if (BM.getBook().getIsCanLend() && (UM.getLoginedUser().getLendBookNum() < UM.getLoginedUser().getLendBookMaxNum())) {
+                    LM.BookLend(UM.getLoginedUser(), BM.getBook());
+                }
+
                 BM.booklend(UM.getLoginedUser(), stoi(search[booknumber - 1][1]));
                 UM.modifyFile();
                 break;
@@ -364,7 +377,7 @@ int main(int argc, char *argv[])
             case -1:
                 nowPage = 1;
             default:
-                bookLendPageFunction(UM, BM, choice, nowPage);
+                bookLendPageFunction(UM, BM, LM, choice, nowPage);
             }
         }
         else if (nowPage == 2)
@@ -389,6 +402,7 @@ int main(int argc, char *argv[])
                         continue;
                     }
                     ac->toggle(UM.getLoginedUser().getId());
+                    LM.AccountStatusChange(UM.getLoginedUser(), ac);
                     IM.write();
                 }
             }
