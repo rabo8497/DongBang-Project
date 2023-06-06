@@ -76,6 +76,6 @@ void Comment::print_comments(UserManager &UM_)
             return;
         }
         std::string comment_ = commentVec[2];
-        std::cout << "| " << nick_ << " " << comment_ << " |" << std::endl;
+        std::cout << "| " << GREEN << nick_ << " " << RESET << comment_ << " |" << std::endl;
     }
 }

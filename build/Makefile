@@ -10,7 +10,7 @@ book.o: ../styles/colors.h ../users/User.h ../books/book.h ../books/Comment.h ..
 bookManager.o: ../styles/colors.h ../FileHandler.h ../users/User.h ../books/book.h	../books/BookManager.h ../books/bookManager.cpp
 	g++ -c -o bookManager.o ../books/bookManager.cpp
 
-comment.o: ../FileHandler.h ../users/user.h ../books/book.h ../users/userManager.h ../books/Comment.cpp
+comment.o: ../styles/colors.h ../FileHandler.h ../users/user.h ../books/book.h ../users/userManager.h ../books/Comment.cpp
 	g++ -c -o comment.o ../books/Comment.cpp
 
 user.o: ../styles/colors.h ../books/book.h ../users/user.h ../users/user.cpp

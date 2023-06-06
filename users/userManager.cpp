@@ -87,7 +87,7 @@ int UserManager::findIdFromItem(std::string findNickName)
     return findId;
 }
 
-std::string UserManager::findNickFromId(int findId) 
+std::string UserManager::findNickFromId(int findId)
 {
     bool isFind = false;
     std::ifstream inFile(saveLocation);
@@ -102,10 +102,12 @@ std::string UserManager::findNickFromId(int findId)
     while (std::getline(inFile, line))
     {
         lineNum += 1;
-        if (count == 0) {
+        if (count == 0)
+        {
             return line;
         }
-        else if (isFind) {
+        else if (isFind)
+        {
             count -= 1;
         }
         if (lineNum % interval == 1)
@@ -272,6 +274,7 @@ void UserManager::signUp(int studentNumber, std::string nickname, std::string pa
     int getId = findIdFromItem(nickname);
     if (getId != -1)
     {
+        std::cout << RED << "[signup fail]" << std::endl;
         std::cerr << RED << "this nickname is aleady exist.\nUse other nickname." << RESET << std::endl
                   << std::endl;
         return;

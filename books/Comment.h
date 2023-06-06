@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include "../styles/colors.h"
 #include "../FileHandler.h"
 #include "../users/User.h"
 #include "../users/UserManager.h"
