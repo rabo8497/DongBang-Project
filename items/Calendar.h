@@ -8,6 +8,7 @@
 #include <iomanip>
 #include "../FileHandler.h"
 #include "../users/User.h"
+
 #define Default_val -1
 
 class Calendar : public FileHandler {
@@ -21,7 +22,7 @@ public:
     void modifyFile();
     bool isItemInCalendar();
     bool isSlotEmpty(int day, int hour);
-    void markPeriodWithUUID(User nowUser, int startDay, int startHour, int endDay, int endHour);
+    bool markPeriodWithUUID(User nowUser, int startDay, int startHour, int endDay, int endHour);
     void resetUUIDInCalendar(User nowUser);
     void resetAll();
     void print_calendar(User nowUser);

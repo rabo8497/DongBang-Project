@@ -112,19 +112,20 @@ bool Calendar::isSlotEmpty(int day, int hour) {
     return week[day][hour] == Default_val;
 }
 
-void Calendar::markPeriodWithUUID(User nowUser, int startDay, int startHour, int endDay, int endHour) {
+bool Calendar::markPeriodWithUUID(User nowUser, int startDay, int startHour, int endDay, int endHour) {
     int uuid = nowUser.getId();
     if (startDay < 0 || startDay >= week.size() || endDay < 0 || endDay >= week.size() ||
         startHour < 0 || startHour >= week[0].size() || endHour < 0 || endHour >= week[0].size() ||
         startDay > endDay || (startDay == endDay && startHour > endHour)) {
         std::cerr << "Invalid time period.\n";
-        return;
+        return false;
     }
     for (int day = startDay; day <= endDay; day++) {
         for (int hour = (day == startDay ? startHour : 0); hour <= (day == endDay ? endHour : 23); hour++) {
             week[day][hour] = uuid;
         }
     }
+    return true;
 }
 
 void Calendar::resetUUIDInCalendar(User nowUser) {

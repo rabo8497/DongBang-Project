@@ -3,9 +3,10 @@
 
 #include "Item.h"
 #include "Calendar.h"
-class LogManager;
 #include <string>
 #include <vector>
+class LogManager; 
+#include "../logManager.h"
 
 class Device : public Item
 {

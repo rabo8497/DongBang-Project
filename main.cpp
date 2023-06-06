@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <string>
 #include <conio.h>
-#include "LogManager.h"
+#include "logManager.h"
 #include "books/Book.h"
 #include "books/BookManager.h"
 #include "items/ItemManager.h"
