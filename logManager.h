@@ -56,7 +56,7 @@ public:
         std::string username = loginUser.getNickName();
         std::string accountName = account->getName();
         std::string accountType = account->getAccountType(); 
-        bool isOn = account->getIsActive();
+        bool isOn = account->active();
         if(isOn) {
             write("User : " + username + " activated the " + accountType + " account : " + accountName + "\n");
         }
@@ -65,13 +65,13 @@ public:
         }
     }
 
-    void DeviceReserve(const User& loginUser, const Device* device) {
+    void DeviceReserve(const User& loginUser, Device* device) {
         std::string username = loginUser.getNickName();
         std::string deviceName = device->getName();
         write("User : " + username + " reserved the device : " + deviceName + ".\n");
     }
 
-    void DeviceCancelReserve(const User& loginUser, const Device* device) {
+    void DeviceCancelReserve(const User& loginUser, Device* device) {
         std::string username = loginUser.getNickName();
         std::string deviceName = device->getName();
         write("User : " + username + " cancel a reservation of the device : " + deviceName + ".\n");
