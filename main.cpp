@@ -258,7 +258,10 @@ int main(int argc, char *argv[])
             {
             case 1:
                 logInPage(UM);
-                if (UM.getIsSignIn()) { LM.UserLogin(UM.getLoginedUser()); }
+                if (UM.getIsSignIn())
+                {
+                    LM.UserLogin(UM.getLoginedUser());
+                }
                 break;
             case 2:
                 signUpPage(UM);
@@ -338,7 +341,8 @@ int main(int argc, char *argv[])
                 cin >> booknumber;
 
                 BM.load(stoi(search[booknumber - 1][1]));
-                if (BM.getBook().getIsCanLend() && (UM.getLoginedUser().getLendBookNum() < UM.getLoginedUser().getLendBookMaxNum())) {
+                if (BM.getBook().getIsCanLend() && (UM.getLoginedUser().getLendBookNum() < UM.getLoginedUser().getLendBookMaxNum()))
+                {
                     LM.BookLend(UM.getLoginedUser(), BM.getBook());
                 }
 
@@ -396,6 +400,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     Account *ac = dynamic_cast<Account *>(it);
+                    //
                     if (ac->active() && ac->getcontrollerId() != UM.getLoginedUser().getId())
                     {
                         cerr << " ERROR : permission denied. " << endl;
@@ -420,7 +425,7 @@ int main(int argc, char *argv[])
                     cerr << " I said," << RED << " NO ITEM FOUND! " << RESET << endl;
                     continue;
                 }
-                de->prompt(UM.getLoginedUser());
+                de->prompt(LM, UM.getLoginedUser());
             }
         }
     }

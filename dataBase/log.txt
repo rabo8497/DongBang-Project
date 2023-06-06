@@ -18,3 +18,20 @@
 [2023-06-06 14:12:44] User : rabo8497 deactivated the netflix account : miku
 [2023-06-06 14:12:45] User : rabo8497 deactivated the netflix account : hyunseok
 [2023-06-06 14:12:48] User : rabo8497 logged out.
+[2023-06-06 21:27:33] User : zer0pacity logged in.
+[2023-06-06 21:27:40] User : zer0pacity activated the netflix account : hyunseok
+[2023-06-06 21:27:42] User : zer0pacity deactivated the netflix account : hyunseok
+[2023-06-06 21:27:51] User : zer0pacity activated the netflix account : hyunseok
+[2023-06-06 21:27:57] User : zer0pacity logged out.
+[2023-06-06 21:28:08] User : rabo8497 logged in.
+[2023-06-06 21:32:27] User : rabo8497 activated the netflix account : miku
+[2023-06-06 21:32:30] User : rabo8497 logged out.
+[2023-06-06 21:32:44] User : zer0pacity logged in.
+[2023-06-06 21:32:56] User : zer0pacity deactivated the netflix account : hyunseok
+[2023-06-06 21:34:49] User : zer0pacity activated the netflix account : hyunseok
+[2023-06-06 21:34:52] User : zer0pacity activated the netflix account : SeeU
+[2023-06-06 21:34:55] User : zer0pacity deactivated the netflix account : SeeU
+[2023-06-06 21:34:57] User : zer0pacity deactivated the netflix account : hyunseok
+[2023-06-06 21:35:14] User : zer0pacity logged out.
+[2023-06-06 21:35:24] User : rabo8497 logged in.
+[2023-06-06 21:35:26] User : rabo8497 deactivated the netflix account : miku
