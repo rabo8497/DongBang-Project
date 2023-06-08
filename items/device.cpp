@@ -63,8 +63,13 @@ void Device::prompt(LogManager &lm, const User &user)
              << "| " << setw(linewidth - 4) << "1. Make reservation"
              << " |" << endl
              << "| " << setw(linewidth - 4) << "2. Delete existing reservation"
-             << " |" << endl
-             << setw(linewidth) << setfill('-') << "" << setfill(' ') << endl
+             << " |" << endl;
+        if (user.getIsManager()) {
+            cout << "| " << setw(linewidth - 4) << "3. Delete all reservation"
+             << " |" << endl;
+        }
+
+        cout << setw(linewidth) << setfill('-') << "" << setfill(' ') << endl
              << " (0 : exit) > ";
         cin >> choice;
 
@@ -117,6 +122,9 @@ void Device::prompt(LogManager &lm, const User &user)
             if (c[0] == 'y' || c[0] == 'Y')
                 calendar.resetUUIDInCalendar(user);
                 lm.DeviceCancelReserve(user, getName());
+        }
+        else if (choice == 3 && user.getIsManager()) {
+            calendar.resetAll();
         }
         else
             break;
