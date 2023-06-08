@@ -473,7 +473,7 @@ int main(int argc, char *argv[])
                 break;
 
             case 4:
-                if (listpage >= search.size() / 5 + 1)
+                if (listpage >= (search.size() - 1) / BM.getBookNumForPage() + 1)
                 {
                     cout << RED << "you are watching last page." << RESET << endl;
                     break;
