@@ -22,9 +22,9 @@ private:
 
 public:
     Comment(int);
-    void write(User, std::string);
+    bool write(User, std::string);
     void load();
-    void print_comments(UserManager &);
+    bool print_comments(UserManager &, int);
     void deleteFile(User &);
 };
 

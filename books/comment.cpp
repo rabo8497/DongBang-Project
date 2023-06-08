@@ -6,13 +6,13 @@ Comment::Comment(int bookId) : bookId(bookId)
     saveLocation = "dataBase\\comment.txt";
 }
 
-void Comment::write(User nowUser, std::string commentStr)
+bool Comment::write(User nowUser, std::string commentStr)
 {
     std::ofstream outFile(saveLocation, std::ios::app);
     if (!outFile)
     {
         std::cerr << RED << "cannot open file" << RESET << std::endl;
-        return;
+        return false;
     }
     int newId = getLatestId();
     std::string newIdStr = std::to_string(newId + 1);
@@ -21,6 +21,7 @@ void Comment::write(User nowUser, std::string commentStr)
     std::string saveData = newIdStr + '\n' + bookIdStr + '\n' + userId + '\n' + commentStr + '\n';
     outFile << saveData << std::endl;
     outFile.close();
+    return true;
 }
 
 void Comment::load()
@@ -64,24 +65,52 @@ void Comment::load()
     }
 }
 
-void Comment::print_comments(UserManager &UM_)
+bool Comment::print_comments(UserManager &UM_, int page)
 {
     int totalWidth = 78;
     int choiceInterval = 2;
+    int commentsPerPage = 3;
 
-    for (const auto &commentVec : bookComments)
+    if (bookComments.size() == 0)
     {
-        std::string nick_ = UM_.findNickFromId(std::stoi(commentVec[1]));
+        return true;
+    }
+    if (page <= 0)
+    {
+        std::cout << std::left << std::setw(choiceInterval) << "|" << RED << std::left << std::setw(totalWidth - choiceInterval - 1) << "Invalid page number. Page number should be greater than 0." << RESET << "|" << std::endl;
+        return false;
+    }
+
+    int startIndex = (page - 1) * commentsPerPage;
+    int endIndex = startIndex + commentsPerPage;
+    int totalPage = (bookComments.size() - 1) / commentsPerPage + 1;
+
+    if (startIndex >= bookComments.size())
+    {
+        std::cout << std::left << std::setw(choiceInterval) << "|" << RED << std::left << std::setw(totalWidth - choiceInterval - 1) << " Invalid page number.There are not enough comments." << RESET << "|" << std::endl;
+        return false;
+    }
+
+    for (int i = startIndex; i < endIndex && i < bookComments.size(); i++)
+    {
+        std::string nick_ = UM_.findNickFromId(std::stoi(bookComments[i][1]));
         if (nick_ == "")
         {
             std::cerr << RED << "cannot read user data" << RESET << std::endl;
-            return;
+            return false;
         }
-        std::string comment_ = commentVec[2];
+        std::string comment_ = bookComments[i][2];
         std::cout << std::setfill(' ');
         std::cout << std::setw(choiceInterval) << std::left << "|"
                   << GREEN << nick_ << RESET << " " << std::setw(totalWidth - choiceInterval - nick_.size() - 2) << std::left << comment_ << "|" << std::endl;
     }
+
+    std::string pageInfo = "<" + std::to_string(page) + "/" + std::to_string(totalPage) + ">";
+    std::cout << std::setfill('-') << std::setw((totalWidth - pageInfo.size()) / 2) << "-"
+              << pageInfo
+              << std::setfill('-') << std::setw((totalWidth - pageInfo.size()) / 2) << "-" << std::endl;
+
+    return true;
 }
 
 void Comment::deleteFile(User &nowUser)
@@ -93,11 +122,9 @@ void Comment::deleteFile(User &nowUser)
 
     if (infile.is_open() && outfile.is_open())
     {
-        while (!infile.eof())
+        while (infile >> cuid >> buid >> uuid)
         {
-            infile >> cuid >> buid >> uuid;
-            getline(infile, comment);
-            getline(infile, comment);
+            getline(infile >> std::ws, comment);
 
             if (!(buid == bookId && uuid == nowUser.getId()))
             {
@@ -108,6 +135,10 @@ void Comment::deleteFile(User &nowUser)
                         << "\n";
             }
         }
+    }
+    else
+    {
+        std::cout << "cannot open comment.txt file" << std::endl;
     }
 
     infile.close();

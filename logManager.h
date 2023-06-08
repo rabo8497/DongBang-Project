@@ -63,6 +63,20 @@ public:
         write("User : " + username + " returned the book : " + bookTitle + ".\n");
     }
 
+    void BookComment(const User &loginUser, const Book &lendBook)
+    {
+        std::string username = loginUser.getNickName();
+        std::string bookTitle = lendBook.getBName();
+        write("User : " + username + " wrote a comment in book : " + bookTitle + ".\n");
+    }
+
+    void BookRemoveComment(const User &loginUser, const Book &lendBook)
+    {
+        std::string username = loginUser.getNickName();
+        std::string bookTitle = lendBook.getBName();
+        write("User : " + username + " deleted a comment in book : " + bookTitle + ".\n");
+    }
+
     void AccountStatusChange(const User &loginUser, Account *account)
     {
         std::string username = loginUser.getNickName();

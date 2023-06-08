@@ -4,8 +4,8 @@ Physics
 Author A
 Publisher A
 20220101
-1
-True
+0
+False
 
 
 
@@ -170,6 +170,21 @@ Author M
 Publisher M
 20230608
 1
+True
+
+
+
+
+
+
+
+12
+Math 4
+Math
+Author M
+Publisher M
+20230608
+2
 True
 
 
