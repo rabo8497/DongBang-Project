@@ -387,7 +387,7 @@ void BookManager::bookreturn(User &backUser, int buid, int luid)
 
   if (diffDays > maxLendDay)
   {
-    std::cout << MAGENTA << "The return of the book is " << diffDays << " days overdue." << RESET << std::endl;
+    std::cout << MAGENTA << "The return of the book is " << diffDays - maxLendDay << " days overdue." << RESET << std::endl;
   }
 
   backUser.returnBook();
