@@ -17,3 +17,9 @@ Once you're in the correct directory, use the following command to compile the c
 ```bash
 make -C ./build
 ```
+This will compile the code using the Makefile provided in the build directory.
+## 4. Run the Program
+Finally, you can run the program by entering the following command:
+```bash
+./program
+```
