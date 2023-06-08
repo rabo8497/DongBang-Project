@@ -5,6 +5,7 @@
 #include <vector>
 #include <iomanip>
 #include "../users/User.h"
+#include "../styles/colors.h"
 
 // Forward declaration of the Comment class
 class Comment;

@@ -2,12 +2,6 @@
 #include <cctype>
 #include "User.h"
 
-#define RESET "\033[0m"
-#define YELLOW "\033[33m"
-#define GREEN "\033[32m"
-#define RED "\033[31m"
-#define YELLOW "\033[33m"
-
 User::User(const int newuuid, const int newstudentNumber, std::string newnickname, std::string newpassward, bool newisEru, bool newisManager, int lendBookN)
     : isEru(newisEru), isManager(newisManager)
 {

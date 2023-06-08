@@ -7,15 +7,6 @@
 #include <ctime>
 #include <iomanip>
 
-#define RESET "\033[0m"
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33m"
-#define BLUE "\033[34m"
-#define MAGENTA "\033[35m"
-#define CYAN "\033[36m"
-#define WHITE "\033[37m"
-
 #include "BookManager.h"
 #include "Book.h"
 
@@ -219,7 +210,7 @@ void BookManager::booklist(int listpage, std::vector<std::vector<std::string>> s
     }
   }
   std::cout << std::left << std::setfill('-') << std::setw((totalWidth - 5) / 2) << "";
-  std::cout << "<" << listpage << "/" << searchResult.size() / 5 + 1 << ">";
+  std::cout << "<" << listpage << "/" << (searchResult.size() - 1) / bookNumForPage + 1 << ">";
   std::cout << std::right << std::setfill('-') << std::setw((totalWidth - 5) / 2) << "" << std::endl;
   std::cout << std::setfill(' ');
 
@@ -563,4 +554,3 @@ int BookManager::getBookNumForPage()
 {
   return bookNumForPage;
 }
-

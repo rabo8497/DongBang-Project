@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "../books/Book.h"
+#include "../styles/colors.h"
 
 class User
 {

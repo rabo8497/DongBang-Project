@@ -4,6 +4,7 @@
 #include <ctime>
 #include "item.h"
 #include "../users/User.h"
+#include "../styles/colors.h"
 
 class Account : public Item
 {

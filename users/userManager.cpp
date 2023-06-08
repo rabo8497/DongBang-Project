@@ -6,12 +6,6 @@
 #include <vector>
 #include <windows.h>
 
-#define RESET "\033[0m"
-#define YELLOW "\033[33m"
-#define GREEN "\033[32m"
-#define RED "\033[31m"
-#define YELLOW "\033[33m"
-
 UserManager::UserManager() : FileHandler(".\\dataBase\\user.txt", 10)
 {
     isSignIn = false;
