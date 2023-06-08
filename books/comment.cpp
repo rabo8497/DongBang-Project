@@ -83,3 +83,36 @@ void Comment::print_comments(UserManager &UM_)
                   << GREEN << nick_ << RESET << " " << std::setw(totalWidth - choiceInterval - nick_.size() - 2) << std::left << comment_ << "|" << std::endl;
     }
 }
+
+void Comment::deleteFile(User &nowUser)
+{
+    std::ifstream infile(saveLocation);
+    std::ofstream outfile(".\\dataBase\\commenttemp.txt");
+    int cuid, buid, uuid;
+    std::string comment;
+
+    if (infile.is_open() && outfile.is_open())
+    {
+        while (!infile.eof())
+        {
+            infile >> cuid >> buid >> uuid;
+            getline(infile, comment);
+            getline(infile, comment);
+
+            if (!(buid == bookId && uuid == nowUser.getId()))
+            {
+                outfile << cuid << "\n"
+                        << buid << "\n"
+                        << uuid << "\n"
+                        << comment << "\n"
+                        << "\n";
+            }
+        }
+    }
+
+    infile.close();
+    outfile.close();
+
+    std::remove(saveLocation.c_str());
+    std::rename(".\\dataBase\\commenttemp.txt", saveLocation.c_str());
+}

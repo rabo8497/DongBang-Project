@@ -25,6 +25,7 @@ public:
     void write(User, std::string);
     void load();
     void print_comments(UserManager &);
+    void deleteFile(User &);
 };
 
 #endif

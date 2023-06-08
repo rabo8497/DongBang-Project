@@ -196,10 +196,10 @@ int bookInfoPage(BookManager &bm_reference, UserManager &um_reference, int bookn
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) Delete my comment"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) next comment page"
+    /*cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) next comment page"
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) previous comment page"
-         << "|" << endl;
+         << "|" << endl;*/
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) back"
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
@@ -467,6 +467,9 @@ int main(int argc, char *argv[])
                 getline(cin, newComm);
                 BM.getBook().getComment().write(UM.getLoginedUser(), newComm);
                 break;
+            case 2:
+                BM.getBook().getComment().deleteFile(UM.getLoginedUser());
+                break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
@@ -499,8 +502,7 @@ int main(int argc, char *argv[])
                 bookAddPage(BM);
                 cout << endl;
                 break;
-            case 2:
-            case 3:
+
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
