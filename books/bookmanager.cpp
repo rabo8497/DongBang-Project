@@ -559,4 +559,8 @@ void BookManager::modifyFile(Book editBook)
   std::rename(".\\dataBase\\booktemp.txt", saveLocation.c_str());
 }
 
-void BookManager::deleteFile(int bookId) {}
+int BookManager::getBookNumForPage()
+{
+  return bookNumForPage;
+}
+
