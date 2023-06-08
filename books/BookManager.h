@@ -31,8 +31,9 @@ public:
   void load(int);
   void write(Book);
   void modifyFile(Book);
-  void deleteFile(int);
+  
 
+  int getBookNumForPage();
   Book &getBook();
 
 protected:
