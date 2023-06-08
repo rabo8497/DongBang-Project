@@ -66,6 +66,8 @@ void Comment::load()
 
 void Comment::print_comments(UserManager &UM_)
 {
+    int totalWidth = 78;
+    int choiceInterval = 2;
 
     for (const auto &commentVec : bookComments)
     {
@@ -76,6 +78,8 @@ void Comment::print_comments(UserManager &UM_)
             return;
         }
         std::string comment_ = commentVec[2];
-        std::cout << "| " << GREEN << nick_ << " " << RESET << comment_ << " |" << std::endl;
+        std::cout << std::setfill(' ');
+        std::cout << std::setw(choiceInterval) << std::left << "|"
+                  << GREEN << nick_ << RESET << " " << std::setw(totalWidth - choiceInterval - nick_.size() - 2) << std::left << comment_ << "|" << std::endl;
     }
 }

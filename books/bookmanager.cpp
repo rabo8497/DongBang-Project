@@ -194,6 +194,7 @@ void BookManager::bookadd(std::string bookName, std::string bookSeries, std::str
   }
   Book newBook(getLatestId() + 1, bookName, bookSeries, bookAuthor, bookPub, bookDate, bookCount, isCanLend);
   write(newBook);
+  std::cout << BLUE << "Succesfully added the new book!" << RESET << std::endl;
   latestId = getLatestId();
 }
 

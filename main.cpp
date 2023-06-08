@@ -186,16 +186,23 @@ int bookSearchPage(BookManager &bm_reference, vector<vector<string>> search, int
 int bookInfoPage(BookManager &bm_reference, UserManager &um_reference, int booknumber)
 {
     int answer;
+    int totalWidth = 78;
     bm_reference.load(booknumber);
     bm_reference.getBook().BookInfo();
-    cout << endl;
     bm_reference.getBook().getComment().print_comments(um_reference);
-    cout << endl;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "1) Add comment"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) Add new comment"
          << "|" << endl;
-    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 2) << left << "0) back"
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) Delete my comment"
          << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) next comment page"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) previous comment page"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) back"
+         << "|" << endl;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << " > ";
     cin >> answer;
     cout << endl;
@@ -215,6 +222,46 @@ int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
     cout << "enter the book number( back : 0 ) : ";
     cin >> booknumber;
     return booknumber;
+}
+int bookManagePage()
+{
+    int answer;
+
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << setfill(' ');
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) Add new book"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) Edit book count"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) Edit book availability"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) back"
+         << "|" << endl;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << " > ";
+    cin >> answer;
+    cout << endl;
+    return answer;
+}
+void bookAddPage(BookManager &bm_reference)
+{
+    string BName, BSeries, BAuthor, BPub, BDate;
+    int BCount;
+    cout << "Enter the book name : ";
+    cin.ignore();
+    getline(cin, BName);
+    cout << "Enter the book series : ";
+    getline(cin, BSeries);
+    cout << "Enter the Author name : ";
+    getline(cin, BAuthor);
+    cout << "Enter the Publisher : ";
+    getline(cin, BPub);
+    cout << "Enter the published date : ";
+    getline(cin, BDate);
+    cout << "Enter the book count : ";
+    cin >> BCount;
+
+    bm_reference.bookadd(BName, BSeries, BAuthor, BPub, BDate, BCount, true);
 }
 void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, LogManager &lm_reference, int booknumber, int &page)
 {
@@ -337,6 +384,9 @@ int main(int argc, char *argv[])
             case 2:
                 nowPage = 12;
                 break;
+            case 3:
+                nowPage = 13;
+                break;
             default:
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
@@ -398,7 +448,7 @@ int main(int argc, char *argv[])
                 cout << RED << "wrong value. choose other number." << RESET << endl;
             }
         }
-        else if (nowPage = 111)
+        else if (nowPage == 111)
         {
             string newComm = "";
             choice = bookInfoPage(BM, UM, booknumber);
@@ -434,6 +484,25 @@ int main(int argc, char *argv[])
                 nowPage = 1;
             default:
                 bookLendPageFunction(UM, BM, LM, choice, nowPage);
+            }
+        }
+        else if (nowPage == 13)
+        {
+            choice = bookManagePage();
+            switch (choice)
+            {
+            case 0:
+                nowPage = 1;
+                search = BM.booksearch();
+                break;
+            case 1:
+                bookAddPage(BM);
+                cout << endl;
+                break;
+            case 2:
+            case 3:
+            default:
+                cout << RED << "wrong value. choose other number." << RESET << endl;
             }
         }
         else if (nowPage == 2)

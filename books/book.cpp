@@ -79,13 +79,30 @@ void Book::setIsCanLend(bool newIsCanLend)
 
 void Book::BookInfo()
 {
-  std::cout << "Book UID : " << buid << std::endl;
-  std::cout << "Name : " << bookName << std::endl;
-  std::cout << "Series : " << bookSeries << std::endl;
-  std::cout << "Author : " << bookAuthor << std::endl;
-  std::cout << "Published Date : " << bookDate << std::endl;
-  std::cout << "Publisher : " << bookPub << std::endl;
-  std::cout << "Count : " << bookCount << std::endl;
+  int totalWidth = 78;
+  int choiceInterval = 2;
+
+  std::cout << std::left << std::setfill('-') << std::setw((totalWidth - 6) / 2) << "";
+  std::cout << "<Info>";
+  std::cout << std::right << std::setfill('-') << std::setw((totalWidth - 6) / 2) << "" << std::endl;
+
+  std::cout << std::setfill(' ');
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Book UID : " << std::setw(totalWidth - choiceInterval - 12) << std::left << buid << "|" << std::endl;
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Name : " << std::setw(totalWidth - choiceInterval - 8) << std::left << bookName << "|" << std::endl;
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Series : " << std::setw(totalWidth - choiceInterval - 10) << std::left << bookSeries << "|" << std::endl;
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Author : " << std::setw(totalWidth - choiceInterval - 10) << std::left << bookAuthor << "|" << std::endl;
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Published Date : " << std::setw(totalWidth - choiceInterval - 18) << std::left << bookDate << "|" << std::endl;
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Publisher : " << std::setw(totalWidth - choiceInterval - 13) << std::left << bookPub << "|" << std::endl;
+  std::cout << std::setw(choiceInterval) << std::left << "|"
+            << "Count : " << std::setw(totalWidth - choiceInterval - 9) << std::left << bookCount << "|" << std::endl;
+  std::cout << std::left << std::setfill('-') << std::setw(totalWidth) << "" << std::endl;
+  std::cout << std::setfill(' ');
 }
 
 Comment Book::getComment()

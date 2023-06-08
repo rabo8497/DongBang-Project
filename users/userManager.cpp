@@ -74,9 +74,12 @@ int UserManager::findIdFromItem(std::string findNickName)
     while (std::getline(inFile, line))
     {
         lineNum += 1;
+        if (lineNum % interval == 1)
+        {
+            nowId = std::stoi(line);
+        }
         if (lineNum % interval == 3)
         {
-            nowId += 1;
             if (line == findNickName)
             {
                 findId = nowId;
