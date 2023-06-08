@@ -101,7 +101,7 @@ std::string UserManager::findNickFromId(int findId)
     }
     std::string line;
     int lineNum = 0;
-    int count = 2;
+    int count = 1;
     while (std::getline(inFile, line))
     {
         lineNum += 1;
