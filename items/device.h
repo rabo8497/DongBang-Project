@@ -5,6 +5,7 @@
 #include "Calendar.h"
 #include <string>
 #include <vector>
+#include "../styles/colors.h"
 class LogManager; 
 #include "../logManager.h"
 

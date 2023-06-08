@@ -10,9 +10,8 @@
 #include "../FileHandler.h"
 #include "../users/User.h"
 #include "../users/UserManager.h"
+#include "../styles/colors.h"
 
-#define RESET "\033[0m"
-#define RED "\033[31m"
 
 class Comment : public FileHandler
 {

@@ -8,6 +8,7 @@
 #include <iomanip>
 #include "../FileHandler.h"
 #include "../users/User.h"
+#include "../styles/colors.h"
 
 #define Default_val -1
 

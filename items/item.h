@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <string>
 #include "../users/User.h"
+#include "../styles/colors.h"
 
 enum Type // Item의 유형을 분류하는 나열자
 {

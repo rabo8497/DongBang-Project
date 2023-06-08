@@ -7,6 +7,7 @@
 #include <iomanip>
 #include "../FileHandler.h"
 #include "../users/User.h"
+#include "../styles/colors.h"
 #include "Book.h"
 
 class BookManager : public FileHandler
@@ -31,7 +32,6 @@ public:
   void load(int);
   void write(Book);
   void modifyFile(Book);
-  
 
   int getBookNumForPage();
   Book &getBook();
