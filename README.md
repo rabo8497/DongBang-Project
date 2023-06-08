@@ -12,6 +12,7 @@ git clone https://github.com/rabo8497/DongBang-Project.git
 * Alternatively, you can download the attached zip file and extract it on your local machine.
 ## 2. Navigate to the Project Directory
 Use a terminal (or command prompt on Windows) and navigate to the location where the main.cpp file is located in the project directory. You can do this with the cd command, followed by the path to the directory.
+![image](https://github.com/rabo8497/DongBang-Project/assets/67371359/d7e762d0-77dc-4ad6-b2eb-fb21640c5eb6)
 ## 3. Compile the Code
 Once you're in the correct directory, use the following command to compile the code:
 ```bash
