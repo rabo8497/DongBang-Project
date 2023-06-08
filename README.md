@@ -26,3 +26,4 @@ Finally, you can run the program by entering the following command:
 ```bash
 ./program
 ```
+![image](https://github.com/rabo8497/DongBang-Project/assets/67371359/0e3b66f0-ed33-4949-986c-eb5011e265b1)
