@@ -6,23 +6,26 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include "../styles/colors.h"
 #include "../FileHandler.h"
 #include "../users/User.h"
-#include "../books/Book.h"
 #include "../users/UserManager.h"
 
 #define RESET "\033[0m"
 #define RED "\033[31m"
 
-class Comment : public FileHandler {
+class Comment : public FileHandler
+{
 private:
     int bookId;
     std::vector<std::vector<std::string>> bookComments;
+
 public:
     Comment(int);
     void write(User, std::string);
     void load();
-    void print_comments(UserManager&);
+    void print_comments(UserManager &);
+    void deleteFile(User &);
 };
 
 #endif

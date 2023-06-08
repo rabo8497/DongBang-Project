@@ -3,7 +3,11 @@
 
 #include <string>
 #include <vector>
+#include <iomanip>
 #include "../users/User.h"
+
+// Forward declaration of the Comment class
+class Comment;
 
 class Book
 {
@@ -23,8 +27,7 @@ public:
   void setIsCanLend(bool newIsCanLend);
   void BookInfo();
 
-  // void addComm(std::vector<std::string> newComm);
-  // void BookComm();
+  Comment getComment(); // Declaration of the Comment class
 
 private:
   int buid;
@@ -35,7 +38,6 @@ private:
   std::string bookAuthor;
   std::string bookPub;
   bool isCanLend;
-  std::vector<std::vector<std::string>> bookComm;
 };
 
 #endif
