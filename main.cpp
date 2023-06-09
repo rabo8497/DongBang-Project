@@ -350,10 +350,26 @@ int devicePage(UserManager &um_refernce, ItemManager &im_reference)
     cout << setw(totalWidth) << setfill('-') << "" << setfill(' ') << endl;
     im_reference.showList(um_refernce.getLoginedUser(), DEVICE, true);
     cout << setw(totalWidth) << setfill('-') << "" << setfill(' ') << endl;
-    cout << " select device (back : 0) > ";
-    string input;
-    cin >> input;
-    return convertStringToInt(input);
+
+    int input;
+    string ibuffer;
+    while (true)
+    {
+        cout << " select device (back : 0) > ";
+
+        cin >> ibuffer;
+        if (!isdigit(ibuffer[0]))
+        {
+            std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+            continue;
+        }
+        else
+        {
+            input = (int)stoi(ibuffer);
+            break;
+        }
+    }
+    return input;
 }
 
 int main(int argc, char *argv[])

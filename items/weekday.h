@@ -3,7 +3,9 @@
 
 #include <string>
 #include <iostream>
+#include "../styles/colors.h"
 using std::cin;
+using std::cout;
 using std::istream;
 using std::ostream;
 using std::string;
@@ -28,26 +30,60 @@ public:
 
 void Weekday::input()
 {
-    cin >> dayString >> time;
-
-    for (int i = 0; i < 7; i++)
+    string ibuffer1, ibuffer2;
+    while (true)
     {
-        bool isValid = true;
-        for (int j = 0; j < dayString.length(); j++)
+        cout << " > ";
+        cin >> ibuffer1 >> ibuffer2;
+
+        bool isBufferValid = true;
+        for (auto c : ibuffer2)
         {
-            char c = dayString[j];
-            if (c >= 'A' && c <= 'Z')
-                c -= 'A' - 'a';
-            if (c != weekdays[i][j])
+            if (!isdigit(c))
             {
-                isValid = false;
+                isBufferValid = false;
                 break;
             }
         }
-        if (isValid)
+        if (!isBufferValid) // user did not even inputted a number
+        {
+            std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+            continue;
+        }
+        else
+        {
+            dayString = ibuffer1;
+            time = std::stoi(ibuffer2);
+        }
+
+        int i = 0;
+        bool isDayValid = false;
+
+        // weekday string check thingy
+        for (i = 0; i < 7; i++)
+        {
+            int j;
+            for (j = 0; j < dayString.length(); j++)
+            {
+                if (dayString[j] != weekdays[i][j])
+                    break;
+            }
+            if (j == dayString.length())
+            {
+                isDayValid = true;
+                break;
+            }
+        }
+
+        if (isDayValid)
         {
             day = i;
             break;
+        }
+        else
+        {
+            std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+            continue;
         }
     }
 }
