@@ -2,7 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <sstream>
 #include <iomanip>
+#include <cctype>
 #include <string>
 #include <conio.h>
 #include "logManager.h"
@@ -23,9 +25,25 @@ const int totalWidth = 40;
 const int choiceInterval = 2;
 const bool ISSCREEN = false;
 
+int convertStringToInt(const string& str)
+{
+    for(char c : str) {
+        if(!isdigit(c)) {
+            return -1; 
+        }
+    }
+
+    istringstream iss(str);
+    int num;
+    if(!(iss >> num)) {
+        return -1; 
+    }
+
+    return num;
+}
 int firstPage()
 {
-    int answer;
+    string answer;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) login"
@@ -39,7 +57,7 @@ int firstPage()
     cout << setfill(' ');
     cout << " > ";
     cin >> answer;
-    return answer;
+    return convertStringToInt(answer);
 }
 void signUpPage(UserManager &um_reference, bool isScreen = ISSCREEN)
 {
@@ -117,7 +135,7 @@ void logInPage(UserManager &um_reference, bool isScreen = ISSCREEN)
 }
 int secondPage()
 {
-    int answer;
+    string answer;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) Book-related function"
@@ -135,11 +153,11 @@ int secondPage()
     cout << " > ";
     cin >> answer;
     cout << endl;
-    return answer;
+    return convertStringToInt(answer);;
 }
 int bookRelatedPage(UserManager &um_reference)
 {
-    int answer;
+    string answer;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) book info"
@@ -156,11 +174,11 @@ int bookRelatedPage(UserManager &um_reference)
     cout << " > ";
     cin >> answer;
     cout << endl;
-    return answer;
+    return convertStringToInt(answer);;
 }
 int bookSearchPage(BookManager &bm_reference, vector<vector<string>> search, int listpage, bool manage)
 {
-    int answer;
+    string answer;
     const int totalWidth = 78;
     bm_reference.booklist(listpage, search);
     if (!manage)
@@ -204,11 +222,11 @@ int bookSearchPage(BookManager &bm_reference, vector<vector<string>> search, int
     cout << " > ";
     cin >> answer;
     cout << endl;
-    return answer;
+    return convertStringToInt(answer);;
 }
 int bookInfoPage(BookManager &bm_reference, UserManager &um_reference, int booknumber, int &commPage)
 {
-    int answer;
+    string answer;
     int totalWidth = 78;
     bm_reference.load(booknumber);
     bm_reference.getBook().BookInfo();
@@ -236,11 +254,11 @@ int bookInfoPage(BookManager &bm_reference, UserManager &um_reference, int bookn
     cout << " > ";
     cin >> answer;
     cout << endl;
-    return answer;
+    return convertStringToInt(answer);;
 }
 int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
 {
-    int booknumber;
+    string booknumber;
     vector<vector<string>> lendlist;
     if (um_reference.getLoginedUser().getLendBookNum() == 0)
     {
@@ -251,11 +269,11 @@ int bookLendPage(UserManager &um_reference, BookManager &bm_reference)
     bm_reference.booklist(1, lendlist);
     cout << "enter the book number( back : 0 ) : ";
     cin >> booknumber;
-    return booknumber;
+    return convertStringToInt(booknumber);;
 }
 int bookManagePage()
 {
-    int answer;
+    string answer;
 
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
@@ -271,12 +289,12 @@ int bookManagePage()
     cout << " > ";
     cin >> answer;
     cout << endl;
-    return answer;
+    return convertStringToInt(answer);
 }
 void bookAddPage(BookManager &bm_reference)
 {
     string BName, BSeries, BAuthor, BPub, BDate;
-    int BCount;
+    string BCount;
     cout << "Enter the book name : ";
     cin.ignore();
     getline(cin, BName);
@@ -290,8 +308,11 @@ void bookAddPage(BookManager &bm_reference)
     getline(cin, BDate);
     cout << "Enter the book count : ";
     cin >> BCount;
-
-    bm_reference.bookadd(BName, BSeries, BAuthor, BPub, BDate, BCount, true);
+    int BcountInt = convertStringToInt(BCount);
+    if (BcountInt == -1) {
+        BcountInt = 0;
+    }
+    bm_reference.bookadd(BName, BSeries, BAuthor, BPub, BDate, BcountInt, true);
 }
 void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, LogManager &lm_reference, int booknumber, int &page)
 {
@@ -314,7 +335,7 @@ void bookLendPageFunction(UserManager &um_reference, BookManager &bm_reference, 
 }
 int accountOnOffPage(UserManager &um_reference, ItemManager &im_reference)
 {
-    int answer;
+    string answer;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
     cout << setfill(' ');
     im_reference.showList(um_reference.getLoginedUser(), ACCOUNT, true);
@@ -322,7 +343,7 @@ int accountOnOffPage(UserManager &um_reference, ItemManager &im_reference)
     cout << setfill(' ');
     cout << " select account (back : 0) > ";
     cin >> answer;
-    return answer;
+    return convertStringToInt(answer);;
 }
 int devicePage(UserManager &um_refernce, ItemManager &im_reference)
 {
@@ -330,9 +351,9 @@ int devicePage(UserManager &um_refernce, ItemManager &im_reference)
     im_reference.showList(um_refernce.getLoginedUser(), DEVICE, true);
     cout << setw(totalWidth) << setfill('-') << "" << setfill(' ') << endl;
     cout << " select device (back : 0) > ";
-    int input;
+    string input;
     cin >> input;
-    return input;
+    return convertStringToInt(input);
 }
 
 int main(int argc, char *argv[])
@@ -346,6 +367,7 @@ int main(int argc, char *argv[])
     vector<vector<string>> search = BM.booksearch();
     int listpage = 1;
     int booknumber;
+    string booknumberstr;
     int choice;
     int nowPage = 0;
     int commPage = 1;
@@ -443,7 +465,8 @@ int main(int argc, char *argv[])
                 break;
             case 2:
                 cout << "enter the book number : ";
-                cin >> booknumber;
+                cin >> booknumberstr;
+                booknumber = convertStringToInt(booknumberstr);
                 if (booknumber > search.size())
                 {
                     cout << RED << "wrong value. choose other number." << RESET << endl;
@@ -461,7 +484,8 @@ int main(int argc, char *argv[])
                 break;
             case 3:
                 cout << "enter the book number : ";
-                cin >> booknumber;
+                cin >> booknumberstr;
+                booknumber = convertStringToInt(booknumberstr);
                 if (booknumber > search.size())
                 {
                     cout << RED << "wrong value. choose other number." << RESET << endl;
@@ -569,9 +593,11 @@ int main(int argc, char *argv[])
             case 3:
 
                 cout << "enter the book number : ";
-                cin >> booknumber;
+                cin >> booknumberstr;
+                booknumber = convertStringToInt(booknumberstr);
                 cout << "enter the new book count : ";
-                cin >> newCount;
+                cin >> booknumberstr;
+                newCount = convertStringToInt(booknumberstr);
                 if (booknumber > search.size())
                 {
                     cout << RED << "wrong value. choose other number." << RESET << endl;
@@ -585,7 +611,8 @@ int main(int argc, char *argv[])
             case 4:
 
                 cout << "enter the book number : ";
-                cin >> booknumber;
+                cin >> booknumberstr;
+                booknumber = convertStringToInt(booknumberstr);
                 cout << "enter the new book availability (T/F) : ";
                 cin >> newAvail;
                 if (booknumber > search.size())
