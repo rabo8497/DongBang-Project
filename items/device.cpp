@@ -64,22 +64,40 @@ void Device::prompt(LogManager &lm, const User &user)
              << " |" << endl
              << "| " << setw(linewidth - 4) << "2. Delete existing reservation"
              << " |" << endl;
-        if (user.getIsManager()) {
+        if (user.getIsManager())
+        {
             cout << "| " << setw(linewidth - 4) << "3. Delete all reservation"
-             << " |" << endl;
+                 << " |" << endl;
         }
 
         cout << setw(linewidth) << setfill('-') << "" << setfill(' ') << endl
              << " (0 : exit) > ";
-        cin >> choice;
+
+        string ibuffer;
+        while (true)
+        {
+            cout << " select device (back : 0) > ";
+
+            cin >> ibuffer;
+            if (!isdigit(ibuffer[0]))
+            {
+                std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+                continue;
+            }
+            else
+            {
+                choice = (int)(ibuffer[0] - '0');
+                break;
+            }
+        }
 
         if (choice == 1)
         {
             // calendar gogo vroom vroom set input
             Weekday start, end;
-            cout << " start of reservation " << UNDER << "(ex : Mon 10)" << RESET << " : ";
+            std::cout << " start of reservation " << UNDER << "(ex : Mon 10)" << RESET;
             start.input();
-            cout << " end of reservation : ";
+            std::cout << " end of reservation";
             end.input();
 
             // check go brrr
@@ -104,7 +122,8 @@ void Device::prompt(LogManager &lm, const User &user)
             }
             if (isValid)
             {
-                if (calendar.markPeriodWithUUID(user, start.getDay(), start.getTime(), end.getDay(), end.getTime())) {
+                if (calendar.markPeriodWithUUID(user, start.getDay(), start.getTime(), end.getDay(), end.getTime()))
+                {
                     lm.DeviceReserve(user, getName());
                 }
             }
@@ -121,9 +140,10 @@ void Device::prompt(LogManager &lm, const User &user)
             cin >> c;
             if (c[0] == 'y' || c[0] == 'Y')
                 calendar.resetUUIDInCalendar(user);
-                lm.DeviceCancelReserve(user, getName());
+            lm.DeviceCancelReserve(user, getName());
         }
-        else if (choice == 3 && user.getIsManager()) {
+        else if (choice == 3 && user.getIsManager())
+        {
             calendar.resetAll();
         }
         else
