@@ -1,5 +1,5 @@
-program.exe:	main.o	book.o	bookManager.o	user.o	userManager.o account.o calendar.o device.o item.o itemManager.o comment.o
-	g++ -o ../program.exe	main.o	book.o	bookManager.o	user.o	userManager.o	account.o calendar.o device.o item.o itemManager.o comment.o
+program.exe:	main.o	book.o	bookManager.o	user.o	userManager.o account.o calendar.o device.o item.o itemManager.o comment.o messageManager.o
+	g++ -o ../program.exe	main.o	book.o	bookManager.o	user.o	userManager.o	account.o calendar.o device.o item.o itemManager.o comment.o messageManager.o
 
 main.o:	../styles/colors.h ../books/Book.h ../books/BookManager.h ../users/User.h ../users/UserManager.h ../items/account.h ../items/calendar.h ../items/device.h ../items/item.h ../items/itemManager.h ../main.cpp 
 	g++ -c -o main.o ../main.cpp
@@ -33,6 +33,10 @@ item.o: ../styles/colors.h ../items/item.h ../items/item.cpp
 
 itemManager.o:	../styles/colors.h ../FileHandler.h	../items/item.h	../items/account.h	../items/device.h ../items/itemManager.h ../items/itemManager.cpp
 	g++ -c -o itemManager.o	../items/itemManager.cpp
+
+messageManager.o: ../styles/colors.h ../FileHandler.h ../users/User.h ../users/UserManager.h ../styles/colors.h ../messages/messageManager.cpp
+
+	g++ -c -o messageManager.o	../messages/messageManager.cpp
 
 
 clean:
