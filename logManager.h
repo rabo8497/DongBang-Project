@@ -104,6 +104,35 @@ public:
         std::string username = loginUser.getNickName();
         write("User : " + username + " cancel a reservation of the device : " + deviceName + ".\n");
     }
+
+    void SendMessage(const User &loginUser) {
+        std::string username = loginUser.getNickName();
+        write("User : " + username + " send a message.\n");
+    }
+
+    void getMessage(const std::string username) {
+        write("User : " + username + " get a message.\n");
+    }
+
+    void printLog(const User &loginUser) {
+        std::string username = loginUser.getNickName();
+        std::string search = "User : " + username;
+        std::ifstream file(saveLocation);
+
+        if (!file) {
+            std::cout << "Unable to open file: " << saveLocation << "\n";
+            return;
+        }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            if (line.find(search) != std::string::npos) {
+                std::cout << line << "\n";
+            }
+        }
+        std::cout << "(0 : back) >> ";
+        std::cin >> search;
+    }
 };
 
 #endif

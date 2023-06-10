@@ -7,6 +7,7 @@
 #include <cctype>
 #include <string>
 #include <conio.h>
+#include <memory>
 #include "logManager.h"
 #include "books/Comment.h"
 #include "books/Book.h"
@@ -16,6 +17,7 @@
 #include "items/Calendar.h"
 #include "users/User.h"
 #include "users/UserManager.h"
+#include "messages/MessageManager.h"
 #include "styles/colors.h"
 
 using namespace std;
@@ -146,6 +148,10 @@ int secondPage()
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) logout"
          << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "5) message-related"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "6) view my log"
+         << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) exit"
          << "|" << endl;
     cout << left << setfill('-') << setw(totalWidth) << "" << endl;
@@ -243,6 +249,28 @@ int bookInfoPage(BookManager &bm_reference, UserManager &um_reference, int bookn
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) Add new comment"
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) Delete my comment"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) next comment page"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "4) previous comment page"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "0) back"
+         << "|" << endl;
+    cout << left << setfill('-') << setw(totalWidth) << "" << endl;
+    cout << " > ";
+    cin >> answer;
+    cout << endl;
+    return convertStringToInt(answer);;
+}
+int messagePage()
+{
+    string answer;
+    int totalWidth = 78;
+
+    cout << setfill(' ');
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "1) send message"
+         << "|" << endl;
+    cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "2) view message"
          << "|" << endl;
     cout << setw(choiceInterval) << left << "|" << setw(totalWidth - choiceInterval - 1) << left << "3) next comment page"
          << "|" << endl;
@@ -360,7 +388,7 @@ int devicePage(UserManager &um_refernce, ItemManager &im_reference)
         cin >> ibuffer;
         if (!isdigit(ibuffer[0]))
         {
-            std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+            std::cout << RED << "ERROR : " << RESET << " wrong value" << std::endl;
             continue;
         }
         else
@@ -371,15 +399,39 @@ int devicePage(UserManager &um_refernce, ItemManager &im_reference)
     }
     return input;
 }
-
+void sendMessageFunction(UserManager &um_refernce, MessageManager& MM_, LogManager& LM_) {
+    string to_nickname;
+    string title;
+    string message;
+    cout << endl;
+    cout << "To : ";
+    cin >> to_nickname;
+    int toId = um_refernce.findIdFromItem(to_nickname);
+    if (toId == -1) {
+        cout << RED << "not exist nickname" << RESET << endl;
+        return;
+    }
+    cout << "title : ";
+    cin.ignore();
+    getline(cin, title);
+    cout << "your message : ";
+    getline(cin, message);
+    if(!(MM_.write(toId, title, message))) {
+        return;
+    }
+    cout << BLUE << "Successfully completed sending message!" << RESET << endl;
+    LM_.SendMessage(um_refernce.getLoginedUser());
+    LM_.getMessage(to_nickname);
+}
 int main(int argc, char *argv[])
 {
 
     LogManager LM;
     UserManager UM;
     BookManager BM;
-
     ItemManager IM;
+    unique_ptr<MessageManager> MM;
+    
     vector<vector<string>> search = BM.booksearch();
     int listpage = 1;
     int booknumber;
@@ -387,6 +439,7 @@ int main(int argc, char *argv[])
     int choice;
     int nowPage = 0;
     int commPage = 1;
+    string bookNum;
     bool isProgramEnd = false;
     while (!isProgramEnd)
     {
@@ -414,6 +467,8 @@ int main(int argc, char *argv[])
         }
         else if (nowPage == 0)
         {
+            MM = std::make_unique<MessageManager>(UM.getLoginedUser().getId());
+            MM->load();
             choice = secondPage();
             switch (choice)
             {
@@ -429,6 +484,13 @@ int main(int argc, char *argv[])
             case 4:
                 LM.UserLogout(UM.getLoginedUser());
                 UM.signOut();
+                break;
+            case 5:
+                commPage = 1;
+                nowPage = 5;
+                break;
+            case 6:
+                LM.printLog(UM.getLoginedUser());
                 break;
             case 0:
                 LM.UserLogout(UM.getLoginedUser());
@@ -719,6 +781,33 @@ int main(int argc, char *argv[])
                 }
                 de->prompt(LM, UM.getLoginedUser());
             }
+        }
+        else if (nowPage == 5) {
+            MM->print_messages(UM, commPage);
+            choice = messagePage();
+            switch (choice) {
+                case 0 :
+                    nowPage = 0;
+                    commPage = 0;
+                    break;
+                case 1 :
+                    sendMessageFunction(UM, *MM, LM);
+                    break;
+                case 2 :
+                    cout << "choose book number : ";
+                    cin >> bookNum;
+                    MM->open_message(UM,convertStringToInt(bookNum));
+                    break;
+                case 3 :
+                    commPage += 1;
+                    break;
+                case 4 :
+                    commPage -= 1;
+                    break;
+                default :
+                    cout << RED << "wrong value. choose other number." << RESET << endl;
+            }
+
         }
     }
 }
