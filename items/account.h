@@ -6,6 +6,8 @@
 #include "../users/User.h"
 #include "../styles/colors.h"
 
+// Account is drived from Item, and has unique variable 'accountType' and 'startTime'.
+// startTime is only used to record the timestamp when used.
 class Account : public Item
 {
 private:

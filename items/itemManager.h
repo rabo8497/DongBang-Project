@@ -17,6 +17,7 @@
 #define FILE_INTERVAL 7
 #define MAX_BUFFER_SIZE 256
 
+// A manageer class for base class 'Item' : loads all of them stored in DB to a single vector, returns the address fo then in need.
 class ItemManager : public FileHandler
 {
 private:

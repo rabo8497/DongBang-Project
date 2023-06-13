@@ -1,29 +1,35 @@
 #include "ItemManager.h"
 
+// Constructor
 ItemManager::ItemManager() : FileHandler("./dataBase/items.txt")
 {
-    Items.reserve(EXPECTED_LIST_SIZE); // loading 최척화를 위해 공간 예약
+    Items.reserve(EXPECTED_LIST_SIZE); // Reserve space for efficient loading
     load();
 }
 
+// Destructor
 ItemManager::~ItemManager()
 {
-    write(); // 저장해두기
+    write(); // Save the items to file
+
+    // Deallocate memory for each item
     /*
     for (auto i : Items)
-        delete i; // 각 item의 메모리 할당 해제
-        */
+        delete i;
+    */
 }
 
-inline void printSingleItem(User &user, int index, Item *i) // 각 항목의 출력 함수
+// Inline function to print a single item
+inline void printSingleItem(User &user, int index, Item *i)
 {
-    std::cout << "| " << index << ". "; // vector의 index와 무관
+    std::cout << "| " << index << ". "; // Index is independent of vector index
     i->printInfo(user);
     if (i->getType() == DEVICE)
         std::cout << "|";
     std::cout << std::endl;
 }
 
+// Show the list of items
 void ItemManager::showList(User &user, bool showActive)
 {
     int idx = 1;
@@ -35,22 +41,25 @@ void ItemManager::showList(User &user, bool showActive)
     }
 }
 
+// Show the list of items filtered by type
 void ItemManager::showList(User &user, Type typeFilter, bool showActive)
 {
     // int idx = 1;
     for (auto i : Items)
     {
-        if ((!showActive && i->active()) || i->getType() != typeFilter) // typefilter가 요구하는 type이 아니면 skip
+        if ((!showActive && i->active()) || i->getType() != typeFilter) // Skip if not matching type
             continue;
         printSingleItem(user, i->getId(), i);
     }
 }
 
+// Add an item to the list
 void ItemManager::addItem(Item *item)
 {
     Items.push_back(item);
 }
 
+// Delete an item from the list by ID
 void ItemManager::deleteItem(int id)
 {
     std::vector<Item *>::iterator target;
@@ -66,6 +75,7 @@ void ItemManager::deleteItem(int id)
     Items.pop_back();
 }
 
+// Get an item from the list by ID
 Item *ItemManager::getItem(int id)
 {
     for (auto i : Items)
@@ -76,6 +86,8 @@ Item *ItemManager::getItem(int id)
     std::cerr << "no item found." << std::endl;
     return 0;
 }
+
+// Get an item from the list by name
 Item *ItemManager::getItem(std::string name)
 {
     for (auto i : Items)
@@ -87,6 +99,7 @@ Item *ItemManager::getItem(std::string name)
     return 0;
 }
 
+// Get the latest ID in the list
 int ItemManager::getLatestId()
 {
     int maxId = 0;
@@ -98,33 +111,34 @@ int ItemManager::getLatestId()
     return maxId + 1;
 }
 
+// Load items from file
 void ItemManager::load()
 {
-    file.open(saveLocation, std::ios::in); // 파일 열기, 읽기 모드
-    std::vector<std::string> buffer;       // 파일 담아두는 버퍼
-    char temp[MAX_BUFFER_SIZE];            // buffer에 올리기 위한 임시 string
+    file.open(saveLocation, std::ios::in); // Open file in read mode
+    std::vector<std::string> buffer;       // Buffer to hold file contents
+    char temp[MAX_BUFFER_SIZE];            // Temporary string for buffering
     while (file.getline(temp, MAX_BUFFER_SIZE))
     {
-        buffer.push_back((std::string)temp); // buffer에 각 줄의 data 올리기
-        file.clear();                        // 각 줄을 읽을 때마다 flag 초기화
+        buffer.push_back((std::string)temp); // Store each line of the file in the buffer
+        file.clear();                        // Reset the flags after reading each line
     }
     for (auto text : buffer)
     {
-        std::stringstream ss(text);       // parser
-        std::string type, name, isActive; // item의 공통 member
+        std::stringstream ss(text);       // Create a stringstream to parse the text
+        std::string type, name, isActive; // Common item members
         int id;
-        ss >> type;            // type에 따라 parsed sentence의 구조가 다름
-        if (type == "ACCOUNT") // ACCOUNT 계정유형 이름 id 사용여부 (uuid 사용시작시간)
+        ss >> type;            // The structure of the parsed sentence depends on the type
+        if (type == "ACCOUNT") // ACCOUNT accountType name id isActive (uuid startTime)
         {
             std::string accountType;
             int uuid;
             time_t startTime;
-            ss >> accountType >> name >> id >> isActive; //'사용여부'까지 읽음
+            ss >> accountType >> name >> id >> isActive; // Read up to 'isActive'
             if (id == -1)
-                id = getLatestId(); // id가 유효하지 않을 시 재발급.
+                id = getLatestId(); // Generate a new ID if it's not valid
             if (isActive == "ACTIVE")
             {
-                ss >> uuid >> startTime; //'사용시작시간' 까지 읽음
+                ss >> uuid >> startTime; // Read 'uuid' and 'startTime'
                 Account *a = new Account(accountType, name, id, true, uuid, startTime);
                 addItem(a);
             }
@@ -133,38 +147,39 @@ void ItemManager::load()
                 Account *a = new Account(accountType, name, id, false);
                 addItem(a);
             }
-            else // 사용여부 값이 이상할 때 = parsing 실패
+            else // Parsing failed if the isActive value is invalid
             {
                 std::cerr << "parsing failed.";
             }
         }
-        else if (type == "DEVICE") // DEVICE 이름 id 사용여부
+        else if (type == "DEVICE") // DEVICE name id isActive
         {
             ss >> name >> id >> isActive;
             if (id == -1)
-                id = getLatestId(); // id가 유효하지 않을 시 재발급.
+                id = getLatestId(); // Generate a new ID if it's not valid
             bool isActiveBool;
             if (isActive == "ACTIVE")
                 isActiveBool = true;
             else if (isActive == "INACTIVE")
                 isActiveBool = false;
-            else // 사용여부 값이 이상할 때 = parsing 실패
+            else // Parsing failed if the isActive value is invalid
                 std::cerr << "parsing failed.";
             addItem(new Device(name, id, isActiveBool));
         }
     }
-    file.close(); // 파일을 다시 읽을 일은 없다.
+    file.close(); // File will not be read again
 }
 
+// Write items to file
 void ItemManager::write()
 {
     file.clear();
-    file.open(saveLocation, std::ios::out | std::ios::trunc); // 파일 완전히 재작성함
+    file.open(saveLocation, std::ios::out | std::ios::trunc); // Completely overwrite the file
     for (auto i : Items)
     {
         if (i->getType() == ACCOUNT)
         {
-            Account *ii = dynamic_cast<Account *>(i); // 다운캐스팅 필요
+            Account *ii = dynamic_cast<Account *>(i); // Downcast is necessary
             file << "ACCOUNT " << ii->getAccountType() << " " << ii->getName() << " " << ii->getId();
             if (ii->active())
             {
@@ -177,7 +192,7 @@ void ItemManager::write()
         }
         else if (i->getType() == DEVICE)
         {
-            Device *ii = dynamic_cast<Device *>(i); // 다운캐스팅이 필요하진 않으나 넣어둠
+            Device *ii = dynamic_cast<Device *>(i); // Downcast is not necessary but kept for consistency
             file << "DEVICE " << ii->getName() << " " << ii->getId();
             if (ii->active())
             {

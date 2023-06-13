@@ -47,7 +47,7 @@ void Weekday::input()
         }
         if (!isBufferValid) // user did not even inputted a number
         {
-            std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+            std::cout << RED << "ERROR : " << RESET << "Input violates given format" << std::endl;
             continue;
         }
         else
@@ -82,7 +82,7 @@ void Weekday::input()
         }
         else
         {
-            std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+            std::cout << RED << "ERROR : " << RESET << "Input violates given format" << std::endl;
             continue;
         }
     }
