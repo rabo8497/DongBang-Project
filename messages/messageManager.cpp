@@ -134,7 +134,7 @@ void MessageManager::open_message(UserManager &UM_, int m)
         for (size_t i = 0; i < messages[m][3].size(); i++)
         {
             std::cout << messages[m][3][i]; // Display the message content
-            if ((i + 1) % 40 == 0)
+            if ((i + 1) % 80 == 0)
             {
                 std::cout << '\n'; // Add a newline every 40 characters
             }
