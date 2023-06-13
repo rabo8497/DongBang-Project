@@ -1,5 +1,5 @@
 # DongBang-Project
-2023 OOP projrct
+2023 OOP project
 # instruction to run the code.
 The steps to run the code are as follows:
 ## 1. Clone the Repository
