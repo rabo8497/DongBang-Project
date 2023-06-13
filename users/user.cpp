@@ -2,15 +2,16 @@
 #include <cctype>
 #include "User.h"
 
+// constructor with parameters
 User::User(const int newuuid, const int newstudentNumber, std::string newnickname, std::string newpassward, bool newisEru, bool newisManager, int lendBookN)
     : isEru(newisEru), isManager(newisManager)
 {
     lendBookNum = lendBookN;
     lendBookMaxNum = 3;
-    setStudentNumber(newstudentNumber);
-    setNickName(newnickname);
-    setPassward(newpassward);
-    if (studentNumber != newstudentNumber || nickname != newnickname || passward != newpassward)
+    setStudentNumber(newstudentNumber); // Set the student number with validation
+    setNickName(newnickname);           // Set the nickname with validation
+    setPassward(newpassward);           // Set the password with validation
+    if (studentNumber != newstudentNumber || nickname != newnickname || password != newpassward)
     {
         uuid = -2;
     }
@@ -20,57 +21,66 @@ User::User(const int newuuid, const int newstudentNumber, std::string newnicknam
     }
 };
 
+// Getter function to return the user ID (uuid)
 int User::getId() const
 {
     return uuid;
 }
 
+// Getter function to return the student number
 int User::getStudentNumber() const
 {
     return studentNumber;
 }
 
+// Getter function to return the number of books borrowed by the user
 int User::getLendBookNum() const
 {
     return lendBookNum;
 }
 
+// Getter function to return the nickname
 std::string User::getNickName() const
 {
     return nickname;
 }
 
+// Getter function to check if the user is Eru
 bool User::getIsEru() const
 {
     return isEru;
 }
 
+// Getter function to check if the user is a manager
 bool User::getIsManager() const
 {
     return isManager;
 }
 
+// Getter function to return the maximum number of books that can be borrowed
 int User::getLendBookMaxNum() const
 {
     return lendBookMaxNum;
 }
 
+// Setter function to set the student number with validation
 void User::setStudentNumber(int newStudentNumber)
 {
     if (newStudentNumber > 21000000 || newStudentNumber < 10000000)
     {
-        std::cerr << RED << "this is wrong student number." << newStudentNumber << RESET << std::endl;
+        std::cout << RED << "This is an incorrect student number: " << newStudentNumber << RESET << std::endl;
         return;
     }
-    std::cout << YELLOW << "student number successfully set." << RESET << std::endl;
+    std::cout << YELLOW << "Student number successfully set." << RESET << std::endl;
     studentNumber = newStudentNumber;
 }
 
+// Setter function to set the nickname with validation
 void User::setNickName(std::string newNickName)
 {
     if (newNickName.length() < 5)
     {
-        std::cerr << RED << "Nickname should be at least 5 characters long." << RESET << std::endl;
+        std::cout << RED << "Nickname should be at least 5 characters long." << RESET << std::endl;
         return;
     }
 
@@ -78,7 +88,7 @@ void User::setNickName(std::string newNickName)
     {
         if (!std::isalnum(c))
         {
-            std::cerr << RED << "Nickname should only contain letters and numbers." << RESET << std::endl;
+            std::cout << RED << "Nickname should only contain letters and numbers." << RESET << std::endl;
             return;
         }
     }
@@ -86,80 +96,79 @@ void User::setNickName(std::string newNickName)
     std::cout << YELLOW << "Nickname successfully set." << RESET << std::endl;
 }
 
+// Setter function to set the password with validation, requires the original password for verification
 void User::setPassward(std::string originPassward, std::string newPassward)
 {
-    if (originPassward != passward)
+    if (originPassward != password)
     {
-        std::cerr << RED << "incorrect passward" << RESET << std::endl;
+        std::cout << RED << "Incorrect password" << RESET << std::endl;
         return;
     }
     if (newPassward.length() < 5)
     {
-        std::cerr << RED << "Password should be at least 5 characters long." << RESET << std::endl;
+        std::cout << RED << "Password should be at least 5 characters long." << RESET << std::endl;
         return;
     }
     for (char c : newPassward)
     {
         if (!std::isalnum(c))
         {
-            std::cerr << RED << "Passward should only contain letters and numbers." << RESET << std::endl;
+            std::cout << RED << "Password should only contain letters and numbers." << RESET << std::endl;
             return;
         }
     }
-    passward = newPassward;
-    std::cout << YELLOW << "Passward successfully set." << RESET << std::endl;
+    password = newPassward;
+    std::cout << YELLOW << "Password successfully set." << RESET << std::endl;
 }
-// setPassward 오버로딩
+
+// Overloaded setter function to set the password with validation
 void User::setPassward(std::string newPassward)
 {
     if (newPassward.length() < 5)
     {
-        std::cerr << RED << "Passward should be at least 5 characters long." << RESET << std::endl;
+        std::cout << RED << "Password should be at least 5 characters long." << RESET << std::endl;
         return;
     }
     for (char c : newPassward)
     {
         if (!std::isalnum(c))
         {
-            std::cerr << RED << "Passward should only contain letters and numbers." << RESET << std::endl;
+            std::cout << RED << "Password should only contain letters and numbers." << RESET << std::endl;
             return;
         }
     }
-    passward = newPassward;
-    std::cout << YELLOW << "Passward successfully set." << RESET << std::endl;
+    password = newPassward;
+    std::cout << YELLOW << "Password successfully set." << RESET << std::endl;
 }
 
-void User::setIsEru(bool newIsEru)
-{
-    isEru = newIsEru;
-    std::cout << YELLOW << "isEru successfully set." << RESET << std::endl;
-}
-
+// Function to check if the provided password matches the user's password
 bool User::isValidPassword(std::string validPassword)
 {
-    return passward == validPassword;
+    return password == validPassword;
 }
 
+// Function to simulate borrowing a book
 void User::lendBook()
 {
     lendBookNum += 1;
     if (lendBookNum > lendBookMaxNum)
     {
         lendBookNum -= 1;
-        std::cerr << RED << "can't lend more than " << lendBookMaxNum << " books." << RESET << std::endl;
+        std::cout << RED << "Cannot lend more than " << lendBookMaxNum << " books." << RESET << std::endl;
         return;
     }
-    std::cout << YELLOW << "Book is successfully lended" << RESET << std::endl;
+    std::cout << YELLOW << "Book successfully borrowed." << RESET << std::endl;
 }
 
+// Function to simulate returning a book
 void User::returnBook()
 {
     lendBookNum -= 1;
     if (lendBookNum < 0)
     {
         lendBookNum += 1;
-        std::cerr << RED << "You did not lend a book." << RESET << std::endl;
+        std::cout << RED << "You did not borrow a book." << RESET << std::endl;
         return;
     }
-    std::cout << YELLOW << "Book is successfully returned" << RESET << std::endl;
+    std::cout << YELLOW << "Book successfully returned." << RESET << std::endl;
 }
