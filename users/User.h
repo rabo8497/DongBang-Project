@@ -9,39 +9,41 @@
 class User
 {
 public:
-    User() {} // 비어있는 User 객체를 만들 필요가 있기에 오버로딩 기능을 이용해 2개의 constructor 생성
-    User(int uuid, int studentNumber, std::string nickname, std::string passward, bool isEru = false, bool isManager = false, int lendBookN = 0);
-    int getId() const;
-    int getStudentNumber() const;
-    std::string getNickName() const;
-    bool getIsEru() const;
-    bool getIsManager() const;
-    int getLendBookNum() const;
-    int getLendBookMaxNum() const;
+    User() {} // Default constructor
 
-    // 아래의 set 함수들은 valid 과정을 겪음
-    // 예를 들어 setNickName을 하면 영어, 숫자로만 되어있는지, 5자 넘는지, 기존에 있던 아이디인지 등을 체크
-    void setStudentNumber(int newStudentNumber);
-    void setNickName(std::string newNickName);
-    void setPassward(std::string originPassward, std::string newPassward);
-    void setPassward(std::string newPassward);
-    void setIsEru(bool newIsEru);
+    // Overloaded constructor with parameters
+    User(int uuid, int studentNumber, std::string nickname, std::string password, bool isEru = false, bool isManager = false, int lendBookN = 0);
 
-    // Password는 보안상의 이유로 get 함수를 만들지 않음, 따라서 누군가 로그인했을 때
-    // 해당 Password가 올바른지 확인할 필요가 있음. 아래의 함수는 그 기능을 수행
-    // 이렇게 하면 프론트앤드 쪽에서 비밀번호를 알아낼 수 없음 (형식상 의미)
-    bool isValidPassword(std::string validPassword); // 비밀번호가 유효한지 유효성 검사
-    void lendBook();                                 // 책의 수 +1, valid : max 값 보다 커지면 경고문, 바로 return
-    void returnBook();                               // 책의 수 -1, valid : 0 보다 작아지면 경고문, 바로 return
+    // Getter functions
+    int getId() const;               // Returns the user ID (uuid)
+    int getStudentNumber() const;    // Returns the student number
+    std::string getNickName() const; // Returns the nickname
+    bool getIsEru() const;           // Returns whether the user is Eru or not
+    bool getIsManager() const;       // Returns whether the user is a manager or not
+    int getLendBookNum() const;      // Returns the number of books borrowed by the user
+    int getLendBookMaxNum() const;   // Returns the maximum number of books that can be borrowed
+
+    // Setter functions with validation
+    void setStudentNumber(int newStudentNumber);                           // Sets the student number with validation
+    void setNickName(std::string newNickName);                             // Sets the nickname with validation
+    void setPassward(std::string originPassward, std::string newPassward); // Sets the password with validation, requires the original password for verification
+    void setPassward(std::string newPassward);                             // Sets the password without verification
+    void setIsEru(bool newIsEru);                                          // Sets whether the user is Eru or not
+
+    bool isValidPassword(std::string validPassword); // Validates if the provided password is correct
+
+    void lendBook();   // Increases the number of borrowed books by 1, validates if it exceeds the maximum value
+    void returnBook(); // Decreases the number of borrowed books by 1, validates if it becomes less than 0
+
 private:
-    int uuid;             // User 데이터가 저장될 때 기본적으로 가지는 값
-    int studentNumber;    // 학번
-    std::string nickname; // ID
-    std::string passward; // 비번
-    bool isEru;           // 에루인지 아닌지, default false
-    bool isManager;       // 관리자인지 아닌지, default false
-    int lendBookNum;      // 책 빌린 횟수
-    int lendBookMaxNum;   // 책 빌릴 수 있는 최대 수
+    int uuid;             // User ID
+    int studentNumber;    // Student ID
+    std::string nickname; // Nickname (ID)
+    std::string password; // Password
+    bool isEru;           // Indicates whether the user is Eru or not (default: false)
+    bool isManager;       // Indicates whether the user is a manager or not (default: false)
+    int lendBookNum;      // Number of borrowed books
+    int lendBookMaxNum;   // Maximum number of books that can be borrowed
 };
 
 #endif

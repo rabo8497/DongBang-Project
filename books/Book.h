@@ -13,32 +13,40 @@ class Comment;
 class Book
 {
 public:
+  // Default constructor
   Book();
-  Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount = 1, bool isCanLend = true);
-  int getBuid() const;
-  std::string getBName() const;
-  int getBCount() const;
-  std::string getBSeries() const;
-  std::string getBAuthor() const;
-  std::string getBPub() const;
-  std::string getBDate() const;
-  bool getIsCanLend();
 
-  void setBCount(int newBCount);
-  void setIsCanLend(bool newIsCanLend);
+  // Parameterized constructor
+  Book(int buid, std::string bookName, std::string bookSeries, std::string bookAuthor, std::string bookPub, std::string bookDate, int bookCount = 1, bool isCanLend = true);
+
+  // Getter methods for private member variables
+  int getBuid() const;            // Get the book ID
+  std::string getBName() const;   // Get the book name
+  int getBCount() const;          // Get the number of books
+  std::string getBSeries() const; // Get the book series
+  std::string getBAuthor() const; // Get the author name
+  std::string getBPub() const;    // Get the publisher
+  std::string getBDate() const;   // Get the publish date
+  bool getIsCanLend();            // Get the availability for lending
+
+  // Setter methods for private member variables
+  void setBCount(int newBCount);        // Set the number of books available
+  void setIsCanLend(bool newIsCanLend); // Set the availability for lending
+
+  // Print the book information
   void BookInfo();
 
   Comment getComment(); // Declaration of the Comment class
 
 private:
-  int buid;
-  std::string bookName;
-  std::string bookSeries;
-  int bookCount;
-  std::string bookDate;
-  std::string bookAuthor;
-  std::string bookPub;
-  bool isCanLend;
+  int buid;               // Book ID
+  std::string bookName;   // Book name
+  std::string bookSeries; // Book series
+  int bookCount;          // Number of copies available
+  std::string bookDate;   // Publish date
+  std::string bookAuthor; // Author name
+  std::string bookPub;    // Publisher
+  bool isCanLend;         // Availability for lending
 };
 
 #endif
