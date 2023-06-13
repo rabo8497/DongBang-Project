@@ -20,6 +20,7 @@ enum State // Item 사용 상태를 분류하는 나열자
     ACTIVE = true,
 };
 
+// base class Item. 'Device' and 'Item' is derived from this.
 class Item
 {
     friend bool operator<(const Item &, const Item &); // 혹시나 정렬할 일 있을까봐.

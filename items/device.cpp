@@ -4,6 +4,7 @@
 #include <string>
 #include "weekday.h"
 #include "../styles/colors.h"
+
 using namespace std;
 using std::setw;
 
@@ -25,17 +26,21 @@ void Device::printInfo(User &user)
     std::stringstream ss;
     std::cout << std::setw(nameWidth) << getName();
 
-    // cheky reservo
-    bool act = false;
+    // Check if there are any reservations
+    bool hasReservations = false;
     for (int i = 0; i < 7; i++)
+    {
         for (int j = 0; j < 24; j++)
+        {
             if (!calendar.isSlotEmpty(i, j))
             {
-                act = true;
+                hasReservations = true;
                 break;
             }
+        }
+    }
 
-    if (act)
+    if (hasReservations)
     {
         std::cout << YELLOW << " ( " << setcolor(ss, 240, 134, 80) << "RESERVED" << YELLOW << " ) " << RESET
                   << setw(10) << "";
@@ -47,7 +52,10 @@ void Device::printInfo(User &user)
     }
 }
 
-Calendar &Device::getCalendar() { return calendar; }
+Calendar &Device::getCalendar()
+{
+    return calendar;
+}
 
 const int linewidth = 40;
 
@@ -58,7 +66,7 @@ void Device::prompt(LogManager &lm, const User &user)
     {
         calendar.print_calendar(user);
 
-        // input input
+        // Prompt for user input
         cout << setw(linewidth) << setfill('-') << "" << setfill(' ') << endl
              << "| " << setw(linewidth - 4) << "1. Make reservation"
              << " |" << endl
@@ -66,7 +74,7 @@ void Device::prompt(LogManager &lm, const User &user)
              << " |" << endl;
         if (user.getIsManager())
         {
-            cout << "| " << setw(linewidth - 4) << "3. Delete all reservation"
+            cout << "| " << setw(linewidth - 4) << "3. Delete all reservations"
                  << " |" << endl;
         }
 
@@ -81,7 +89,7 @@ void Device::prompt(LogManager &lm, const User &user)
             cin >> ibuffer;
             if (!isdigit(ibuffer[0]))
             {
-                std::cout << RED << "ERROR : " << RESET << " Your finger is lame" << std::endl;
+                std::cout << RED << "ERROR : " << RESET << "device ID is not a number" << std::endl;
                 continue;
             }
             else
@@ -93,21 +101,21 @@ void Device::prompt(LogManager &lm, const User &user)
 
         if (choice == 1)
         {
-            // calendar gogo vroom vroom set input
+            // Prompt for reservation details
             Weekday start, end;
-            std::cout << " start of reservation " << UNDER << "(ex : Mon 10)" << RESET;
+            std::cout << " start of reservation " << UNDER << "(ex: Mon 10)" << RESET;
             start.input();
             std::cout << " end of reservation";
             end.input();
 
-            // check go brrr
+            // Check if the time range is valid
             bool isValid = true;
             pair<int, int> timeRange;
 
-            // err check
+            // Error check
             if (timeRange.first < 0)
             {
-                cout << RED << " ERROR : your typing " << ITALIC << "sucks" << RESET << endl;
+                cout << RED << " ERROR : " << RESET << ITALIC << "Input is unavailable to parse." << RESET << endl;
                 continue;
             }
             timeRange.first = start.getDay() * 24 + start.getTime();
@@ -129,12 +137,12 @@ void Device::prompt(LogManager &lm, const User &user)
             }
             else
             {
-                cerr << RED << " ERROR : time range has occupied slot" << RESET << endl;
+                cerr << RED << " ERROR : " << RESET << "time range has occupied slot" << RESET << endl;
             }
         }
         else if (choice == 2)
         {
-            // shutting down... shutting down...
+            // Prompt for confirmation to delete reservation
             std::string c;
             cout << " are you sure? [y/n] : ";
             cin >> c;

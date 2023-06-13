@@ -6,9 +6,10 @@
 #include <string>
 #include <vector>
 #include "../styles/colors.h"
-class LogManager; 
+class LogManager;
 #include "../logManager.h"
 
+// Device class inherits Item: has a unique member class "calendar"
 class Device : public Item
 {
 private:
@@ -19,7 +20,7 @@ public:
     ~Device();
     void printInfo(User &) override; // 자신의 정보를 출력하는 함수.
     void prompt(LogManager &, const User &);
-    Calendar &getCalendar();
+    Calendar &getCalendar(); // getter for 'calendar'
 };
 
 #endif
