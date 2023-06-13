@@ -21,6 +21,10 @@ make -C ./build
 ```
 ![image](https://github.com/rabo8497/DongBang-Project/assets/67371359/72cb8ff6-9021-4c55-aa4e-71b076512337)
 This will compile the code using the Makefile provided in the build directory.
+Alternatively, compilation is possible in the following ways.
+```bash
+g++ users/* items/* books/* messages/* main.cpp -o program
+```
 ## 4. Run the Program
 Finally, you can run the program by entering the following command:
 ```bash
